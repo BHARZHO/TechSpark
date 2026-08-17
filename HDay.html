@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Spark 3.0 | Advanced Day 1 - HTML Structure: The "Box Inside Box"</title>
+
+    <!-- Google Fonts: Fredoka & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+        TECH SPARK 3.0 - DESIGN SYSTEM & VARS
+        ========================================== */
+        :root {
+            --bg-primary: #F4F7FE;
+            --bg-card: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+
+            /* Vibrant Brand Palette */
+            --primary: #6C5CE7;
+            --primary-dark: #4834D4;
+            --primary-light: #A29BFE;
+            --secondary: #00CEC9;
+            --secondary-dark: #00B894;
+            --accent-yellow: #FDCB6E;
+            --accent-orange: #E17055;
+            --accent-pink: #FD79A8;
+            --accent-blue: #74B9FF;
+            --success: #10B981;
+
+            /* Notebook & Callout Colors */
+            --notebook-bg: #FFF9DB;
+            --notebook-border: #F59E0B;
+            --teacher-bg: #F3E8FF;
+            --teacher-border: #9333EA;
+
+            /* Duolingo style 3D shadows */
+            --shadow-sm: 0 4px 0 rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 8px 0 #E2E8F0, 0 12px 24px rgba(0, 0, 0, 0.05);
+            --shadow-btn: 0 5px 0 var(--primary-dark);
+
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+
+            /* Projection Font Sizes */
+            --font-body: 1.35rem;
+            --font-heading: 2.2rem;
+            --font-title: 3.2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .brand-title,
+        .badge {
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==========================================
+        TOP NAVBAR & PROGRESS BAR
+        ========================================== */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: var(--bg-card);
+            border-bottom: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .brand-logo span.spark-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            flex: 1;
+            max-width: 450px;
+            margin: 0 2rem;
+        }
+
+        .progress-bar-bg {
+            height: 16px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 0 var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background: #5B4BC4;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #E2E8F0;
+            color: var(--text-main);
+            box-shadow: 0 5px 0 #CBD5E1;
+        }
+
+        .btn-secondary:hover {
+            background: #CBD5E1;
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================
+        MAIN SLIDE SYSTEM
+        ========================================== */
+        .main-viewport {
+            margin-top: 75px;
+            height: calc(100vh - 75px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-deck {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem 4rem 6rem 4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.96) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        .slide-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-category {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .slide-title {
+            font-size: var(--font-title);
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.8rem;
+            margin: 0.8rem 0;
+        }
+
+        .spark-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border: 3px solid #E2E8F0;
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .badge-teacher {
+            background: var(--teacher-bg);
+            color: var(--teacher-border);
+            border: 2px solid var(--teacher-border);
+        }
+
+        .badge-write {
+            background: #FFE4E6;
+            color: #E11D48;
+            border: 2px solid #F43F5E;
+        }
+
+        .badge-practical {
+            background: #E0F2FE;
+            color: #0284C7;
+            border: 2px solid #38BDF8;
+        }
+
+        .badge-notebook {
+            background: var(--notebook-bg);
+            color: #B45309;
+            border: 2px solid var(--notebook-border);
+        }
+
+        .badge-activity {
+            background: #F3E8FF;
+            color: #7E22CE;
+            border: 2px solid #A855F7;
+        }
+
+        .badge-homework {
+            background: #FEF3C7;
+            color: #D97706;
+            border: 2px solid #F59E0B;
+        }
+
+        .proj-text {
+            font-size: var(--font-body);
+            color: var(--text-main);
+            margin-bottom: 1.2rem;
+        }
+
+        .proj-text-lg {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: #EEF2FF;
+            border-left: 8px solid var(--primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .notebook-box {
+            background: var(--notebook-bg);
+            border: 3px dashed var(--notebook-border);
+            border-radius: var(--radius-md);
+            padding: 1.8rem 2.2rem;
+            margin: 1rem 0;
+        }
+
+        .notebook-box h3 {
+            color: #92400E;
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ==========================================
+        ADVANCED DAY 1 CUSTOM WIDGETS
+        ========================================== */
+
+        /* 1. DOM Tree Node Inspector */
+        .tree-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.8rem;
+            margin-top: 1rem;
+        }
+
+        .tree-nodes-container {
+            background: #1E1E2E;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            color: #CDD6F4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.25rem;
+            line-height: 2;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .tree-node-item {
+            padding: 4px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .tree-node-item:hover,
+        .tree-node-item.active {
+            background: #313244;
+            outline: 2px solid var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        .tree-visual-box {
+            background: white;
+            border: 3px solid var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .box-node {
+            border: 3px dashed #CBD5E1;
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .box-node-label {
+            font-family: Fredoka, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            background: #E2E8F0;
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .box-node.active-highlight {
+            border-color: var(--primary);
+            background: #EEF2FF;
+            transform: scale(1.02);
+        }
+
+        .box-node.active-highlight .box-node-label {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* 2. Interactive Nested Box Visualizer */
+        .nesting-demo-container {
+            border: 4px solid var(--primary-dark);
+            background: #F8FAFC;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .nest-box-outer {
+            border: 3px dashed var(--primary);
+            background: #EEF2FF;
+            padding: 1.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .nest-box-inner {
+            border: 3px dashed var(--secondary-dark);
+            background: #E6FFFA;
+            padding: 1.2rem;
+            border-radius: var(--radius-sm);
+            margin-top: 1rem;
+        }
+
+        /* 3. Class Inspector */
+        .class-inspector-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.8rem;
+            margin-top: 1rem;
+        }
+
+        .code-display-container {
+            background: #1E1E2E;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            color: #CDD6F4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        /* 4. Checkpoint Questions Widget */
+        .quiz-checkpoint-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .checkpoint-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.2rem 1.5rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checkpoint-card h4 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+        }
+
+        .checkpoint-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-opt {
+            font-family: Fredoka, sans-serif;
+            font-size: 1.15rem;
+            padding: 8px 16px;
+            border: 2px solid #CBD5E1;
+            border-radius: 10px;
+            background: #F8FAFC;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-opt:hover {
+            border-color: var(--primary);
+            background: #EEF2FF;
+        }
+
+        .checkpoint-feedback {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: none;
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        /* 5. Profile Builder & Box Mode Visualizer */
+        .profile-builder-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1.1fr;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+            height: 520px;
+        }
+
+        .builder-form-scroll {
+            background: white;
+            border: 3px solid var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            overflow-y: auto;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .form-input,
+        .form-select {
+            padding: 8px 12px;
+            border: 2px solid #CBD5E1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+        }
+
+        .builder-code-box {
+            background: #1E1E2E;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            color: #CDD6F4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .preview-screen-box {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            overflow-y: auto;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+        }
+
+        /* Box Mode Visualizer Styles */
+        .preview-screen-box.box-mode-active .website-div {
+            border: 3px dashed var(--primary);
+            background: #EEF2FF;
+            padding: 10px;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .preview-screen-box.box-mode-active .header-div {
+            border: 2px dashed #9333EA;
+            background: #F3E8FF;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .preview-screen-box.box-mode-active .content-div {
+            border: 2px dashed #0284C7;
+            background: #E0F2FE;
+            padding: 8px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .preview-screen-box.box-mode-active .about-div,
+        .preview-screen-box.box-mode-active .skills-div,
+        .preview-screen-box.box-mode-active .hobbies-div,
+        .preview-screen-box.box-mode-active .extra-div {
+            border: 2px dashed #D97706;
+            background: #FEF3C7;
+            padding: 6px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .preview-screen-box.box-mode-active .footer-div {
+            border: 2px dashed #059669;
+            background: #ECFDF5;
+            padding: 6px;
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .box-badge-tag {
+            font-family: monospace;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.75);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: none;
+            margin-bottom: 4px;
+        }
+
+        .preview-screen-box.box-mode-active .box-badge-tag {
+            display: inline-block;
+        }
+
+        /* Quiz Grid */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.4rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .quiz-card:hover {
+            border-color: var(--primary);
+        }
+
+        .quiz-card .q-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+        }
+
+        .quiz-answer {
+            background: #F1F5F9;
+            padding: 0.9rem;
+            border-radius: var(--radius-sm);
+            font-size: 1.2rem;
+            display: none;
+            border-left: 5px solid var(--secondary-dark);
+            margin-top: 0.5rem;
+        }
+
+        .quiz-card.revealed .quiz-answer {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Bottom Bar Controls */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: white;
+            border-top: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-nav {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dot-nav.active {
+            background: var(--primary);
+            width: 32px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="brand-logo">
+            ⚡ Tech Spark 3.0
+            <span class="spark-badge">Advanced • Day 1</span>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Slide 1 of 12</div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn btn-secondary" id="btnAudioToggle">🔊 Sound On</button>
+            <button class="btn btn-secondary" id="btnToggleFull">⛶ Fullscreen</button>
+        </div>
+    </header>
+
+    <!-- MAIN VIEWPORT -->
+    <main class="main-viewport">
+        <div class="slide-deck" id="slideDeck">
+
+            <!-- SLIDE 1: Title & Goals -->
+            <section class="slide active" data-slide="1">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Advanced Web Dev • Day 1</span>
+                    <h1 class="slide-title">📦 HTML Structure: The "Box Inside Box"</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary-light);">
+                        <div class="badge badge-teacher">👨‍🏫 Teacher Introduction</div>
+                        <p class="proj-text-lg">
+                            Welcome to Advanced Web Development! A real website is not just a loose collection of tags. Professional websites are structured into organized sections called <strong>containers</strong>. Today, you will learn how to build layouts using nested boxes!
+                        </p>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <h2 style="font-size: 1.8rem; color: var(--secondary-dark); margin-bottom: 1rem;">🎯 Today's Goals</h2>
+                        <ul style="font-size: 1.35rem; line-height: 1.8; list-style: none;">
+                            <li>✅ <strong>Think</strong> like a web developer.</li>
+                            <li>✅ <strong>Understand</strong> <code>&lt;div&gt;</code> as a general container box.</li>
+                            <li>✅ <strong>Create</strong> containers inside other containers (Nesting).</li>
+                            <li>✅ <strong>Use</strong> <code>class</code> attributes to name different sections.</li>
+                            <li>✅ <strong>Read</strong> HTML structure as a visual tree hierarchy.</li>
+                            <li>✅ <strong>Build</strong> a structured personal profile layout!</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: Think Like a Developer -->
+            <section class="slide" data-slide="2">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--secondary-dark);">Part 1 • Architecture</span>
+                    <h1 class="slide-title">🧠 Think Like a Web Developer</h1>
+                </div>
+
+                <p class="proj-text">A real website is broken down into structured sections. Click any section in the code tree to see its box container highlight!</p>
+
+                <div class="tree-grid">
+                    <div class="tree-nodes-container">
+                        WEBSITE (Main Box)<br>
+                        ├── <span class="tree-node-item" onclick="highlightDOMBox('header')">HEADER</span><br>
+                        │&nbsp;&nbsp;&nbsp;└── h1<br>
+                        ├── <span class="tree-node-item" onclick="highlightDOMBox('content')">CONTENT</span><br>
+                        │&nbsp;&nbsp;&nbsp;├── <span class="tree-node-item" onclick="highlightDOMBox('about')">ABOUT</span><br>
+                        │&nbsp;&nbsp;&nbsp;├── <span class="tree-node-item" onclick="highlightDOMBox('skills')">SKILLS</span><br>
+                        │&nbsp;&nbsp;&nbsp;└── <span class="tree-node-item" onclick="highlightDOMBox('hobbies')">HOBBIES</span><br>
+                        └── <span class="tree-node-item" onclick="highlightDOMBox('footer')">FOOTER</span>
+                    </div>
+
+                    <div class="tree-visual-box" id="domTreeVisualizer">
+                        <div class="box-node" id="node-header">
+                            <span class="box-node-label">class="header"</span>
+                            <h3 style="font-size:1.2rem;">Header Section (&lt;h1&gt;)</h3>
+                        </div>
+
+                        <div class="box-node" id="node-content">
+                            <span class="box-node-label">class="content"</span>
+                            <div style="display:flex; flex-direction:column; gap:6px;">
+                                <div class="box-node" id="node-about">
+                                    <span class="box-node-label">class="about"</span>
+                                    <p style="font-size:0.95rem;">About Me Container</p>
+                                </div>
+                                <div class="box-node" id="node-skills">
+                                    <span class="box-node-label">class="skills"</span>
+                                    <p style="font-size:0.95rem;">Skills Container</p>
+                                </div>
+                                <div class="box-node" id="node-hobbies">
+                                    <span class="box-node-label">class="hobbies"</span>
+                                    <p style="font-size:0.95rem;">Hobbies Container</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="box-node" id="node-footer">
+                            <span class="box-node-label">class="footer"</span>
+                            <p style="font-size:0.95rem;">Footer Section (&lt;p&gt;)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: What is a <div>? -->
+            <section class="slide" data-slide="3">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Part 2 • Container Box</span>
+                    <h1 class="slide-title">📦 What is a &lt;div&gt;?</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary-light);">
+                        <div class="badge badge-notebook">📝 Container Definition</div>
+                        <p class="proj-text-lg">
+                            A <code>&lt;div&gt;</code> is a general-purpose HTML <strong>container / box</strong>.
+                        </p>
+                        <div class="highlight-box" style="font-size: 1.6rem; text-align: center; background: white; border: 3px solid var(--primary);">
+                            <code>&lt;div&gt;</code> = <strong>BOX / CONTAINER</strong>
+                        </div>
+                        <p class="proj-text">Its main job is to group elements together and help you <strong>organize your webpage structure</strong>.</p>
+                    </div>
+
+                    <div class="spark-card">
+                        <div class="badge badge-teacher">👨‍🏫 Interactive Box Wrapper</div>
+                        <p class="proj-text">Toggle elements inside the box to see how <code>&lt;div&gt;</code> holds them:</p>
+                        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem;">
+                            <label style="font-weight: 600; font-size: 1.15rem;">
+                                <input type="checkbox" id="chkShowHeading" checked onchange="updateDivBoxDemo()"> Include &lt;h1&gt; Heading
+                            </label>
+                            <label style="font-weight: 600; font-size: 1.15rem;">
+                                <input type="checkbox" id="chkShowPara" checked onchange="updateDivBoxDemo()"> Include &lt;p&gt; Paragraph
+                            </label>
+                        </div>
+
+                        <div style="border: 3px dashed var(--primary); padding: 1.2rem; border-radius: 12px; background: #EEF2FF;" id="divBoxWrapperDemo">
+                            <span style="font-family: monospace; font-size: 0.85rem; background: var(--primary); color: white; padding: 2px 6px; border-radius: 4px;">&lt;div&gt;</span>
+                            <div id="divBoxInnerContent" style="margin-top: 10px;"></div>
+                            <span style="font-family: monospace; font-size: 0.85rem; background: var(--primary); color: white; padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 10px;">&lt;/div&gt;</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: Box Inside Box (Nesting) -->
+            <section class="slide" data-slide="4">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 3 • Container Nesting</span>
+                    <h1 class="slide-title">📦📦 Box Inside Box (Nesting)</h1>
+                </div>
+
+                <div class="badge badge-notebook">📝 Nesting Rule</div>
+                <div class="highlight-box" style="font-size: 1.5rem; background: #FFF9DB; border-color: #F59E0B; color: #78350F;">
+                    <strong>Nesting means:</strong> Putting one HTML element inside another HTML element.
+                </div>
+
+                <div class="card-grid" style="margin-top: 1rem;">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <h3 style="font-size: 1.4rem; color: var(--primary-dark); margin-bottom: 0.5rem;">💻 Code View</h3>
+                        <div class="builder-code-box" style="font-size: 1.05rem;">
+&lt;div class="website"&gt;
+
+    &lt;h1&gt;My Website&lt;/h1&gt;
+
+    &lt;div class="about"&gt;
+        &lt;h2&gt;About Me&lt;/h2&gt;
+        &lt;p&gt;I am learning web development.&lt;/p&gt;
+    &lt;/div&gt;
+
+&lt;/div&gt;
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary-dark);">
+                        <h3 style="font-size: 1.4rem; color: var(--secondary-dark); margin-bottom: 0.5rem;">📦 Visual Nested Layers</h3>
+                        <div class="nest-box-outer">
+                            <span style="font-weight: 700; color: var(--primary-dark);">BIG BOX (.website)</span>
+                            <h1 style="font-size: 1.5rem; margin-top: 5px;">My Website</h1>
+                            <div class="nest-box-inner">
+                                <span style="font-weight: 700; color: var(--secondary-dark);">SMALL BOX (.about)</span>
+                                <h2 style="font-size: 1.2rem; margin-top: 4px;">About Me</h2>
+                                <p style="font-size: 1rem; color: #475569;">I am learning web development.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: What is class? -->
+            <section class="slide" data-slide="5">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 4 • Identifiers</span>
+                    <h1 class="slide-title">🏷️ What is `class`?</h1>
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Click any container class below to see how it connects to CSS:</div>
+
+                <div class="class-inspector-grid">
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 12px;">
+                        <button class="btn btn-secondary" onclick="inspectClass('header')">&lt;div class="header"&gt;</button>
+                        <button class="btn btn-secondary" onclick="inspectClass('content')">&lt;div class="content"&gt;</button>
+                        <button class="btn btn-secondary" onclick="inspectClass('about')">&lt;div class="about"&gt;</button>
+                        <button class="btn btn-secondary" onclick="inspectClass('skills')">&lt;div class="skills"&gt;</button>
+                        <button class="btn btn-secondary" onclick="inspectClass('footer')">&lt;div class="footer"&gt;</button>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--accent-yellow);">
+                        <h3 id="classInspectTitle" style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 0.5rem;">class="header"</h3>
+                        <p id="classInspectDesc" class="proj-text-lg" style="color: var(--text-main);">
+                            Gives the box a unique name: "header". In CSS, we can style it using <code>.header { ... }</code>!
+                        </p>
+                        <div style="background: #1E1E2E; color: #CDD6F4; padding: 10px; border-radius: 8px; font-family: monospace; margin-top: 10px;" id="classInspectCss">
+                            .header {<br>
+                            &nbsp;&nbsp;background: #6C5CE7;<br>
+                            &nbsp;&nbsp;color: white;<br>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Read HTML Like a Tree -->
+            <section class="slide" data-slide="6">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 5 • Visualizing Tree</span>
+                    <h1 class="slide-title">🔍 Read the HTML Like a Tree</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card">
+                        <div class="badge badge-notebook">📝 HTML Code</div>
+                        <div class="builder-code-box" style="font-size: 1rem;">
+&lt;div class="website"&gt;
+
+    &lt;div class="header"&gt;
+        &lt;h1&gt;My Website&lt;/h1&gt;
+    &lt;/div&gt;
+
+    &lt;div class="content"&gt;
+        &lt;div class="about"&gt;
+            &lt;h2&gt;About Me&lt;/h2&gt;
+            &lt;p&gt;I am learning HTML.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+&lt;/div&gt;
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary-dark);">
+                        <div class="badge badge-teacher">🌳 Tree Diagram</div>
+                        <div style="font-family: monospace; font-size: 1.25rem; line-height: 1.8; color: var(--primary-dark);">
+                            website<br>
+                            │<br>
+                            ├── header<br>
+                            │&nbsp;&nbsp;&nbsp;└── h1<br>
+                            │<br>
+                            └── content<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;└── about<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── h2<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── p
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: Step-by-Step Layout Assembly -->
+            <section class="slide" data-slide="7">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--success);">Part 6 • Layout Assembly</span>
+                    <h1 class="slide-title">🏗️ Step-by-Step Layout Assembly</h1>
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Click Next Step to watch the webpage layout assemble line-by-line:</div>
+
+                <div style="display: flex; gap: 10px; margin: 0.5rem 0;">
+                    <button class="btn btn-primary" id="btnPrevAssembly" onclick="prevAssemblyStep()">⬅️ Prev Step</button>
+                    <button class="btn btn-primary" id="btnNextAssembly" onclick="nextAssemblyStep()">Next Step ➡️</button>
+                    <span id="assemblyStepLabel" style="font-weight: 700; font-size: 1.2rem; align-self: center; margin-left: 10px; color: var(--primary-dark);">Step 1 of 5</span>
+                </div>
+
+                <div class="card-grid" style="margin-top: 0.5rem;">
+                    <div class="spark-card">
+                        <div class="builder-code-box" id="assemblyCodeDisplay" style="font-size: 0.95rem; height: 260px;"></div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary-dark);">
+                        <div id="assemblyVisualDisplay" style="height: 260px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: Stop & Understand Checkpoint -->
+            <section class="slide" data-slide="8">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 7 • Checkpoint</span>
+                    <h1 class="slide-title">🧠 Stop & Understand Checkpoint</h1>
+                </div>
+
+                <p class="proj-text">Answer the 5 questions below to verify your structural understanding:</p>
+
+                <div class="quiz-checkpoint-list">
+                    <div class="checkpoint-card">
+                        <h4>1. What is the outermost container in our layout?</h4>
+                        <div class="checkpoint-options">
+                            <button class="btn-opt" onclick="checkCheckpoint(1, true, this)">&lt;div class="website"&gt;</button>
+                            <button class="btn-opt" onclick="checkCheckpoint(1, false, this)">&lt;div class="header"&gt;</button>
+                            <button class="btn-opt" onclick="checkCheckpoint(1, false, this)">&lt;div class="about"&gt;</button>
+                        </div>
+                        <div class="checkpoint-feedback" id="fbCheck1"></div>
+                    </div>
+
+                    <div class="checkpoint-card">
+                        <h4>2. What containers live inside .website?</h4>
+                        <div class="checkpoint-options">
+                            <button class="btn-opt" onclick="checkCheckpoint(2, false, this)">Only &lt;h1&gt;</button>
+                            <button class="btn-opt" onclick="checkCheckpoint(2, true, this)">.header, .content, and .footer</button>
+                            <button class="btn-opt" onclick="checkCheckpoint(2, false, this)">Only .about</button>
+                        </div>
+                        <div class="checkpoint-feedback" id="fbCheck2"></div>
+                    </div>
+
+                    <div class="checkpoint-card">
+                        <h4>3. What elements are inside .about?</h4>
+                        <div class="checkpoint-options">
+                            <button class="btn-opt" onclick="checkCheckpoint(3, true, this)">&lt;h2&gt; and &lt;p&gt;</button>
+                            <button class="btn-opt" onclick="checkCheckpoint(3, false, this)">&lt;h1&gt; and &lt;button&gt;</button>
+                        </div>
+                        <div class="checkpoint-feedback" id="fbCheck3"></div>
+                    </div>
+
+                    <div class="checkpoint-card">
+                        <h4>4. What is nesting?</h4>
+                        <div class="checkpoint-options">
+                            <button class="btn-opt" onclick="checkCheckpoint(4, true, this)">Putting one HTML element inside another</button>
+                            <button class="btn-opt" onclick="checkCheckpoint(4, false, this)">Deleting broken code</button>
+                        </div>
+                        <div class="checkpoint-feedback" id="fbCheck4"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: Profile Builder & Box Mode Visualizer -->
+            <section class="slide" data-slide="9">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 8 • Live Builder</span>
+                    <h1 class="slide-title">📱 Live Layout Builder & Box Visualizer</h1>
+                </div>
+
+                <div class="profile-builder-grid">
+                    <!-- Column 1: Inputs -->
+                    <div class="builder-form-scroll">
+                        <h4 style="font-size: 1.1rem; color: var(--primary);">✏️ Enter Info & Sections</h4>
+                        <div class="form-group">
+                            <label>Profile Title:</label>
+                            <input type="text" id="divTitle" class="form-input" value="My Profile" oninput="updateDivProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>About Me Text:</label>
+                            <input type="text" id="divAbout" class="form-input" value="I am learning web development and building websites with HTML and CSS." oninput="updateDivProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>Skills Text:</label>
+                            <input type="text" id="divSkills" class="form-input" value="HTML, CSS and JavaScript" oninput="updateDivProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>Hobbies Text:</label>
+                            <input type="text" id="divHobbies" class="form-input" value="Coding, football and reading" oninput="updateDivProject()">
+                        </div>
+                        
+                        <!-- Challenge Section Toggle -->
+                        <div style="margin-top: 5px; border-top: 2px dashed #CBD5E1; padding-top: 8px;">
+                            <label style="font-weight: 700; color: var(--accent-orange);">🔥 Challenge Section:</label>
+                            <select id="divExtraSelect" class="form-select" onchange="updateDivProject()">
+                                <option value="none">None</option>
+                                <option value="projects">.projects (My Projects)</option>
+                                <option value="contact">.contact (Contact Me)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Code View -->
+                    <div class="builder-code-box" id="divCodeDisplay"></div>
+
+                    <!-- Column 3: Preview Screen with Box Mode Toggle -->
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <button class="btn btn-primary" id="btnToggleBoxMode" onclick="toggleBoxMode()" style="font-size:1rem; padding:6px 12px;">📦 Toggle Box Mode (OFF)</button>
+                        <div class="preview-screen-box" id="previewScreenBox">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: Quick Quiz -->
+            <section class="slide" data-slide="10">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 9 • Quick Quiz</span>
+                    <h1 class="slide-title">🧠 Advanced Classroom Quiz</h1>
+                </div>
+
+                <p class="proj-text">Click any card to reveal the answer:</p>
+
+                <div class="quiz-grid">
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">1. What does &lt;div&gt; mean?</div>
+                        <div class="quiz-answer">Division / General-purpose HTML container box.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">2. Does &lt;div&gt; automatically style a page?</div>
+                        <div class="quiz-answer">No! Its main job is organizing structure. CSS handles styling.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">3. What is nesting?</div>
+                        <div class="quiz-answer">Placing one HTML container/element inside another.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">4. Why do we use `class`?</div>
+                        <div class="quiz-answer">To give container boxes names so we can target them with CSS.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">5. What container wraps the whole layout?</div>
+                        <div class="quiz-answer">The outer main box (e.g. &lt;div class="website"&gt;).</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">6. What goes inside .header?</div>
+                        <div class="quiz-answer">Header content like titles (&lt;h1&gt;) or branding logos.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">7. How do you write a class selector in CSS?</div>
+                        <div class="quiz-answer">With a dot prefix like .header { ... } or .skills { ... }.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">8. Must every &lt;div&gt; have a closing &lt;/div&gt;?</div>
+                        <div class="quiz-answer">Yes! Every opening &lt;div&gt; must have a matching closing &lt;/div&gt;.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: Task & Challenge -->
+            <section class="slide" data-slide="11">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 10 • Homework</span>
+                    <h1 class="slide-title">🏆 Your Task: Build Your Profile Layout</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-homework">📚 Mandatory Requirements</div>
+                        <ul style="font-size: 1.2rem; line-height: 1.8; margin-left: 1.5rem;">
+                            <li>[ ] Create outer <code>.website</code> container.</li>
+                            <li>[ ] Create <code>.header</code> container.</li>
+                            <li>[ ] Create <code>.content</code> container.</li>
+                            <li>[ ] Create <code>.about</code>, <code>.skills</code>, <code>.hobbies</code> sections.</li>
+                            <li>[ ] Create <code>.footer</code> container.</li>
+                            <li>[ ] Ensure every <code>&lt;div&gt;</code> has a matching <code>&lt;/div&gt;</code>!</li>
+                        </ul>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--accent-yellow);">
+                        <div class="badge badge-activity">🔥 Challenge Task</div>
+                        <p class="proj-text-lg">Add an extra section of your choice!</p>
+                        <ul style="font-size: 1.25rem; line-height: 1.8; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>💻 <code>&lt;div class="projects"&gt;</code></li>
+                            <li>📞 <code>&lt;div class="contact"&gt;</code></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: Lesson Summary & Challenge Timer -->
+            <section class="slide" data-slide="12">
+                <div class="slide-header" style="text-align: center;">
+                    <span class="slide-category" style="background: var(--success);">Lesson Complete</span>
+                    <h1 class="slide-title">🏆 Ultimate 5-Minute Layout Challenge!</h1>
+                </div>
+
+                <div class="spark-card" style="max-width: 800px; margin: 0 auto; text-align: center; border-color: var(--success);">
+                    <h2 style="font-size: 1.8rem; color: var(--success); margin-bottom: 0.8rem;">Remember the Golden Rule:</h2>
+                    <div class="highlight-box" style="font-size: 1.6rem; font-style: italic; background: #FFF9DB; border-color: #F59E0B; color: #78350F;">
+                        PAGE ➔ SECTION ➔ CONTAINER ➔ CONTENT
+                    </div>
+                    <p class="proj-text-lg" style="margin-top: 1rem;">
+                        Without looking at the board, try writing out the complete nested <code>&lt;div&gt;</code> tree structure in your notebook in 5 minutes!
+                    </p>
+
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <div class="timer-display" id="timerDisplay" style="font-family: Fredoka; font-size: 2.2rem; color: var(--accent-orange);">05:00</div>
+                        <button class="btn btn-primary" onclick="startTimer(300)">Start 5 Min Timer</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- BOTTOM BAR CONTROLS -->
+    <footer class="bottom-bar">
+        <button class="btn btn-secondary" id="btnPrev">⬅️ Previous</button>
+        <div class="slide-dots" id="slideDots"></div>
+        <button class="btn btn-primary" id="btnNext">Next Slide ➡️</button>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const slideDotsContainer = document.getElementById('slideDots');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        // Create navigation dots
+        for (let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot-nav');
+            if (i === 1) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            slideDotsContainer.appendChild(dot);
+        }
+
+        const dots = document.querySelectorAll('.dot-nav');
+
+        function updateSlide() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+            if (activeSlide) activeSlide.classList.add('active');
+            if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
+
+            const percentage = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `Slide ${currentSlide} of ${totalSlides}`;
+
+            btnPrev.style.opacity = currentSlide === 1 ? '0.5' : '1';
+            btnPrev.style.pointerEvents = currentSlide === 1 ? 'none' : 'auto';
+
+            btnNext.textContent = currentSlide === totalSlides ? '🎉 Finish Lesson' : 'Next Slide ➡️';
+            playClickSound();
+        }
+
+        function goToSlide(n) {
+            if (n >= 1 && n <= totalSlides) {
+                currentSlide = n;
+                updateSlide();
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentSlide > 1) { currentSlide--; updateSlide(); }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 1) { currentSlide--; updateSlide(); }
+            }
+        });
+
+        // 1. DOM Tree Visualizer
+        function highlightDOMBox(boxId) {
+            document.querySelectorAll('.box-node').forEach(node => node.classList.remove('active-highlight'));
+            const target = document.getElementById(`node-${boxId}`);
+            if (target) target.classList.add('active-highlight');
+            playClickSound();
+        }
+
+        // 2. Interactive Div Box Wrapper Demo
+        function updateDivBoxDemo() {
+            const showH1 = document.getElementById('chkShowHeading').checked;
+            const showP = document.getElementById('chkShowPara').checked;
+            const wrapper = document.getElementById('divBoxInnerContent');
+
+            let html = '';
+            if (showH1) html += `<h1 style="font-size: 1.4rem; color: var(--primary-dark); margin-bottom: 4px;">My Website</h1>`;
+            if (showP) html += `<p style="font-size: 1.1rem; color: #475569;">Welcome to my website.</p>`;
+
+            wrapper.innerHTML = html || `<span style="color:#94A3B8; font-style:italic;">Empty container box</span>`;
+            playClickSound();
+        }
+        updateDivBoxDemo();
+
+        // 3. Class Inspector Logic
+        const classDetails = {
+            'header': { title: 'class="header"', desc: 'Identifies the header section. In CSS: .header { background: #6C5CE7; color: white; }' },
+            'content': { title: 'class="content"', desc: 'Identifies the main body container holding inner sections. In CSS: .content { display: flex; gap: 20px; }' },
+            'about': { title: 'class="about"', desc: 'Identifies the About Me section. In CSS: .about { padding: 15px; border-radius: 8px; }' },
+            'skills': { title: 'class="skills"', desc: 'Identifies the Skills section. In CSS: .skills { background: #EEF2FF; }' },
+            'footer': { title: 'class="footer"', desc: 'Identifies the footer section at the bottom. In CSS: .footer { text-align: center; }' }
+        };
+
+        function inspectClass(className) {
+            const data = classDetails[className];
+            document.getElementById('classInspectTitle').textContent = data.title;
+            document.getElementById('classInspectDesc').textContent = data.desc;
+            document.getElementById('classInspectCss').innerHTML = `.${className} {<br>&nbsp;&nbsp;/* Custom styling for ${className} */<br>}`;
+            playClickSound();
+        }
+
+        // 4. Assembly Stepper Logic
+        let assemblyStep = 1;
+        const assemblyStepsData = [
+            {
+                code: `<div class="website">\n\n</div>`,
+                visual: `<div style="border:3px dashed var(--primary); padding:1rem; border-radius:8px;"><strong>.website (Outer Box)</strong></div>`
+            },
+            {
+                code: `<div class="website">\n\n    <div class="header">\n        <h1>My Profile</h1>\n    </div>\n\n</div>`,
+                visual: `<div style="border:3px dashed var(--primary); padding:1rem; border-radius:8px;"><strong>.website</strong><div style="border:2px dashed #9333EA; padding:8px; margin-top:8px; border-radius:6px; background:#F3E8FF;"><strong>.header</strong><h1>My Profile</h1></div></div>`
+            },
+            {
+                code: `<div class="website">\n\n    <div class="header">\n        <h1>My Profile</h1>\n    </div>\n\n    <div class="content">\n        <div class="about">\n            <h2>About Me</h2>\n            <p>I am learning web development.</p>\n        </div>\n    </div>\n\n</div>`,
+                visual: `<div style="border:3px dashed var(--primary); padding:1rem; border-radius:8px;"><strong>.website</strong><div style="border:2px dashed #9333EA; padding:8px; margin-top:8px; border-radius:6px; background:#F3E8FF;"><strong>.header</strong><h1>My Profile</h1></div><div style="border:2px dashed #0284C7; padding:8px; margin-top:8px; border-radius:6px; background:#E0F2FE;"><strong>.content</strong><div style="border:2px dashed #D97706; padding:6px; margin-top:6px; background:#FEF3C7; border-radius:4px;"><strong>.about</strong><h2>About Me</h2><p>I am learning web development.</p></div></div></div>`
+            },
+            {
+                code: `<div class="website">\n\n    <div class="header">\n        <h1>My Profile</h1>\n    </div>\n\n    <div class="content">\n        <div class="about">\n            <h2>About Me</h2>\n            <p>I am learning web development.</p>\n        </div>\n        <div class="skills">\n            <h2>My Skills</h2>\n            <p>HTML, CSS and JavaScript</p>\n        </div>\n    </div>\n\n</div>`,
+                visual: `<div style="border:3px dashed var(--primary); padding:1rem; border-radius:8px;"><strong>.website</strong><div style="border:2px dashed #9333EA; padding:8px; margin-top:8px; border-radius:6px; background:#F3E8FF;"><strong>.header</strong><h1>My Profile</h1></div><div style="border:2px dashed #0284C7; padding:8px; margin-top:8px; border-radius:6px; background:#E0F2FE;"><strong>.content</strong><div style="border:2px dashed #D97706; padding:6px; margin-top:6px; background:#FEF3C7; border-radius:4px;"><strong>.about</strong><h2>About Me</h2></div><div style="border:2px dashed #D97706; padding:6px; margin-top:6px; background:#FEF3C7; border-radius:4px;"><strong>.skills</strong><h2>My Skills</h2></div></div></div>`
+            },
+            {
+                code: `<div class="website">\n\n    <div class="header">...</div>\n    <div class="content">...</div>\n\n    <div class="footer">\n        <p>© 2026 My Profile</p>\n    </div>\n\n</div>`,
+                visual: `<div style="border:3px dashed var(--primary); padding:1rem; border-radius:8px;"><strong>.website</strong><div style="border:2px dashed #9333EA; padding:6px; margin-top:4px;">.header</div><div style="border:2px dashed #0284C7; padding:6px; margin-top:4px;">.content</div><div style="border:2px dashed #059669; padding:6px; margin-top:4px; background:#ECFDF5;"><strong>.footer</strong><p>© 2026 My Profile</p></div></div>`
+            }
+        ];
+
+        function renderAssemblyStep() {
+            const data = assemblyStepsData[assemblyStep - 1];
+            document.getElementById('assemblyCodeDisplay').textContent = data.code;
+            document.getElementById('assemblyVisualDisplay').innerHTML = data.visual;
+            document.getElementById('assemblyStepLabel').textContent = `Step ${assemblyStep} of 5`;
+        }
+
+        function nextAssemblyStep() {
+            if (assemblyStep < 5) { assemblyStep++; renderAssemblyStep(); playClickSound(); }
+        }
+
+        function prevAssemblyStep() {
+            if (assemblyStep > 1) { assemblyStep--; renderAssemblyStep(); playClickSound(); }
+        }
+        renderAssemblyStep();
+
+        // 5. Checkpoint Questions Logic
+        function checkCheckpoint(qId, isCorrect, btn) {
+            const fb = document.getElementById(`fbCheck${qId}`);
+            fb.style.display = 'block';
+            if (isCorrect) {
+                fb.style.background = '#ECFDF5';
+                fb.style.color = '#065F46';
+                fb.textContent = '✅ Correct!';
+            } else {
+                fb.style.background = '#FEF2F2';
+                fb.style.color = '#991B1B';
+                fb.textContent = '❌ Try again!';
+            }
+            playClickSound();
+        }
+
+        // 6. Live Profile Builder & Box Mode Visualizer
+        let boxModeActive = false;
+
+        function toggleBoxMode() {
+            boxModeActive = !boxModeActive;
+            const btn = document.getElementById('btnToggleBoxMode');
+            const screen = document.getElementById('previewScreenBox');
+
+            if (boxModeActive) {
+                btn.textContent = '📦 Toggle Box Mode (ON)';
+                btn.style.background = 'var(--success)';
+                screen.classList.add('box-mode-active');
+            } else {
+                btn.textContent = '📦 Toggle Box Mode (OFF)';
+                btn.style.background = 'var(--primary)';
+                screen.classList.remove('box-mode-active');
+            }
+            playClickSound();
+        }
+
+        function updateDivProject() {
+            const title = document.getElementById('divTitle').value || 'My Profile';
+            const about = document.getElementById('divAbout').value || 'I am learning web development.';
+            const skills = document.getElementById('divSkills').value || 'HTML, CSS and JavaScript';
+            const hobbies = document.getElementById('divHobbies').value || 'Coding, football and reading';
+            const extra = document.getElementById('divExtraSelect').value;
+
+            // Render Preview Screen
+            let previewHTML = `
+                <div class="website-div">
+                    <span class="box-badge-tag">&lt;div class="website"&gt;</span>
+                    
+                    <div class="header-div">
+                        <span class="box-badge-tag">&lt;div class="header"&gt;</span>
+                        <h1 style="font-size:1.4rem; color:var(--primary-dark);">${title}</h1>
+                    </div>
+
+                    <div class="content-div">
+                        <span class="box-badge-tag">&lt;div class="content"&gt;</span>
+                        
+                        <div class="about-div">
+                            <span class="box-badge-tag">&lt;div class="about"&gt;</span>
+                            <h2 style="font-size:1.15rem; color:#0F172A;">About Me</h2>
+                            <p style="font-size:0.95rem; color:#475569;">${about}</p>
+                        </div>
+
+                        <div class="skills-div">
+                            <span class="box-badge-tag">&lt;div class="skills"&gt;</span>
+                            <h2 style="font-size:1.15rem; color:#0F172A;">My Skills</h2>
+                            <p style="font-size:0.95rem; color:#475569;">${skills}</p>
+                        </div>
+
+                        <div class="hobbies-div">
+                            <span class="box-badge-tag">&lt;div class="hobbies"&gt;</span>
+                            <h2 style="font-size:1.15rem; color:#0F172A;">My Hobbies</h2>
+                            <p style="font-size:0.95rem; color:#475569;">${hobbies}</p>
+                        </div>
+            `;
+
+            let extraCode = '';
+            if (extra === 'projects') {
+                previewHTML += `
+                        <div class="extra-div">
+                            <span class="box-badge-tag">&lt;div class="projects"&gt;</span>
+                            <h2 style="font-size:1.15rem; color:#0F172A;">My Projects</h2>
+                            <p style="font-size:0.95rem; color:#475569;">Personal Web Portfolio</p>
+                        </div>
+                `;
+                extraCode = `\n            <div class="projects">\n                <h2>My Projects</h2>\n                <p>Personal Web Portfolio</p>\n            </div>\n`;
+            } else if (extra === 'contact') {
+                previewHTML += `
+                        <div class="extra-div">
+                            <span class="box-badge-tag">&lt;div class="contact"&gt;</span>
+                            <h2 style="font-size:1.15rem; color:#0F172A;">Contact Me</h2>
+                            <p style="font-size:0.95rem; color:#475569;">Email: student@code.com</p>
+                        </div>
+                `;
+                extraCode = `\n            <div class="contact">\n                <h2>Contact Me</h2>\n                <p>Email: student@code.com</p>\n            </div>\n`;
+            }
+
+            previewHTML += `
+                    </div>
+
+                    <div class="footer-div">
+                        <span class="box-badge-tag">&lt;div class="footer"&gt;</span>
+                        <p style="font-size:0.85rem; color:#64748B; text-align:center;">© 2026 ${title}</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('previewScreenBox').innerHTML = previewHTML;
+
+            // Generate Code text
+            let code = `&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;${title}&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n\n`;
+            code += `    &lt;div class="website"&gt;\n\n`;
+            code += `        &lt;div class="header"&gt;\n            &lt;h1&gt;${title}&lt;/h1&gt;\n        &lt;/div&gt;\n\n`;
+            code += `        &lt;div class="content"&gt;\n\n`;
+            code += `            &lt;div class="about"&gt;\n                &lt;h2&gt;About Me&lt;/h2&gt;\n                &lt;p&gt;${about}&lt;/p&gt;\n            &lt;/div&gt;\n\n`;
+            code += `            &lt;div class="skills"&gt;\n                &lt;h2&gt;My Skills&lt;/h2&gt;\n                &lt;p&gt;${skills}&lt;/p&gt;\n            &lt;/div&gt;\n\n`;
+            code += `            &lt;div class="hobbies"&gt;\n                &lt;h2&gt;My Hobbies&lt;/h2&gt;\n                &lt;p&gt;${hobbies}&lt;/p&gt;\n            &lt;/div&gt;${extraCode}\n`;
+            code += `        &lt;/div&gt;\n\n`;
+            code += `        &lt;div class="footer"&gt;\n            &lt;p&gt;© 2026 ${title}&lt;/p&gt;\n        &lt;/div&gt;\n\n`;
+            code += `    &lt;/div&gt;\n\n&lt;/body&gt;\n&lt;/html&gt;`;
+
+            document.getElementById('divCodeDisplay').innerHTML = code;
+        }
+        updateDivProject();
+
+        // 7. Quiz Reveal Logic
+        function toggleQuizReveal(card) {
+            card.classList.toggle('revealed');
+            playClickSound();
+        }
+
+        // Audio System
+        let audioEnabled = true;
+        const btnAudioToggle = document.getElementById('btnAudioToggle');
+        btnAudioToggle.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            btnAudioToggle.textContent = audioEnabled ? '🔊 Sound On' : '🔇 Sound Off';
+        });
+
+        function playClickSound() {
+            if (!audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, ctx.currentTime);
+                gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.08);
+            } catch (e) { }
+        }
+
+        // Fullscreen Toggle
+        document.getElementById('btnToggleFull').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => { });
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        });
+
+        // 5-Min Timer
+        let timerInterval;
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            let time = seconds;
+            const display = document.getElementById('timerDisplay');
+            timerInterval = setInterval(() => {
+                const mins = Math.floor(time / 60);
+                const secs = time % 60;
+                display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "⏱️ Time's Up!";
+                }
+                time--;
+            }, 1000);
+            playClickSound();
+        }
+
+        updateSlide();
+    </script>
+</body>
+
+</html>

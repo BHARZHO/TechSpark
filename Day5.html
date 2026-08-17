@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Spark 3.0 | Week 1 Day 5 - HTML Lists & Organizing Information</title>
+
+    <!-- Google Fonts: Fredoka & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+        TECH SPARK 3.0 - DESIGN SYSTEM & VARS
+        ========================================== */
+        :root {
+            --bg-primary: #F4F7FE;
+            --bg-card: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+
+            /* Vibrant Brand Palette */
+            --primary: #6C5CE7;
+            --primary-dark: #4834D4;
+            --primary-light: #A29BFE;
+            --secondary: #00CEC9;
+            --secondary-dark: #00B894;
+            --accent-yellow: #FDCB6E;
+            --accent-orange: #E17055;
+            --accent-pink: #FD79A8;
+            --accent-blue: #74B9FF;
+            --success: #10B981;
+
+            /* Notebook & Callout Colors */
+            --notebook-bg: #FFF9DB;
+            --notebook-border: #F59E0B;
+            --teacher-bg: #F3E8FF;
+            --teacher-border: #9333EA;
+
+            /* Duolingo style 3D shadows */
+            --shadow-sm: 0 4px 0 rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 8px 0 #E2E8F0, 0 12px 24px rgba(0, 0, 0, 0.05);
+            --shadow-btn: 0 5px 0 var(--primary-dark);
+
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+
+            /* Projection Font Sizes */
+            --font-body: 1.35rem;
+            --font-heading: 2.2rem;
+            --font-title: 3.2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .brand-title,
+        .badge {
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==========================================
+        TOP NAVBAR & PROGRESS BAR
+        ========================================== */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: var(--bg-card);
+            border-bottom: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .brand-logo span.spark-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            flex: 1;
+            max-width: 450px;
+            margin: 0 2rem;
+        }
+
+        .progress-bar-bg {
+            height: 16px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 0 var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background: #5B4BC4;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #E2E8F0;
+            color: var(--text-main);
+            box-shadow: 0 5px 0 #CBD5E1;
+        }
+
+        .btn-secondary:hover {
+            background: #CBD5E1;
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================
+        MAIN SLIDE SYSTEM
+        ========================================== */
+        .main-viewport {
+            margin-top: 75px;
+            height: calc(100vh - 75px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-deck {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem 4rem 6rem 4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.96) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        .slide-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-category {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .slide-title {
+            font-size: var(--font-title);
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.8rem;
+            margin: 0.8rem 0;
+        }
+
+        .spark-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border: 3px solid #E2E8F0;
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        /* Role Badges requested by teacher */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .badge-teacher {
+            background: var(--teacher-bg);
+            color: var(--teacher-border);
+            border: 2px solid var(--teacher-border);
+        }
+
+        .badge-write {
+            background: #FFE4E6;
+            color: #E11D48;
+            border: 2px solid #F43F5E;
+        }
+
+        .badge-practical {
+            background: #E0F2FE;
+            color: #0284C7;
+            border: 2px solid #38BDF8;
+        }
+
+        .badge-notebook {
+            background: var(--notebook-bg);
+            color: #B45309;
+            border: 2px solid var(--notebook-border);
+        }
+
+        .badge-activity {
+            background: #F3E8FF;
+            color: #7E22CE;
+            border: 2px solid #A855F7;
+        }
+
+        .badge-homework {
+            background: #FEF3C7;
+            color: #D97706;
+            border: 2px solid #F59E0B;
+        }
+
+        .proj-text {
+            font-size: var(--font-body);
+            color: var(--text-main);
+            margin-bottom: 1.2rem;
+        }
+
+        .proj-text-lg {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: #EEF2FF;
+            border-left: 8px solid var(--primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .notebook-box {
+            background: var(--notebook-bg);
+            border: 3px dashed var(--notebook-border);
+            border-radius: var(--radius-md);
+            padding: 1.8rem 2.2rem;
+            margin: 1rem 0;
+        }
+
+        .notebook-box h3 {
+            color: #92400E;
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ==========================================
+        CUSTOM DAY 5 WIDGET STYLES
+        ========================================== */
+
+        /* 1. Tag Inspector */
+        .inspector-code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.8rem;
+            background: #1E1E2E;
+            color: #CDD6F4;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .inspect-part {
+            padding: 2px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .inspect-part:hover,
+        .inspect-part.active {
+            background: #313244;
+            outline: 3px solid var(--accent-yellow);
+        }
+
+        .anatomy-desc-card {
+            background: white;
+            border: 3px solid var(--accent-yellow);
+            box-shadow: var(--shadow-card);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            min-height: 130px;
+            margin-top: 1rem;
+        }
+
+        /* 2. Interactive List Builders */
+        .list-sandbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .form-input,
+        .form-select {
+            padding: 10px 14px;
+            border: 2px solid #CBD5E1;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1.15rem;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+        }
+
+        .builder-code-box {
+            background: #1E1E2E;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            color: #CDD6F4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .live-preview-render {
+            background: white;
+            border: 3px dashed var(--primary);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            min-height: 220px;
+        }
+
+        .live-preview-render ul,
+        .live-preview-render ol {
+            font-size: 1.35rem;
+            margin-left: 2rem;
+            line-height: 2;
+            color: var(--text-main);
+        }
+
+        /* 3. Scenario Sorting Game */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .scenario-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .scenario-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+        }
+
+        .scenario-btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-tag {
+            flex: 1;
+            font-family: Fredoka, sans-serif;
+            font-size: 1.2rem;
+            padding: 8px 12px;
+            border: 2px solid #CBD5E1;
+            border-radius: 10px;
+            background: #F8FAFC;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-tag:hover {
+            border-color: var(--primary);
+            background: #EEF2FF;
+        }
+
+        .scenario-result {
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* 4. Toolbox Matrix Table */
+        .toolbox-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 8px;
+            margin-top: 0.5rem;
+        }
+
+        .toolbox-table th {
+            background: var(--primary);
+            color: white;
+            padding: 10px 16px;
+            font-size: 1.2rem;
+            text-align: left;
+        }
+
+        .toolbox-table th:first-child {
+            border-radius: 10px 0 0 10px;
+        }
+
+        .toolbox-table th:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        .toolbox-table td {
+            background: white;
+            padding: 12px 16px;
+            font-size: 1.15rem;
+            border-top: 2px solid #E2E8F0;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        .toolbox-table tr td:first-child {
+            border-left: 2px solid #E2E8F0;
+            border-radius: 10px 0 0 10px;
+            font-family: monospace;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .toolbox-table tr td:last-child {
+            border-right: 2px solid #E2E8F0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        /* 5. Project Builder & Phone Simulator */
+        .project-builder-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1.2fr 1fr;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+            height: 520px;
+        }
+
+        .builder-form-scroll {
+            background: white;
+            border: 3px solid var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            overflow-y: auto;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .preview-phone {
+            background: #1E293B;
+            border: 10px solid #334155;
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .phone-camera {
+            height: 16px;
+            background: #334155;
+            width: 90px;
+            margin: 0 auto;
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .phone-screen {
+            flex: 1;
+            background: white;
+            overflow-y: auto;
+            padding: 1.5rem 1.2rem;
+            font-size: 0.95rem;
+            margin-top: 12px;
+        }
+
+        .phone-screen h1 {
+            font-size: 1.6rem;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+            text-align: center;
+        }
+
+        .phone-screen h2 {
+            font-size: 1.15rem;
+            color: #0F172A;
+            margin-top: 12px;
+            font-weight: 700;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 2px;
+        }
+
+        .phone-screen ul,
+        .phone-screen ol {
+            margin-left: 1.4rem;
+            margin-top: 4px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        /* Quiz Grid */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.4rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .quiz-card:hover {
+            border-color: var(--primary);
+        }
+
+        .quiz-card .q-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+        }
+
+        .quiz-answer {
+            background: #F1F5F9;
+            padding: 0.9rem;
+            border-radius: var(--radius-sm);
+            font-size: 1.2rem;
+            display: none;
+            border-left: 5px solid var(--secondary-dark);
+            margin-top: 0.5rem;
+        }
+
+        .quiz-card.revealed .quiz-answer {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .kbd {
+            background: #F8FAFC;
+            border: 2px solid #CBD5E1;
+            border-bottom: 4px solid #94A3B8;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+        }
+
+        /* Bottom Bar Controls */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: white;
+            border-top: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-nav {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dot-nav.active {
+            background: var(--primary);
+            width: 32px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="brand-logo">
+            ⚡ Tech Spark 3.0
+            <span class="spark-badge">Week 1 • Day 5</span>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Slide 1 of 12</div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn btn-secondary" id="btnAudioToggle">🔊 Sound On</button>
+            <button class="btn btn-secondary" id="btnToggleFull">⛶ Fullscreen</button>
+        </div>
+    </header>
+
+    <!-- MAIN VIEWPORT -->
+    <main class="main-viewport">
+        <div class="slide-deck" id="slideDeck">
+
+            <!-- SLIDE 1: Title & Goals -->
+            <section class="slide active" data-slide="1">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Day 5 • HTML Lists & Organizing</span>
+                    <h1 class="slide-title">🟢 HTML Lists & Organizing Information</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary-light);">
+                        <div class="badge badge-teacher">👨‍🏫 Teacher Introduction</div>
+                        <p class="proj-text-lg">
+                            Imagine asking someone their 5 favourite foods and getting a messy jumble of words. How can we make it look neat and readable on a webpage? Today we learn how to organize information using <strong>HTML Lists</strong>!
+                        </p>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <h2 style="font-size: 1.8rem; color: var(--secondary-dark); margin-bottom: 1rem;">🎯 Today's Goals</h2>
+                        <ul style="font-size: 1.35rem; line-height: 1.8; list-style: none;">
+                            <li>✅ <strong>Understand</strong> why we organize content into lists.</li>
+                            <li>✅ <strong>Create</strong> an Unordered Bullet-Point List with <code>&lt;ul&gt;</code>.</li>
+                            <li>✅ <strong>Create</strong> an Ordered Numbered List with <code>&lt;ol&gt;</code>.</li>
+                            <li>✅ <strong>Use</strong> <code>&lt;li&gt;</code> for individual List Items.</li>
+                            <li>✅ <strong>Combine</strong> everything to build "My Favourite Things"!</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: What is a List? -->
+            <section class="slide" data-slide="2">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--secondary-dark);">Part 1 • Concept</span>
+                    <h1 class="slide-title">🤔 Why Do We Need Lists?</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--accent-orange);">
+                        <h3 style="font-size: 1.5rem; color: var(--accent-orange); margin-bottom: 0.8rem;">❌ Messy Paragraph</h3>
+                        <p class="proj-text" style="background: #FFF5F5; padding: 1rem; border-radius: 10px; border: 2px dashed #FEB2B2;">
+                            Rice Pizza Chicken Yam Burger
+                        </p>
+                        <p class="proj-text" style="margin-top: 0.5rem;">Hard to skim, hard to read, and looks cluttered!</p>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--success);">
+                        <h3 style="font-size: 1.5rem; color: var(--success); margin-bottom: 0.8rem;">✅ Organized HTML List</h3>
+                        <div style="background: #F0FDF4; padding: 1rem; border-radius: 10px; border: 2px solid #86EFAC; font-size: 1.3rem;">
+                            <strong>Favourite Foods:</strong>
+                            <ul style="margin-left: 1.5rem; margin-top: 5px;">
+                                <li>Rice</li>
+                                <li>Pizza</li>
+                                <li>Chicken</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="highlight-box" style="text-align: center; font-size: 1.5rem; margin-top: 1rem;">
+                    💡 HTML gives us 2 list types: <strong>Unordered (`&lt;ul&gt;`)</strong> and <strong>Ordered (`&lt;ol&gt;`)</strong>!
+                </div>
+            </section>
+
+            <!-- SLIDE 3: Unordered List & Anatomy -->
+            <section class="slide" data-slide="3">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Part 2 • Unordered List</span>
+                    <h1 class="slide-title">🟢 Unordered List (&lt;ul&gt;)</h1>
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Click any part of the tag structure below to inspect what it means:</div>
+
+                <div style="margin-top: 1rem;">
+                    <div class="inspector-code">
+                        <span class="inspect-part active" onclick="inspectTagAnatomy('ul-open', this)">&lt;ul&gt;</span><br>
+                        &nbsp;&nbsp;<span class="inspect-part" onclick="inspectTagAnatomy('li-item1', this)">&lt;li&gt;Rice&lt;/li&gt;</span><br>
+                        &nbsp;&nbsp;<span class="inspect-part" onclick="inspectTagAnatomy('li-item2', this)">&lt;li&gt;Pizza&lt;/li&gt;</span><br>
+                        &nbsp;&nbsp;<span class="inspect-part" onclick="inspectTagAnatomy('li-item3', this)">&lt;li&gt;Chicken&lt;/li&gt;</span><br>
+                        <span class="inspect-part" onclick="inspectTagAnatomy('ul-close', this)">&lt;/ul&gt;</span>
+                    </div>
+
+                    <div class="anatomy-desc-card">
+                        <h3 id="anatomyTitle" style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 0.5rem;">Unordered List Opening (&lt;ul&gt;)</h3>
+                        <p id="anatomyDesc" class="proj-text-lg" style="color: var(--text-main);">Tells the web browser: "Start a bullet-point list here!"</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: Interactive Unordered List Sandbox -->
+            <section class="slide" data-slide="4">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 3 • Try UL Live</span>
+                    <h1 class="slide-title">🧪 Bullet-Point List Sandbox</h1>
+                </div>
+
+                <div class="list-sandbox-grid">
+                    <!-- Column 1: Controls -->
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge badge-practical">Add Food Items</div>
+                        <div class="form-group">
+                            <label>Food Item Name:</label>
+                            <input type="text" id="ulFoodInput" class="form-input" placeholder="e.g. Shawarma">
+                        </div>
+                        <button class="btn btn-primary" onclick="addULFoodItem()">➕ Add to List</button>
+                        <button class="btn btn-secondary" onclick="resetULList()" style="font-size: 0.95rem; padding: 6px 10px;">Reset List</button>
+                    </div>
+
+                    <!-- Column 2: Code View -->
+                    <div class="builder-code-box" id="ulCodeDisplay">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Column 3: Live Preview Render -->
+                    <div class="live-preview-render">
+                        <h3 style="font-size: 1.4rem; color: var(--primary-dark); margin-bottom: 0.5rem;">My Favourite Foods</h3>
+                        <ul id="ulLiveRender">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: Ordered List (<ol>) -->
+            <section class="slide" data-slide="5">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 4 • Ordered List</span>
+                    <h1 class="slide-title">🟡 Ordered List (&lt;ol&gt;)</h1>
+                </div>
+
+                <p class="proj-text">When sequence or ranking matters (like steps to make noodles or morning routines), use <code>&lt;ol&gt;</code>! The browser adds <strong>numbers automatically</strong>.</p>
+
+                <div class="list-sandbox-grid" style="margin-top: 1rem;">
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge badge-practical">Morning Routine Steps</div>
+                        <div class="form-group">
+                            <label>Add Routine Step:</label>
+                            <input type="text" id="olStepInput" class="form-input" placeholder="e.g. Brush my teeth">
+                        </div>
+                        <button class="btn btn-primary" onclick="addOLStepItem()">➕ Add Step</button>
+                        <button class="btn btn-secondary" onclick="resetOLList()" style="font-size: 0.95rem; padding: 6px 10px;">Reset Steps</button>
+                    </div>
+
+                    <div class="builder-code-box" id="olCodeDisplay">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="live-preview-render">
+                        <h3 style="font-size: 1.4rem; color: var(--accent-orange); margin-bottom: 0.5rem;">My Morning Routine</h3>
+                        <ol id="olLiveRender">
+                            <!-- Populated by JS -->
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Scenario Sorting Game -->
+            <section class="slide" data-slide="6">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 5 • Game</span>
+                    <h1 class="slide-title">🎯 UL vs OL: Which Should You Use?</h1>
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Click &lt;ul&gt; or &lt;ol&gt; for each scenario below:</div>
+
+                <div class="scenario-grid">
+                    <div class="scenario-card">
+                        <h3>1. Top 4 Football Teams ⚽</h3>
+                        <div class="scenario-btn-group">
+                            <button class="btn-tag" onclick="checkScenario(1, 'ul')">&lt;ul&gt; (Bullets)</button>
+                            <button class="btn-tag" onclick="checkScenario(1, 'ol')">&lt;ol&gt; (Numbers)</button>
+                        </div>
+                        <div class="scenario-result" id="resScenario1"></div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <h3>2. Steps to Make Indomie Noodles 🍜</h3>
+                        <div class="scenario-btn-group">
+                            <button class="btn-tag" onclick="checkScenario(2, 'ul')">&lt;ul&gt; (Bullets)</button>
+                            <button class="btn-tag" onclick="checkScenario(2, 'ol')">&lt;ol&gt; (Numbers)</button>
+                        </div>
+                        <div class="scenario-result" id="resScenario2"></div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <h3>3. Grocery Shopping List 🛒</h3>
+                        <div class="scenario-btn-group">
+                            <button class="btn-tag" onclick="checkScenario(3, 'ul')">&lt;ul&gt; (Bullets)</button>
+                            <button class="btn-tag" onclick="checkScenario(3, 'ol')">&lt;ol&gt; (Numbers)</button>
+                        </div>
+                        <div class="scenario-result" id="resScenario3"></div>
+                    </div>
+
+                    <div class="scenario-card">
+                        <h3>4. Top 3 Gaming Leaderboard Ranks 🏆</h3>
+                        <div class="scenario-btn-group">
+                            <button class="btn-tag" onclick="checkScenario(4, 'ul')">&lt;ul&gt; (Bullets)</button>
+                            <button class="btn-tag" onclick="checkScenario(4, 'ol')">&lt;ol&gt; (Numbers)</button>
+                        </div>
+                        <div class="scenario-result" id="resScenario4"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: HTML Toolbox So Far -->
+            <section class="slide" data-slide="7">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 6 • Master Summary</span>
+                    <h1 class="slide-title">🧰 The Complete HTML Toolbox</h1>
+                </div>
+
+                <p class="proj-text">Look how many HTML tags you've mastered from Day 1 to Day 5!</p>
+
+                <table class="toolbox-table">
+                    <thead>
+                        <tr>
+                            <th>HTML Tag</th>
+                            <th>What It Does</th>
+                            <th>Quick Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>&lt;h1&gt; - &lt;h3&gt;</td>
+                            <td>Headings (Big, Medium, Small)</td>
+                            <td><code>&lt;h1&gt;Title&lt;/h1&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>&lt;p&gt;</td>
+                            <td>Normal paragraph text</td>
+                            <td><code>&lt;p&gt;Hello&lt;/p&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>&lt;br&gt; / &lt;hr&gt;</td>
+                            <td>Line break / Horizontal rule line</td>
+                            <td><code>&lt;br&gt;</code> (Self-closing)</td>
+                        </tr>
+                        <tr>
+                            <td>&lt;strong&gt; / &lt;em&gt;</td>
+                            <td>Bold text / Italic text</td>
+                            <td><code>&lt;strong&gt;Bold&lt;/strong&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>&lt;a&gt; / &lt;img&gt;</td>
+                            <td>Hyperlink / Picture element</td>
+                            <td><code>&lt;a href="..."&gt;Link&lt;/a&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>&lt;ul&gt; / &lt;ol&gt;</td>
+                            <td>Unordered List (bullets) / Ordered List (numbers)</td>
+                            <td><code>&lt;ul&gt;...&lt;/ul&gt;</code></td>
+                        </tr>
+                        <tr>
+                            <td>&lt;li&gt;</td>
+                            <td>List Item (inside UL or OL)</td>
+                            <td><code>&lt;li&gt;Item&lt;/li&gt;</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- SLIDE 8: Project Overview -->
+            <section class="slide" data-slide="8">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--success);">Part 7 • Today's Project</span>
+                    <h1 class="slide-title">🚀 Project: "My Favourite Things"</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-activity">📋 Project Checklist</div>
+                        <ul style="font-size: 1.3rem; line-height: 2; margin-left: 1.5rem;">
+                            <li>👤 Your Name (<code>&lt;h1&gt;</code> + <code>&lt;p&gt;</code>)</li>
+                            <li>🍔 Favourite Foods (<code>&lt;ul&gt;</code>)</li>
+                            <li>📚 Favourite Subjects (<code>&lt;ul&gt;</code>)</li>
+                            <li>⚽ Favourite Sports (<code>&lt;ul&gt;</code>)</li>
+                            <li>🎵 Favourite Musicians (<code>&lt;ul&gt;</code>)</li>
+                            <li>🚀 Things You Want To Learn (<code>&lt;ol&gt;</code>)</li>
+                        </ul>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <div class="badge badge-notebook">📝 Structure Pattern</div>
+                        <div class="notebook-box">
+                            <h3>✍️ Use UL for items without order:</h3>
+                            <p style="font-size: 1.15rem; font-family: monospace;">
+                                &lt;h2&gt;My Favourite Foods&lt;/h2&gt;<br>
+                                &lt;ul&gt;<br>
+                                &nbsp;&nbsp;&lt;li&gt;Jollof Rice&lt;/li&gt;<br>
+                                &nbsp;&nbsp;&lt;li&gt;Pizza&lt;/li&gt;<br>
+                                &lt;/ul&gt;
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: Project Builder & Phone Simulator -->
+            <section class="slide" data-slide="9">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 8 • Live Builder</span>
+                    <h1 class="slide-title">📱 Build "My Favourite Things"</h1>
+                </div>
+
+                <div class="project-builder-grid">
+                    <!-- Column 1: Input Form -->
+                    <div class="builder-form-scroll">
+                        <h4 style="font-size: 1.1rem; color: var(--primary);">✏️ Customize Your Webpage</h4>
+                        <div class="form-group">
+                            <label>Your Name:</label>
+                            <input type="text" id="favName" class="form-input" value="Abdul" oninput="updateFavProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>Favourite Foods (comma separated):</label>
+                            <input type="text" id="favFoods" class="form-input" value="Jollof Rice, Shawarma, Chicken, Pizza" oninput="updateFavProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>Favourite Subjects (comma separated):</label>
+                            <input type="text" id="favSubjects" class="form-input" value="Computer Science, Mathematics, English" oninput="updateFavProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>Favourite Sports (comma separated):</label>
+                            <input type="text" id="favSports" class="form-input" value="Football, Basketball, Swimming" oninput="updateFavProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>Favourite Musicians (comma separated):</label>
+                            <input type="text" id="favMusicians" class="form-input" value="Wizkid, Davido, Tems" oninput="updateFavProject()">
+                        </div>
+                        <div class="form-group">
+                            <label>Things To Learn (Step-by-Step, comma separated):</label>
+                            <input type="text" id="favLearn" class="form-input" value="Web Development, JavaScript, Game Development" oninput="updateFavProject()">
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Code View -->
+                    <div class="builder-code-box" id="favCodeDisplay">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- Column 3: Live Preview Phone -->
+                    <div class="preview-phone">
+                        <div class="phone-camera"></div>
+                        <div class="phone-screen">
+                            <h1>My Favourite Things</h1>
+                            <p style="text-align: center; color: var(--text-muted);" id="prevFavName">My name is Abdul.</p>
+                            
+                            <h2>My Favourite Foods</h2>
+                            <ul id="prevFavFoods"></ul>
+
+                            <h2>My Favourite Subjects</h2>
+                            <ul id="prevFavSubjects"></ul>
+
+                            <h2>My Favourite Sports</h2>
+                            <ul id="prevFavSports"></ul>
+
+                            <h2>My Favourite Musicians</h2>
+                            <ul id="prevFavMusicians"></ul>
+
+                            <h2>Things I Want To Learn</h2>
+                            <ol id="prevFavLearn"></ol>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: Quick Quiz -->
+            <section class="slide" data-slide="10">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 9 • Quick Quiz</span>
+                    <h1 class="slide-title">🧠 Test Your Brain!</h1>
+                </div>
+
+                <p class="proj-text">Click any card to reveal the answer:</p>
+
+                <div class="quiz-grid">
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">1. What does &lt;ul&gt; stand for?</div>
+                        <div class="quiz-answer">Unordered List (bullet points)</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">2. What does &lt;ol&gt; stand for?</div>
+                        <div class="quiz-answer">Ordered List (numbered sequence)</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">3. What does &lt;li&gt; stand for?</div>
+                        <div class="quiz-answer">List Item (one entry inside a list)</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">4. Do you need to manually type numbers in &lt;ol&gt;?</div>
+                        <div class="quiz-answer">No! The web browser automatically numbers &lt;ol&gt; items.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">5. Which list type is best for recipe steps?</div>
+                        <div class="quiz-answer">&lt;ol&gt; (Ordered List) because the steps must follow an order.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">6. Can &lt;li&gt; exist inside a &lt;ul&gt;?</div>
+                        <div class="quiz-answer">Yes! &lt;li&gt; belongs inside both &lt;ul&gt; and &lt;ol&gt;.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">7. Which list type is best for grocery items?</div>
+                        <div class="quiz-answer">&lt;ul&gt; (Unordered List) because order doesn't matter.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">8. What is the closing tag for a list item?</div>
+                        <div class="quiz-answer">&lt;/li&gt;</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: Take-Home Assignment -->
+            <section class="slide" data-slide="11">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 10 • Homework</span>
+                    <h1 class="slide-title">📝 Homework: "My Dream Life" Webpage</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-homework">📚 Assignment Details</div>
+                        <p class="proj-text" style="font-size: 1.2rem;">Create a webpage named <strong>My Dream Life</strong> containing:</p>
+                        <ul style="font-size: 1.15rem; line-height: 1.8; margin-left: 1.5rem;">
+                            <li>💼 Your dream job</li>
+                            <li>✈️ Places you want to visit</li>
+                            <li>🚗 Things you want to own</li>
+                            <li>🧠 Skills you want to learn</li>
+                            <li>🎯 Your goals</li>
+                        </ul>
+                        <div class="highlight-box" style="font-size: 1.15rem; margin-top: 1rem; background: #ECFDF5; border-color: var(--success);">
+                            ✅ <strong>Rules:</strong> Must use at least 2 <code>&lt;ul&gt;</code> lists, 2 <code>&lt;ol&gt;</code> lists, and at least 5 items in each list!
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <div class="badge badge-activity">⭐ Bonus Challenges</div>
+                        <ul style="font-size: 1.25rem; line-height: 2; margin-left: 1.5rem;">
+                            <li>1️⃣ Add <code>&lt;hr&gt;</code> lines between sections.</li>
+                            <li>2️⃣ Add a <code>&lt;p&gt;</code> explaining why a goal is important to you.</li>
+                            <li>3️⃣ Add a clickable link with <code>&lt;a href="..."&gt;</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: Lesson Summary & Challenge -->
+            <section class="slide" data-slide="12">
+                <div class="slide-header" style="text-align: center;">
+                    <span class="slide-category" style="background: var(--success);">Lesson Complete</span>
+                    <h1 class="slide-title">🏆 Ultimate Teacher Memory Challenge!</h1>
+                </div>
+
+                <div class="spark-card" style="max-width: 800px; margin: 0 auto; text-align: center; border-color: var(--success);">
+                    <h2 style="font-size: 2rem; color: var(--success); margin-bottom: 1rem;">HTML isn't just typing...</h2>
+                    <div class="highlight-box" style="font-size: 1.6rem; font-style: italic; background: #FFF9DB; border-color: #F59E0B; color: #78350F;">
+                        "HTML is about giving information structure."
+                    </div>
+                    <p class="proj-text-lg" style="margin-top: 1rem;">
+                        Can you write a full <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code> list block in your notebook from memory in 5 minutes?
+                    </p>
+
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <div class="timer-display" id="timerDisplay" style="font-family: Fredoka; font-size: 2.2rem; color: var(--accent-orange);">05:00</div>
+                        <button class="btn btn-primary" onclick="startTimer(300)">Start 5 Min Timer</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- BOTTOM BAR CONTROLS -->
+    <footer class="bottom-bar">
+        <button class="btn btn-secondary" id="btnPrev">⬅️ Previous</button>
+        <div class="slide-dots" id="slideDots"></div>
+        <button class="btn btn-primary" id="btnNext">Next Slide ➡️</button>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const slideDotsContainer = document.getElementById('slideDots');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        // Create navigation dots
+        for (let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot-nav');
+            if (i === 1) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            slideDotsContainer.appendChild(dot);
+        }
+
+        const dots = document.querySelectorAll('.dot-nav');
+
+        function updateSlide() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+            if (activeSlide) activeSlide.classList.add('active');
+            if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
+
+            const percentage = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `Slide ${currentSlide} of ${totalSlides}`;
+
+            btnPrev.style.opacity = currentSlide === 1 ? '0.5' : '1';
+            btnPrev.style.pointerEvents = currentSlide === 1 ? 'none' : 'auto';
+
+            btnNext.textContent = currentSlide === totalSlides ? '🎉 Finish Lesson' : 'Next Slide ➡️';
+            playClickSound();
+        }
+
+        function goToSlide(n) {
+            if (n >= 1 && n <= totalSlides) {
+                currentSlide = n;
+                updateSlide();
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentSlide > 1) { currentSlide--; updateSlide(); }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 1) { currentSlide--; updateSlide(); }
+            }
+        });
+
+        // 1. Tag Inspector Logic
+        const tagDetails = {
+            'ul-open': { title: 'Opening Tag (&lt;ul&gt;)', desc: 'Tells browser to start an Unordered Bullet-Point List.' },
+            'li-item1': { title: 'First Item (&lt;li&gt;Rice&lt;/li&gt;)', desc: 'List Item element representing Rice.' },
+            'li-item2': { title: 'Second Item (&lt;li&gt;Pizza&lt;/li&gt;)', desc: 'List Item element representing Pizza.' },
+            'li-item3': { title: 'Third Item (&lt;li&gt;Chicken&lt;/li&gt;)', desc: 'List Item element representing Chicken.' },
+            'ul-close': { title: 'Closing Tag (&lt;/ul&gt;)', desc: 'Ends the unordered list.' }
+        };
+
+        function inspectTagAnatomy(key, element) {
+            document.querySelectorAll('.inspect-part').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const data = tagDetails[key];
+            document.getElementById('anatomyTitle').innerHTML = data.title;
+            document.getElementById('anatomyDesc').textContent = data.desc;
+            playClickSound();
+        }
+
+        // 2. UL Food Sandbox Logic
+        let ulFoodItems = ['Rice', 'Chicken', 'Pizza', 'Burger', 'Yam'];
+
+        function renderULSandbox() {
+            const ulRender = document.getElementById('ulLiveRender');
+            const ulCode = document.getElementById('ulCodeDisplay');
+            ulRender.innerHTML = '';
+
+            let codeTxt = `<h2>My Favourite Foods</h2>\n\n<ul>\n`;
+            ulFoodItems.forEach(item => {
+                codeTxt += `    <li>${item}</li>\n`;
+                const li = document.createElement('li');
+                li.textContent = item;
+                ulRender.appendChild(li);
+            });
+            codeTxt += `</ul>`;
+
+            ulCode.textContent = codeTxt;
+        }
+
+        function addULFoodItem() {
+            const input = document.getElementById('ulFoodInput');
+            const val = input.value.trim();
+            if (val) {
+                ulFoodItems.push(val);
+                input.value = '';
+                renderULSandbox();
+                playClickSound();
+            }
+        }
+
+        function resetULList() {
+            ulFoodItems = ['Rice', 'Chicken', 'Pizza', 'Burger', 'Yam'];
+            renderULSandbox();
+            playClickSound();
+        }
+        renderULSandbox();
+
+        // 3. OL Steps Sandbox Logic
+        let olStepItems = ['Wake up', 'Brush my teeth', 'Take a bath', 'Get dressed', 'Go to school'];
+
+        function renderOLSandbox() {
+            const olRender = document.getElementById('olLiveRender');
+            const olCode = document.getElementById('olCodeDisplay');
+            olRender.innerHTML = '';
+
+            let codeTxt = `<h2>My Morning Routine</h2>\n\n<ol>\n`;
+            olStepItems.forEach(step => {
+                codeTxt += `    <li>${step}</li>\n`;
+                const li = document.createElement('li');
+                li.textContent = step;
+                olRender.appendChild(li);
+            });
+            codeTxt += `</ol>`;
+
+            olCode.textContent = codeTxt;
+        }
+
+        function addOLStepItem() {
+            const input = document.getElementById('olStepInput');
+            const val = input.value.trim();
+            if (val) {
+                olStepItems.push(val);
+                input.value = '';
+                renderOLSandbox();
+                playClickSound();
+            }
+        }
+
+        function resetOLList() {
+            olStepItems = ['Wake up', 'Brush my teeth', 'Take a bath', 'Get dressed', 'Go to school'];
+            renderOLSandbox();
+            playClickSound();
+        }
+        renderOLSandbox();
+
+        // 4. Scenario Sorting Game Logic
+        const scenarioAnswers = {
+            1: { correct: 'ul', rationale: '✅ Correct! Football teams do not have a mandatory step-by-step order.' },
+            2: { correct: 'ol', rationale: '✅ Correct! Cooking steps MUST follow a sequential order.' },
+            3: { correct: 'ul', rationale: '✅ Correct! Grocery items can be picked up in any order.' },
+            4: { correct: 'ol', rationale: '✅ Correct! High scores represent ranked positions (1st, 2nd, 3rd).' }
+        };
+
+        function checkScenario(id, choice) {
+            const ans = scenarioAnswers[id];
+            const resEl = document.getElementById(`resScenario${id}`);
+            resEl.style.display = 'block';
+
+            if (choice === ans.correct) {
+                resEl.style.background = '#ECFDF5';
+                resEl.style.color = '#065F46';
+                resEl.style.border = '2px solid #34D399';
+                resEl.textContent = ans.rationale;
+            } else {
+                resEl.style.background = '#FEF2F2';
+                resEl.style.color = '#991B1B';
+                resEl.style.border = '2px solid #FCA5A5';
+                resEl.textContent = `❌ Try again! Think: does the order strictly matter?`;
+            }
+            playClickSound();
+        }
+
+        // 5. Favourite Things Live Builder Logic
+        function updateFavProject() {
+            const name = document.getElementById('favName').value || 'Abdul';
+            const foods = document.getElementById('favFoods').value.split(',').map(s => s.trim()).filter(Boolean);
+            const subjects = document.getElementById('favSubjects').value.split(',').map(s => s.trim()).filter(Boolean);
+            const sports = document.getElementById('favSports').value.split(',').map(s => s.trim()).filter(Boolean);
+            const musicians = document.getElementById('favMusicians').value.split(',').map(s => s.trim()).filter(Boolean);
+            const learn = document.getElementById('favLearn').value.split(',').map(s => s.trim()).filter(Boolean);
+
+            // Update Phone Preview
+            document.getElementById('prevFavName').textContent = `My name is ${name}.`;
+
+            updatePhoneList('prevFavFoods', foods, 'ul');
+            updatePhoneList('prevFavSubjects', subjects, 'ul');
+            updatePhoneList('prevFavSports', sports, 'ul');
+            updatePhoneList('prevFavMusicians', musicians, 'ul');
+            updatePhoneList('prevFavLearn', learn, 'ol');
+
+            // Format Code view
+            let code = `&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;My Favourite Things&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n\n`;
+            code += `    &lt;h1&gt;My Favourite Things&lt;/h1&gt;\n    &lt;p&gt;My name is ${name}.&lt;/p&gt;\n\n`;
+
+            code += generateListCode('My Favourite Foods', foods, 'ul');
+            code += generateListCode('My Favourite Subjects', subjects, 'ul');
+            code += generateListCode('My Favourite Sports', sports, 'ul');
+            code += generateListCode('My Favourite Musicians', musicians, 'ul');
+            code += generateListCode('Things I Want To Learn', learn, 'ol');
+
+            code += `&lt;/body&gt;\n&lt;/html&gt;`;
+            document.getElementById('favCodeDisplay').innerHTML = code;
+        }
+
+        function updatePhoneList(elId, items, type) {
+            const listEl = document.getElementById(elId);
+            listEl.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                listEl.appendChild(li);
+            });
+        }
+
+        function generateListCode(heading, items, type) {
+            let res = `    &lt;h2&gt;${heading}&lt;/h2&gt;\n    &lt;${type}&gt;\n`;
+            items.forEach(item => {
+                res += `        &lt;li&gt;${item}&lt;/li&gt;\n`;
+            });
+            res += `    &lt;/${type}&gt;\n\n`;
+            return res;
+        }
+        updateFavProject();
+
+        // 6. Quiz Reveal Logic
+        function toggleQuizReveal(card) {
+            card.classList.toggle('revealed');
+            playClickSound();
+        }
+
+        // Audio System
+        let audioEnabled = true;
+        const btnAudioToggle = document.getElementById('btnAudioToggle');
+        btnAudioToggle.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            btnAudioToggle.textContent = audioEnabled ? '🔊 Sound On' : '🔇 Sound Off';
+        });
+
+        function playClickSound() {
+            if (!audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, ctx.currentTime);
+                gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.08);
+            } catch (e) { }
+        }
+
+        // Fullscreen Toggle
+        document.getElementById('btnToggleFull').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => { });
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        });
+
+        // 5-Min Timer
+        let timerInterval;
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            let time = seconds;
+            const display = document.getElementById('timerDisplay');
+            timerInterval = setInterval(() => {
+                const mins = Math.floor(time / 60);
+                const secs = time % 60;
+                display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "⏱️ Time's Up!";
+                }
+                time--;
+            }, 1000);
+            playClickSound();
+        }
+
+        updateSlide();
+    </script>
+</body>
+
+</html>

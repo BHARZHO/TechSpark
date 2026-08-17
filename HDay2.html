@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Spark 3.0 | Advanced Day 2 - CSS Box Model: Padding, Margin & Border</title>
+
+    <!-- Google Fonts: Fredoka & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ==========================================
+        TECH SPARK 3.0 - DESIGN SYSTEM & VARS
+        ========================================== */
+        :root {
+            --bg-primary: #F4F7FE;
+            --bg-card: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+
+            /* Vibrant Brand Palette */
+            --primary: #6C5CE7;
+            --primary-dark: #4834D4;
+            --primary-light: #A29BFE;
+            --secondary: #00CEC9;
+            --secondary-dark: #00B894;
+            --accent-yellow: #FDCB6E;
+            --accent-orange: #E17055;
+            --accent-pink: #FD79A8;
+            --accent-blue: #74B9FF;
+            --success: #10B981;
+
+            /* Notebook & Callout Colors */
+            --notebook-bg: #FFF9DB;
+            --notebook-border: #F59E0B;
+            --teacher-bg: #F3E8FF;
+            --teacher-border: #9333EA;
+
+            /* Duolingo style 3D shadows */
+            --shadow-sm: 0 4px 0 rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 8px 0 #E2E8F0, 0 12px 24px rgba(0, 0, 0, 0.05);
+            --shadow-btn: 0 5px 0 var(--primary-dark);
+
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+
+            /* Projection Font Sizes */
+            --font-body: 1.35rem;
+            --font-heading: 2.2rem;
+            --font-title: 3.2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .brand-title,
+        .badge {
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==========================================
+        TOP NAVBAR & PROGRESS BAR
+        ========================================== */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: var(--bg-card);
+            border-bottom: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .brand-logo span.spark-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            flex: 1;
+            max-width: 450px;
+            margin: 0 2rem;
+        }
+
+        .progress-bar-bg {
+            height: 16px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 0 var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background: #5B4BC4;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #E2E8F0;
+            color: var(--text-main);
+            box-shadow: 0 5px 0 #CBD5E1;
+        }
+
+        .btn-secondary:hover {
+            background: #CBD5E1;
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================
+        MAIN SLIDE SYSTEM
+        ========================================== */
+        .main-viewport {
+            margin-top: 75px;
+            height: calc(100vh - 75px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-deck {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem 4rem 6rem 4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.96) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        .slide-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-category {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .slide-title {
+            font-size: var(--font-title);
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.8rem;
+            margin: 0.8rem 0;
+        }
+
+        .spark-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border: 3px solid #E2E8F0;
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .badge-teacher {
+            background: var(--teacher-bg);
+            color: var(--teacher-border);
+            border: 2px solid var(--teacher-border);
+        }
+
+        .badge-write {
+            background: #FFE4E6;
+            color: #E11D48;
+            border: 2px solid #F43F5E;
+        }
+
+        .badge-practical {
+            background: #E0F2FE;
+            color: #0284C7;
+            border: 2px solid #38BDF8;
+        }
+
+        .badge-notebook {
+            background: var(--notebook-bg);
+            color: #B45309;
+            border: 2px solid var(--notebook-border);
+        }
+
+        .badge-activity {
+            background: #F3E8FF;
+            color: #7E22CE;
+            border: 2px solid #A855F7;
+        }
+
+        .badge-homework {
+            background: #FEF3C7;
+            color: #D97706;
+            border: 2px solid #F59E0B;
+        }
+
+        .proj-text {
+            font-size: var(--font-body);
+            color: var(--text-main);
+            margin-bottom: 1.2rem;
+        }
+
+        .proj-text-lg {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: #EEF2FF;
+            border-left: 8px solid var(--primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .notebook-box {
+            background: var(--notebook-bg);
+            border: 3px dashed var(--notebook-border);
+            border-radius: var(--radius-md);
+            padding: 1.8rem 2.2rem;
+            margin: 1rem 0;
+        }
+
+        .notebook-box h3 {
+            color: #92400E;
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ==========================================
+        ADVANCED DAY 2 CUSTOM BOX MODEL WIDGETS
+        ========================================== */
+
+        /* 1. Concentric Box Model Inspector */
+        .concentric-inspector-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 1.8rem;
+            margin-top: 1rem;
+        }
+
+        .box-model-diagram {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bm-layer-margin {
+            border: 3px dashed #F59E0B;
+            background: #FEF3C7;
+            padding: 20px;
+            border-radius: 16px;
+            width: 100%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .bm-layer-margin:hover,
+        .bm-layer-margin.active {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 4px #F59E0B;
+        }
+
+        .bm-layer-border {
+            border: 4px solid #9333EA;
+            background: #F3E8FF;
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .bm-layer-border:hover,
+        .bm-layer-border.active {
+            box-shadow: 0 0 0 4px #9333EA;
+        }
+
+        .bm-layer-padding {
+            border: 3px dashed #0284C7;
+            background: #E0F2FE;
+            padding: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .bm-layer-padding:hover,
+        .bm-layer-padding.active {
+            box-shadow: 0 0 0 4px #0284C7;
+        }
+
+        .bm-layer-content {
+            background: #6C5CE7;
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .bm-layer-content:hover,
+        .bm-layer-content.active {
+            background: #4834D4;
+            box-shadow: 0 0 0 4px #4834D4;
+        }
+
+        .layer-label {
+            font-family: Fredoka, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        /* 2. Interactive Sliders & Inputs */
+        .slider-control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .range-slider {
+            width: 100%;
+            accent-color: var(--primary);
+            height: 8px;
+            cursor: pointer;
+        }
+
+        .code-display-box {
+            background: #1E1E2E;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            color: #CDD6F4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* 3. Studio Profile Card & Box Model HUD Overlay */
+        .studio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1.1fr;
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+            height: 520px;
+        }
+
+        .studio-form-scroll {
+            background: white;
+            border: 3px solid var(--primary-light);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            overflow-y: auto;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .form-input,
+        .form-select {
+            padding: 8px 12px;
+            border: 2px solid #CBD5E1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+        }
+
+        .studio-preview-box {
+            background: #F8FAFC;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            overflow-y: auto;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .hud-overlay-card {
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            padding: 10px;
+            font-size: 0.9rem;
+            font-family: monospace;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Challenge Tracker Cards */
+        .challenge-tracker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .challenge-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .challenge-card.done {
+            border-color: var(--success);
+            background: #ECFDF5;
+        }
+
+        /* Quiz Grid */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.4rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .quiz-card:hover {
+            border-color: var(--primary);
+        }
+
+        .quiz-card .q-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+        }
+
+        .quiz-answer {
+            background: #F1F5F9;
+            padding: 0.9rem;
+            border-radius: var(--radius-sm);
+            font-size: 1.2rem;
+            display: none;
+            border-left: 5px solid var(--secondary-dark);
+            margin-top: 0.5rem;
+        }
+
+        .quiz-card.revealed .quiz-answer {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Bottom Bar Controls */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: white;
+            border-top: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-nav {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dot-nav.active {
+            background: var(--primary);
+            width: 32px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="brand-logo">
+            ⚡ Tech Spark 3.0
+            <span class="spark-badge">Advanced • Day 2</span>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Slide 1 of 12</div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn btn-secondary" id="btnAudioToggle">🔊 Sound On</button>
+            <button class="btn btn-secondary" id="btnToggleFull">⛶ Fullscreen</button>
+        </div>
+    </header>
+
+    <!-- MAIN VIEWPORT -->
+    <main class="main-viewport">
+        <div class="slide-deck" id="slideDeck">
+
+            <!-- SLIDE 1: Title & Goals -->
+            <section class="slide active" data-slide="1">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Advanced Frontend • Day 2</span>
+                    <h1 class="slide-title">📦 CSS Box Model: Padding, Margin & Border</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary-light);">
+                        <div class="badge badge-teacher">👨‍🏫 Golden Rule</div>
+                        <p class="proj-text-lg">
+                            In our last class we built boxes inside boxes using HTML. Today we learn the power of CSS to
+                            control box spacing, boundaries, and dimensions!
+                        </p>
+                        <div class="highlight-box"
+                            style="font-size: 1.5rem; text-align: center; background: white; border: 3px solid var(--primary);">
+                            "HTML creates the boxes. <strong>CSS controls the boxes.</strong>"
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <h2 style="font-size: 1.8rem; color: var(--secondary-dark); margin-bottom: 1rem;">🎯 Today's
+                            Goals</h2>
+                        <ul style="font-size: 1.35rem; line-height: 1.8; list-style: none;">
+                            <li>✅ <strong>Master</strong> the 4 parts of the CSS Box Model.</li>
+                            <li>✅ <strong>Differentiate</strong> between <strong>Padding</strong> (inside) and
+                                <strong>Margin</strong> (outside).
+                            </li>
+                            <li>✅ <strong>Style</strong> borders with thickness, style, and color.</li>
+                            <li>✅ <strong>Control</strong> box width and height.</li>
+                            <li>✅ <strong>Apply</strong> <code>box-sizing: border-box</code> for exact sizing.</li>
+                            <li>✅ <strong>Build</strong> a styled Profile Card layout!</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: Showing the Boundaries -->
+            <section class="slide" data-slide="2">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--secondary-dark);">Part 1 • Boundaries</span>
+                    <h1 class="slide-title">🔍 First: Show the Boundaries!</h1>
+                </div>
+
+                <p class="proj-text">By default, `&lt;div&gt;` containers are invisible. Adding a border reveals the
+                    exact boundary of every box on screen!</p>
+
+                <div style="margin: 0.5rem 0;">
+                    <button class="btn btn-primary" id="btnToggleBoundaries" onclick="toggleBoundariesDemo()">Show
+                        Visible Boundaries (div { border: 2px solid black; })</button>
+                </div>
+
+                <div class="card-grid" style="margin-top: 0.8rem;">
+                    <div class="spark-card">
+                        <div class="badge badge-notebook">📝 HTML Profile Code</div>
+                        <div class="code-display-box" style="font-size: 0.95rem;">
+                            &lt;div class="profile"&gt;
+                            &lt;div class="header"&gt;&lt;h1&gt;My Profile&lt;/h1&gt;&lt;/div&gt;
+                            &lt;div class="about"&gt;&lt;h2&gt;About Me&lt;/h2&gt;&lt;/div&gt;
+                            &lt;div class="skills"&gt;&lt;h2&gt;My Skills&lt;/h2&gt;&lt;/div&gt;
+                            &lt;div class="hobbies"&gt;&lt;h2&gt;My Hobbies&lt;/h2&gt;&lt;/div&gt;
+                            &lt;div class="footer"&gt;&lt;p&gt;© 2026&lt;/p&gt;&lt;/div&gt;
+                            &lt;/div&gt;
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-practical">👀 Webpage Render</div>
+                        <div id="boundaryDemoScreen" style="background: white; padding: 1rem; border-radius: 12px;">
+                            <div class="b-box b-profile" style="padding: 10px;">
+                                <div class="b-box b-header" style="padding: 6px; margin-bottom: 6px;">
+                                    <h1 style="font-size: 1.3rem;">My Profile</h1>
+                                </div>
+                                <div class="b-box b-about" style="padding: 6px; margin-bottom: 6px;">
+                                    <h2 style="font-size: 1.1rem;">About Me</h2>
+                                </div>
+                                <div class="b-box b-skills" style="padding: 6px; margin-bottom: 6px;">
+                                    <h2 style="font-size: 1.1rem;">My Skills</h2>
+                                </div>
+                                <div class="b-box b-hobbies" style="padding: 6px; margin-bottom: 6px;">
+                                    <h2 style="font-size: 1.1rem;">My Hobbies</h2>
+                                </div>
+                                <div class="b-box b-footer" style="padding: 6px;">
+                                    <p style="font-size: 0.9rem;">© 2026 My Profile</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: The 4 Layers of the Box Model -->
+            <section class="slide" data-slide="3">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Part 2 • Box Model Layers</span>
+                    <h1 class="slide-title">📦 What is the CSS Box Model?</h1>
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Click any layer in the concentric box diagram below:</div>
+
+                <div class="concentric-inspector-grid">
+                    <div class="box-model-diagram">
+                        <div class="bm-layer-margin" onclick="inspectBoxLayer('margin', this)">
+                            <span class="layer-label" style="color: #B45309;">MARGIN (Outside Box)</span>
+                            <div class="bm-layer-border"
+                                onclick="event.stopPropagation(); inspectBoxLayer('border', this)">
+                                <span class="layer-label" style="color: #6B21A8;">BORDER (Boundary Line)</span>
+                                <div class="bm-layer-padding"
+                                    onclick="event.stopPropagation(); inspectBoxLayer('padding', this)">
+                                    <span class="layer-label" style="color: #075985;">PADDING (Inside Space)</span>
+                                    <div class="bm-layer-content"
+                                        onclick="event.stopPropagation(); inspectBoxLayer('content', this)">
+                                        CONTENT (Text / Elements)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--accent-yellow);">
+                        <h3 id="bmInspectTitle"
+                            style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 0.5rem;">1. Content
+                            Layer</h3>
+                        <p id="bmInspectDesc" class="proj-text-lg" style="color: var(--text-main);">
+                            The actual text, images, or child elements inside the box (e.g.
+                            <code>&lt;h1&gt;Hello&lt;/h1&gt;</code>).
+                        </p>
+                        <div style="background: #1E1E2E; color: #CDD6F4; padding: 10px; border-radius: 8px; font-family: monospace; font-size: 1.1rem; margin-top: 10px;"
+                            id="bmInspectCss">
+                            /* Order of Layers: */<br>
+                            CONTENT ➔ PADDING ➔ BORDER ➔ MARGIN
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: Padding (Space INSIDE) -->
+            <section class="slide" data-slide="4">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 3 • Padding</span>
+                    <h1 class="slide-title">🛋️ Padding = Space INSIDE the Box</h1>
+                </div>
+
+                <div class="highlight-box" style="font-size: 1.4rem;">
+                    💡 <strong>Padding pushes the content away from the border.</strong> (Space INSIDE element)
+                </div>
+
+                <div class="card-grid" style="margin-top: 1rem;">
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge badge-practical">Padding Slider</div>
+                        <div class="slider-control-group">
+                            <label style="font-weight: 700;">Padding Value: <span
+                                    id="paddingValText">20px</span></label>
+                            <input type="range" id="paddingRange" class="range-slider" min="0" max="60" value="20"
+                                oninput="updatePaddingDemo()">
+                        </div>
+
+                        <div class="notebook-box" style="margin-top: 10px; padding: 1rem;">
+                            <h3>TRBL Memory Trick:</h3>
+                            <p style="font-size: 1.1rem; color: #78350F; font-weight:700;">
+                                TOP ➔ RIGHT ➔ BOTTOM ➔ LEFT
+                            </p>
+                            <p style="font-size: 1rem; color: #78350F; font-family: monospace;">
+                                padding: 10px 20px 30px 40px;
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="spark-card"
+                        style="border-color: var(--primary); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <div id="paddingBoxDemo"
+                            style="border: 3px solid black; background: #EEF2FF; transition: padding 0.2s ease; width: 80%;">
+                            <h2
+                                style="background: var(--primary); color: white; padding: 8px; border-radius: 6px; font-size: 1.3rem; text-align: center;">
+                                Hello World</h2>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: Margin (Space OUTSIDE) -->
+            <section class="slide" data-slide="5">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 4 • Margin</span>
+                    <h1 class="slide-title">🚗 Margin = Space OUTSIDE the Box</h1>
+                </div>
+
+                <div class="highlight-box"
+                    style="font-size: 1.4rem; background: #FFF9DB; border-color: #F59E0B; color: #78350F;">
+                    💡 <strong>Margin pushes the element away from neighboring elements.</strong> (Space OUTSIDE
+                    element)
+                </div>
+
+                <div class="card-grid" style="margin-top: 1rem;">
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="badge badge-practical">Margin Slider</div>
+                        <div class="slider-control-group">
+                            <label style="font-weight: 700;">Margin Value: <span id="marginValText">20px</span></label>
+                            <input type="range" id="marginRange" class="range-slider" min="0" max="60" value="20"
+                                oninput="updateMarginDemo()">
+                        </div>
+
+                        <div class="code-display-box" style="font-size: 1rem;">
+                            .box {
+                            border: 2px solid black;
+                            padding: 15px;
+                            <strong style="color: var(--accent-yellow);">margin: <span
+                                    id="marginCodeText">20px</span>;</strong>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="spark-card"
+                        style="border-color: var(--secondary-dark); background: #F1F5F9; overflow-y: auto;">
+                        <div id="marginBox1"
+                            style="border: 3px solid black; background: white; padding: 12px; transition: margin 0.2s ease;">
+                            <h3 style="font-size: 1.1rem; color: var(--primary-dark);">Box 1</h3>
+                        </div>
+                        <div id="marginBox2"
+                            style="border: 3px solid black; background: white; padding: 12px; transition: margin 0.2s ease;">
+                            <h3 style="font-size: 1.1rem; color: var(--primary-dark);">Box 2</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Padding vs Margin Showdown -->
+            <section class="slide" data-slide="6">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 5 • Comparison</span>
+                    <h1 class="slide-title">⚔️ Padding vs Margin Showdown</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-notebook">🛋️ PADDING</div>
+                        <p class="proj-text-lg">Space <strong>INSIDE</strong> the box</p>
+                        <div
+                            style="border: 3px solid black; background: #EEF2FF; padding: 30px; border-radius: 10px; margin-top: 10px;">
+                            <div
+                                style="background: var(--primary); color: white; padding: 6px; text-align: center; border-radius: 6px;">
+                                Content pushed AWAY from border
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--accent-orange);">
+                        <div class="badge badge-homework">🚗 MARGIN</div>
+                        <p class="proj-text-lg">Space <strong>OUTSIDE</strong> the box</p>
+                        <div
+                            style="border: 3px dashed #CBD5E1; padding: 15px; border-radius: 10px; margin-top: 10px; background: white;">
+                            <div
+                                style="border: 3px solid black; background: #FEF3C7; padding: 10px; text-align: center; margin: 30px 0; border-radius: 6px;">
+                                Box pushed AWAY from neighbors
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: Border Styles & Box Dimensions -->
+            <section class="slide" data-slide="7">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Part 6 • Border & Dimensions</span>
+                    <h1 class="slide-title">🖼️ Border, Width & Height</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="form-group">
+                            <label>Border Style:</label>
+                            <select id="borderStyleSelect" class="form-select" onchange="updateBorderDemo()">
+                                <option value="solid">solid</option>
+                                <option value="dashed">dashed</option>
+                                <option value="dotted">dotted</option>
+                                <option value="double">double</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Border Thickness: <span id="borderThickText">3px</span></label>
+                            <input type="range" id="borderThickRange" class="range-slider" min="1" max="10" value="3"
+                                oninput="updateBorderDemo()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Width: <span id="widthValText">280px</span></label>
+                            <input type="range" id="widthRange" class="range-slider" min="180" max="380" value="280"
+                                oninput="updateBorderDemo()">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Height: <span id="heightValText">120px</span></label>
+                            <input type="range" id="heightRange" class="range-slider" min="80" max="220" value="120"
+                                oninput="updateBorderDemo()">
+                        </div>
+                    </div>
+
+                    <div class="spark-card"
+                        style="border-color: var(--secondary); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <div id="borderDemoBox"
+                            style="background: #E0F2FE; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;">
+                            <p
+                                style="font-weight: 700; color: var(--primary-dark); font-size: 1.1rem; text-align: center;">
+                                Custom Box</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: The box-sizing: border-box Magic -->
+            <section class="slide" data-slide="8">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--success);">Part 7 • Box Sizing</span>
+                    <h1 class="slide-title">✨ The Magic of `box-sizing: border-box`</h1>
+                </div>
+
+                <p class="proj-text">Normally, adding padding or border expands the total width of your box.
+                    <code>border-box</code> keeps the width strictly at declared size!
+                </p>
+
+                <div style="margin: 0.5rem 0;">
+                    <button class="btn btn-primary" id="btnToggleBoxSizing" onclick="toggleBoxSizingDemo()">Toggle
+                        Box-Sizing (border-box)</button>
+                </div>
+
+                <div class="card-grid" style="margin-top: 0.8rem;">
+                    <div class="spark-card">
+                        <div class="code-display-box" style="font-size: 0.95rem;">
+                            * {
+                            <strong style="color: var(--accent-yellow);" id="boxSizingCssText">box-sizing:
+                                border-box;</strong>
+                            }
+
+                            .box {
+                            width: 300px;
+                            padding: 30px;
+                            border: 5px solid black;
+                            }
+                        </div>
+                    </div>
+
+                    <div class="spark-card"
+                        style="border-color: var(--primary); display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                        <div id="boxSizingDemoBox"
+                            style="border: 5px solid black; background: #EEF2FF; padding: 30px; transition: all 0.3s ease;">
+                            <p style="font-weight: 700; text-align: center;" id="boxSizingActualWidth">Total Rendered
+                                Width: 300px</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: Profile Card Studio & Box Model HUD -->
+            <section class="slide" data-slide="9">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 8 • Profile Studio</span>
+                    <h1 class="slide-title">🎨 Profile Card Studio & Box Model HUD</h1>
+                </div>
+
+                <div class="studio-grid">
+                    <!-- Column 1: Controls -->
+                    <div class="studio-form-scroll">
+                        <h4 style="font-size: 1.1rem; color: var(--primary);">✏️ Box Model Controls</h4>
+                        <div class="form-group">
+                            <label>Padding: <span id="stPadVal">20px</span></label>
+                            <input type="range" id="stPad" class="range-slider" min="5" max="40" value="20"
+                                oninput="updateStudioProfile()">
+                        </div>
+                        <div class="form-group">
+                            <label>Margin Bottom: <span id="stMarVal">15px</span></label>
+                            <input type="range" id="stMar" class="range-slider" min="0" max="35" value="15"
+                                oninput="updateStudioProfile()">
+                        </div>
+                        <div class="form-group">
+                            <label>Border Style:</label>
+                            <select id="stBorderStyle" class="form-select" onchange="updateStudioProfile()">
+                                <option value="solid">solid</option>
+                                <option value="dashed">dashed</option>
+                                <option value="dotted">dotted</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Background Color:</label>
+                            <select id="stBgColor" class="form-select" onchange="updateStudioProfile()">
+                                <option value="#EEF2FF">Light Indigo</option>
+                                <option value="#E0F2FE">Light Sky</option>
+                                <option value="#FEF3C7">Light Yellow</option>
+                                <option value="#ECFDF5">Light Green</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Text Alignment:</label>
+                            <select id="stAlign" class="form-select" onchange="updateStudioProfile()">
+                                <option value="center">center</option>
+                                <option value="left">left</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Generated CSS -->
+                    <div class="code-display-box" id="studioCssDisplay"></div>
+
+                    <!-- Column 3: Preview with HUD Overlay -->
+                    <div class="studio-preview-box">
+                        <div class="hud-overlay-card" id="hudOverlayDisplay">
+                            <strong>📊 BOX MODEL HUD METRICS</strong><br>
+                            Padding: 20px | Margin: 15px | Border: 2px solid
+                        </div>
+
+                        <div id="studioProfileRender">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: Quick Quiz -->
+            <section class="slide" data-slide="10">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 9 • Quick Quiz</span>
+                    <h1 class="slide-title">🧠 Advanced Quiz: Test Your Might!</h1>
+                </div>
+
+                <p class="proj-text">Click any card to reveal the answer:</p>
+
+                <div class="quiz-grid">
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">1. What is padding?</div>
+                        <div class="quiz-answer">Space INSIDE the box (pushes content away from border).</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">2. What is margin?</div>
+                        <div class="quiz-answer">Space OUTSIDE the box (pushes element away from neighbors).</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">3. What does TRBL stand for?</div>
+                        <div class="quiz-answer">Top, Right, Bottom, Left (directional shorthand order).</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">4. What 3 properties define a border?</div>
+                        <div class="quiz-answer">Thickness (e.g. 2px), Style (solid/dashed/dotted), Color (black).</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">5. What does `box-sizing: border-box` do?</div>
+                        <div class="quiz-answer">Makes declared width/height include padding and border.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">6. What does `padding: 20px 30px;` mean?</div>
+                        <div class="quiz-answer">Top & Bottom = 20px, Left & Right = 30px.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">7. Does margin increase the space inside the box?</div>
+                        <div class="quiz-answer">No! Margin creates space OUTSIDE the box.</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">8. What is the innermost layer of the box model?</div>
+                        <div class="quiz-answer">The Content layer.</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: 5 Student Challenges & Final Task -->
+            <section class="slide" data-slide="11">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 10 • Challenges</span>
+                    <h1 class="slide-title">🏆 5 Challenges & Final Task</h1>
+                </div>
+
+                <div class="challenge-tracker-grid">
+                    <div class="challenge-card" onclick="toggleChallenge(this)">
+                        <h4>Challenge 1 🎯</h4>
+                        <p>Make Header: width 300px, height 200px.</p>
+                        <span class="badge badge-practical" style="margin:0;">Tap to Mark Done</span>
+                    </div>
+
+                    <div class="challenge-card" onclick="toggleChallenge(this)">
+                        <h4>Challenge 2 🎯</h4>
+                        <p>Give About box: 30px padding, 40px margin, 3px border.</p>
+                        <span class="badge badge-practical" style="margin:0;">Tap to Mark Done</span>
+                    </div>
+
+                    <div class="challenge-card" onclick="toggleChallenge(this)">
+                        <h4>Challenge 3 🎯</h4>
+                        <p>Make Skills box have a <code>dashed</code> border.</p>
+                        <span class="badge badge-practical" style="margin:0;">Tap to Mark Done</span>
+                    </div>
+
+                    <div class="challenge-card" onclick="toggleChallenge(this)">
+                        <h4>Challenge 4 🎯</h4>
+                        <p>Make Hobbies box have <code>text-align: center;</code>.</p>
+                        <span class="badge badge-practical" style="margin:0;">Tap to Mark Done</span>
+                    </div>
+
+                    <div class="challenge-card" onclick="toggleChallenge(this)">
+                        <h4>Challenge 5 🎯</h4>
+                        <p>Create a new <code>.contact</code> box with custom Box Model styles.</p>
+                        <span class="badge badge-practical" style="margin:0;">Tap to Mark Done</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: Lesson Conclusion & 5-Min Timer -->
+            <section class="slide" data-slide="12">
+                <div class="slide-header" style="text-align: center;">
+                    <span class="slide-category" style="background: var(--success);">Lesson Complete</span>
+                    <h1 class="slide-title">🏆 5-Minute Box Model Coding Challenge!</h1>
+                </div>
+
+                <div class="spark-card"
+                    style="max-width: 800px; margin: 0 auto; text-align: center; border-color: var(--success);">
+                    <h2 style="font-size: 1.8rem; color: var(--success); margin-bottom: 0.8rem;">The Big Idea:</h2>
+                    <div class="highlight-box"
+                        style="font-size: 1.5rem; font-style: italic; background: #FFF9DB; border-color: #F59E0B; color: #78350F;">
+                        HTML = Structure ➔ CSS = Appearance ➔ BOX MODEL = Size + Space
+                    </div>
+                    <p class="proj-text-lg" style="margin-top: 1rem;">
+                        Open your editor and apply complete Box Model styles to your profile card in 5 minutes!
+                    </p>
+
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <div class="timer-display" id="timerDisplay"
+                            style="font-family: Fredoka; font-size: 2.2rem; color: var(--accent-orange);">05:00</div>
+                        <button class="btn btn-primary" onclick="startTimer(300)">Start 5 Min Timer</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- BOTTOM BAR CONTROLS -->
+    <footer class="bottom-bar">
+        <button class="btn btn-secondary" id="btnPrev">⬅️ Previous</button>
+        <div class="slide-dots" id="slideDots"></div>
+        <button class="btn btn-primary" id="btnNext">Next Slide ➡️</button>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const slideDotsContainer = document.getElementById('slideDots');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        // Create navigation dots
+        for (let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot-nav');
+            if (i === 1) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            slideDotsContainer.appendChild(dot);
+        }
+
+        const dots = document.querySelectorAll('.dot-nav');
+
+        function updateSlide() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+            if (activeSlide) activeSlide.classList.add('active');
+            if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
+
+            const percentage = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `Slide ${currentSlide} of ${totalSlides}`;
+
+            btnPrev.style.opacity = currentSlide === 1 ? '0.5' : '1';
+            btnPrev.style.pointerEvents = currentSlide === 1 ? 'none' : 'auto';
+
+            btnNext.textContent = currentSlide === totalSlides ? '🎉 Finish Lesson' : 'Next Slide ➡️';
+            playClickSound();
+        }
+
+        function goToSlide(n) {
+            if (n >= 1 && n <= totalSlides) {
+                currentSlide = n;
+                updateSlide();
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentSlide > 1) { currentSlide--; updateSlide(); }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 1) { currentSlide--; updateSlide(); }
+            }
+        });
+
+        // 1. Boundary Toggle Demo
+        let boundariesActive = false;
+        function toggleBoundariesDemo() {
+            boundariesActive = !boundariesActive;
+            const btn = document.getElementById('btnToggleBoundaries');
+            const boxes = document.querySelectorAll('.b-box');
+
+            if (boundariesActive) {
+                btn.textContent = 'Hide Visible Boundaries';
+                btn.style.background = 'var(--success)';
+                boxes.forEach(b => b.style.border = '2px solid black');
+            } else {
+                btn.textContent = 'Show Visible Boundaries (div { border: 2px solid black; })';
+                btn.style.background = 'var(--primary)';
+                boxes.forEach(b => b.style.border = 'none');
+            }
+            playClickSound();
+        }
+
+        // 2. Concentric Box Inspector Logic
+        const boxLayerDetails = {
+            'margin': { title: '4. MARGIN Layer (Outside)', desc: 'Space OUTSIDE the border pushing the box away from other elements.', css: 'margin: 20px;' },
+            'border': { title: '3. BORDER Layer (Boundary)', desc: 'Visible boundary line around the padding layer.', css: 'border: 2px solid black;' },
+            'padding': { title: '2. PADDING Layer (Inside)', desc: 'Space INSIDE the box pushing content away from the border.', css: 'padding: 20px;' },
+            'content': { title: '1. CONTENT Layer (Center)', desc: 'Actual text, images, or child elements inside the box.', css: 'width: 300px; height: 150px;' }
+        };
+
+        function inspectBoxLayer(layerKey, element) {
+            document.querySelectorAll('.bm-layer-margin, .bm-layer-border, .bm-layer-padding, .bm-layer-content').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+
+            const info = boxLayerDetails[layerKey];
+            document.getElementById('bmInspectTitle').textContent = info.title;
+            document.getElementById('bmInspectDesc').textContent = info.desc;
+            document.getElementById('bmInspectCss').innerHTML = info.css;
+            playClickSound();
+        }
+
+        // 3. Padding Slider Demo
+        function updatePaddingDemo() {
+            const val = document.getElementById('paddingRange').value;
+            document.getElementById('paddingValText').textContent = `${val}px`;
+            document.getElementById('paddingBoxDemo').style.padding = `${val}px`;
+        }
+
+        // 4. Margin Slider Demo
+        function updateMarginDemo() {
+            const val = document.getElementById('marginRange').value;
+            document.getElementById('marginValText').textContent = `${val}px`;
+            document.getElementById('marginCodeText').textContent = `${val}px`;
+            document.getElementById('marginBox1').style.margin = `${val}px 0`;
+            document.getElementById('marginBox2').style.margin = `${val}px 0`;
+        }
+
+        // 5. Border & Dimension Customizer
+        function updateBorderDemo() {
+            const style = document.getElementById('borderStyleSelect').value;
+            const thick = document.getElementById('borderThickRange').value;
+            const w = document.getElementById('widthRange').value;
+            const h = document.getElementById('heightRange').value;
+
+            document.getElementById('borderThickText').textContent = `${thick}px`;
+            document.getElementById('widthValText').textContent = `${w}px`;
+            document.getElementById('heightValText').textContent = `${h}px`;
+
+            const box = document.getElementById('borderDemoBox');
+            box.style.border = `${thick}px ${style} var(--primary-dark)`;
+            box.style.width = `${w}px`;
+            box.style.height = `${h}px`;
+        }
+        updateBorderDemo();
+
+        // 6. Box Sizing Toggle
+        let boxSizingBorderBox = true;
+        function toggleBoxSizingDemo() {
+            boxSizingBorderBox = !boxSizingBorderBox;
+            const btn = document.getElementById('btnToggleBoxSizing');
+            const cssTxt = document.getElementById('boxSizingCssText');
+            const actualTxt = document.getElementById('boxSizingActualWidth');
+            const demoBox = document.getElementById('boxSizingDemoBox');
+
+            if (boxSizingBorderBox) {
+                btn.textContent = 'Toggle Box-Sizing (border-box)';
+                cssTxt.textContent = 'box-sizing: border-box;';
+                actualTxt.textContent = 'Total Rendered Width: 300px';
+                demoBox.style.boxSizing = 'border-box';
+                demoBox.style.width = '300px';
+            } else {
+                btn.textContent = 'Toggle Box-Sizing (content-box)';
+                cssTxt.textContent = 'box-sizing: content-box;';
+                actualTxt.textContent = 'Total Rendered Width: 370px (Swells up! ❌)';
+                demoBox.style.boxSizing = 'content-box';
+                demoBox.style.width = '300px';
+            }
+            playClickSound();
+        }
+
+        // 7. Profile Card Studio & Box Model HUD
+        function updateStudioProfile() {
+            const pad = document.getElementById('stPad').value;
+            const mar = document.getElementById('stMar').value;
+            const bStyle = document.getElementById('stBorderStyle').value;
+            const bgColor = document.getElementById('stBgColor').value;
+            const align = document.getElementById('stAlign').value;
+
+            document.getElementById('stPadVal').textContent = `${pad}px`;
+            document.getElementById('stMarVal').textContent = `${mar}px`;
+
+            // Update HUD Overlay
+            document.getElementById('hudOverlayDisplay').innerHTML = `
+                <strong>📊 BOX MODEL HUD METRICS</strong><br>
+                Padding: ${pad}px | Margin: ${mar}px | Border: 2px ${bStyle} | Align: ${align}
+            `;
+
+            // Render Preview
+            const renderHTML = `
+                <div style="border: 2px ${bStyle} black; padding: ${pad}px; margin-bottom: ${mar}px; background-color: ${bgColor}; text-align: ${align}; border-radius: 8px;">
+                    <h1 style="font-size: 1.3rem; color: #1E293B;">My Profile</h1>
+                    <p style="font-size: 0.9rem; color: #475569;">Frontend Developer</p>
+                </div>
+                <div style="border: 2px ${bStyle} black; padding: ${pad}px; margin-bottom: ${mar}px; background-color: ${bgColor}; text-align: ${align}; border-radius: 8px;">
+                    <h2 style="font-size: 1.1rem; color: #1E293B;">About Me</h2>
+                    <p style="font-size: 0.9rem; color: #475569;">Building websites with HTML and CSS.</p>
+                </div>
+            `;
+            document.getElementById('studioProfileRender').innerHTML = renderHTML;
+
+            // Generate CSS Output
+            const cssCode = `.header, .about {\n    width: 100%;\n    padding: ${pad}px;\n    margin-bottom: ${mar}px;\n    border: 2px ${bStyle} black;\n    background-color: ${bgColor};\n    text-align: ${align};\n}`;
+            document.getElementById('studioCssDisplay').textContent = cssCode;
+        }
+        updateStudioProfile();
+
+        // 8. Quiz Reveal Logic
+        function toggleQuizReveal(card) {
+            card.classList.toggle('revealed');
+            playClickSound();
+        }
+
+        // 9. Challenge Tracker
+        function toggleChallenge(card) {
+            card.classList.toggle('done');
+            playClickSound();
+        }
+
+        // Audio System
+        let audioEnabled = true;
+        const btnAudioToggle = document.getElementById('btnAudioToggle');
+        btnAudioToggle.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            btnAudioToggle.textContent = audioEnabled ? '🔊 Sound On' : '🔇 Sound Off';
+        });
+
+        function playClickSound() {
+            if (!audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, ctx.currentTime);
+                gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.08);
+            } catch (e) { }
+        }
+
+        // Fullscreen Toggle
+        document.getElementById('btnToggleFull').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => { });
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        });
+
+        // 5-Min Timer
+        let timerInterval;
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            let time = seconds;
+            const display = document.getElementById('timerDisplay');
+            timerInterval = setInterval(() => {
+                const mins = Math.floor(time / 60);
+                const secs = time % 60;
+                display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "⏱️ Time's Up!";
+                }
+                time--;
+            }, 1000);
+            playClickSound();
+        }
+
+        updateSlide();
+    </script>
+</body>
+
+</html>
