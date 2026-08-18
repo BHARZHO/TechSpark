@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Spark 3.0 | Week 1 Day 6 - Tables & Forms: Student Registration</title>
+
+    <!-- Google Fonts: Fredoka & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================
+        TECH SPARK 3.0 - DESIGN SYSTEM & VARS
+        ========================================== */
+        :root {
+            --bg-primary: #F4F7FE;
+            --bg-card: #FFFFFF;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+
+            /* Vibrant Brand Palette */
+            --primary: #6C5CE7;
+            --primary-dark: #4834D4;
+            --primary-light: #A29BFE;
+            --secondary: #00CEC9;
+            --secondary-dark: #00B894;
+            --accent-yellow: #FDCB6E;
+            --accent-orange: #E17055;
+            --accent-pink: #FD79A8;
+            --accent-blue: #74B9FF;
+            --success: #10B981;
+
+            /* Notebook & Callout Colors */
+            --notebook-bg: #FFF9DB;
+            --notebook-border: #F59E0B;
+            --teacher-bg: #F3E8FF;
+            --teacher-border: #9333EA;
+
+            /* Duolingo style 3D shadows */
+            --shadow-sm: 0 4px 0 rgba(0, 0, 0, 0.06);
+            --shadow-card: 0 8px 0 #E2E8F0, 0 12px 24px rgba(0, 0, 0, 0.05);
+            --shadow-btn: 0 5px 0 var(--primary-dark);
+
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+
+            /* Projection Font Sizes */
+            --font-body: 1.35rem;
+            --font-heading: 2.2rem;
+            --font-title: 3.2rem;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .brand-title,
+        .badge {
+            font-family: 'Fredoka', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* ==========================================
+        TOP NAVBAR & PROGRESS BAR
+        ========================================== */
+        .top-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: var(--bg-card);
+            border-bottom: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .brand-logo span.spark-badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            flex: 1;
+            max-width: 450px;
+            margin: 0 2rem;
+        }
+
+        .progress-bar-bg {
+            height: 16px;
+            background: #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border-radius: 10px;
+            transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 5px 0 var(--primary-dark);
+        }
+
+        .btn-primary:hover {
+            background: #5B4BC4;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #E2E8F0;
+            color: var(--text-main);
+            box-shadow: 0 5px 0 #CBD5E1;
+        }
+
+        .btn-secondary:hover {
+            background: #CBD5E1;
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================
+        MAIN SLIDE SYSTEM
+        ========================================== */
+        .main-viewport {
+            margin-top: 75px;
+            height: calc(100vh - 75px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-deck {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 2.5rem 4rem 6rem 4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.96) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+        }
+
+        .slide-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .slide-category {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .slide-title {
+            font-size: var(--font-title);
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.8rem;
+            margin: 0.8rem 0;
+        }
+
+        .spark-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            border: 3px solid #E2E8F0;
+            box-shadow: var(--shadow-card);
+            position: relative;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .badge-teacher {
+            background: var(--teacher-bg);
+            color: var(--teacher-border);
+            border: 2px solid var(--teacher-border);
+        }
+
+        .badge-write {
+            background: #FFE4E6;
+            color: #E11D48;
+            border: 2px solid #F43F5E;
+        }
+
+        .badge-practical {
+            background: #E0F2FE;
+            color: #0284C7;
+            border: 2px solid #38BDF8;
+        }
+
+        .badge-notebook {
+            background: var(--notebook-bg);
+            color: #B45309;
+            border: 2px solid var(--notebook-border);
+        }
+
+        .badge-activity {
+            background: #F3E8FF;
+            color: #7E22CE;
+            border: 2px solid #A855F7;
+        }
+
+        .badge-homework {
+            background: #FEF3C7;
+            color: #D97706;
+            border: 2px solid #F59E0B;
+        }
+
+        .proj-text {
+            font-size: var(--font-body);
+            color: var(--text-main);
+            margin-bottom: 1.2rem;
+        }
+
+        .proj-text-lg {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .highlight-box {
+            background: #EEF2FF;
+            border-left: 8px solid var(--primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 1rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .notebook-box {
+            background: var(--notebook-bg);
+            border: 3px dashed var(--notebook-border);
+            border-radius: var(--radius-md);
+            padding: 1.8rem 2.2rem;
+            margin: 1rem 0;
+        }
+
+        .notebook-box h3 {
+            color: #92400E;
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        /* ==========================================
+        DAY 6 CUSTOM WIDGETS (TABLES & FORMS)
+        ========================================== */
+
+        /* 1. Tag Inspector */
+        .inspector-code {
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 1.7rem;
+            background: #1E1E2E;
+            color: #CDD6F4;
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .inspect-part {
+            padding: 2px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .inspect-part:hover,
+        .inspect-part.active {
+            background: #313244;
+            outline: 2px solid var(--accent-yellow);
+            color: var(--accent-yellow);
+        }
+
+        .anatomy-desc-card {
+            background: white;
+            border: 3px solid var(--accent-yellow);
+            box-shadow: var(--shadow-card);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            min-height: 120px;
+            margin-top: 1rem;
+        }
+
+        /* 2. Interactive Table & Form Builders */
+        .grid-3col {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr 1.1fr;
+            gap: 1.5rem;
+            margin-top: 0.8rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .form-input,
+        .form-select {
+            padding: 8px 12px;
+            border: 2px solid #CBD5E1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            border-color: var(--primary);
+        }
+
+        .code-display-box {
+            background: #1E1E2E;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            color: #CDD6F4;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .preview-render-box {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            overflow-y: auto;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 220px;
+        }
+
+        /* Sample Table Styling */
+        .sample-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+
+        .sample-table th,
+        .sample-table td {
+            border: 2px solid #CBD5E1;
+            padding: 10px 14px;
+            text-align: left;
+        }
+
+        .sample-table th {
+            background: #EEF2FF;
+            color: var(--primary-dark);
+            font-family: Fredoka, sans-serif;
+        }
+
+        /* Real World Form Cards */
+        .form-showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1rem;
+        }
+
+        .form-showcase-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-card);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .form-showcase-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
+
+        .form-showcase-card .icon-badge {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        /* Mobile Simulator */
+        .preview-phone {
+            background: #1E293B;
+            border: 10px solid #334155;
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 520px;
+        }
+
+        .phone-camera {
+            height: 16px;
+            background: #334155;
+            width: 90px;
+            margin: 0 auto;
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+        .phone-screen {
+            flex: 1;
+            background: white;
+            overflow-y: auto;
+            padding: 1.5rem 1.2rem;
+            font-size: 0.95rem;
+            margin-top: 12px;
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(16, 185, 129, 0.95);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            padding: 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 20;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Quiz Grid */
+        .quiz-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.4rem;
+            margin-top: 1rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border: 3px solid #CBD5E1;
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-card);
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .quiz-card:hover {
+            border-color: var(--primary);
+        }
+
+        .quiz-card .q-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+        }
+
+        .quiz-answer {
+            background: #F1F5F9;
+            padding: 0.9rem;
+            border-radius: var(--radius-sm);
+            font-size: 1.2rem;
+            display: none;
+            border-left: 5px solid var(--secondary-dark);
+            margin-top: 0.5rem;
+        }
+
+        .quiz-card.revealed .quiz-answer {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .kbd {
+            background: #F8FAFC;
+            border: 2px solid #CBD5E1;
+            border-bottom: 4px solid #94A3B8;
+            border-radius: 8px;
+            padding: 4px 10px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+        }
+
+        /* Bottom Bar Controls */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: white;
+            border-top: 3px solid #E2E8F0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 1000;
+        }
+
+        .slide-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot-nav {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #CBD5E1;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dot-nav.active {
+            background: var(--primary);
+            width: 32px;
+            border-radius: 10px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="brand-logo">
+            ⚡ Tech Spark 3.0
+            <span class="spark-badge">Week 1 • Day 6</span>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <div class="progress-text" id="progressText">Slide 1 of 12</div>
+        </div>
+
+        <div class="nav-controls">
+            <button class="btn btn-secondary" id="btnAudioToggle">🔊 Sound On</button>
+            <button class="btn btn-secondary" id="btnToggleFull">⛶ Fullscreen</button>
+        </div>
+    </header>
+
+    <!-- MAIN VIEWPORT -->
+    <main class="main-viewport">
+        <div class="slide-deck" id="slideDeck">
+
+            <!-- SLIDE 1: Title & Goals -->
+            <section class="slide active" data-slide="1">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Day 6 • Tables + Forms</span>
+                    <h1 class="slide-title">🟢 Tables & Forms: Student Registration</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary-light);">
+                        <div class="badge badge-teacher">👨‍🏫 Today's Mission</div>
+                        <p class="proj-text-lg">
+                            So far we've displayed text, links, pictures, lists, and boxes. Today we take a huge step: learning how to organize data into <strong>Tables</strong> and collect user input with <strong>Forms</strong>!
+                        </p>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <h2 style="font-size: 1.8rem; color: var(--secondary-dark); margin-bottom: 1rem;">🎯 Learning Objectives</h2>
+                        <ul style="font-size: 1.35rem; line-height: 1.8; list-style: none;">
+                            <li>✅ <strong>Create</strong> data tables with <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;th&gt;</code>, and <code>&lt;td&gt;</code>.</li>
+                            <li>✅ <strong>Build</strong> interactive forms using <code>&lt;form&gt;</code>.</li>
+                            <li>✅ <strong>Use</strong> labels (<code>&lt;label&gt;</code>) and inputs (<code>&lt;input&gt;</code>).</li>
+                            <li>✅ <strong>Master</strong> input types (<code>text</code>, <code>email</code>, <code>number</code>).</li>
+                            <li>✅ <strong>Create</strong> submit buttons with <code>&lt;button&gt;</code>.</li>
+                            <li>✅ <strong>Build</strong> a complete Student Registration Page!</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: What is a Table? -->
+            <section class="slide" data-slide="2">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--secondary-dark);">Part 1 • Tables Concept</span>
+                    <h1 class="slide-title">📊 What is a Table?</h1>
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Click any tag line below to inspect its role in the table:</div>
+
+                <div class="card-grid" style="margin-top: 0.5rem;">
+                    <div class="inspector-code">
+                        <span class="inspect-part active" onclick="inspectTableTag('table', this)">&lt;table border="1"&gt;</span>
+                        &nbsp;&nbsp;<span class="inspect-part" onclick="inspectTableTag('tr-head', this)">&lt;tr&gt;</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="inspect-part" onclick="inspectTableTag('th', this)">&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Age&lt;/th&gt;&lt;th&gt;Class&lt;/th&gt;</span>
+                        &nbsp;&nbsp;<span class="inspect-part" onclick="inspectTableTag('tr-head-close', this)">&lt;/tr&gt;</span>
+                        &nbsp;&nbsp;<span class="inspect-part" onclick="inspectTableTag('tr-data', this)">&lt;tr&gt;</span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="inspect-part" onclick="inspectTableTag('td', this)">&lt;td&gt;John&lt;/td&gt;&lt;td&gt;15&lt;/td&gt;&lt;td&gt;SS2&lt;/td&gt;</span>
+                        &nbsp;&nbsp;<span class="inspect-part" onclick="inspectTableTag('tr-data-close', this)">&lt;/tr&gt;</span>
+                        <span class="inspect-part" onclick="inspectTableTag('table-close', this)">&lt;/table&gt;</span>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="anatomy-desc-card" style="margin-top: 0;">
+                            <h3 id="tableTagTitle" style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 0.5rem;">&lt;table&gt; Element</h3>
+                            <p id="tableTagDesc" class="proj-text-lg" style="color: var(--text-main);">Tells the browser: "Start making a data table here!"</p>
+                        </div>
+
+                        <div class="notebook-box" style="margin: 0; padding: 1.2rem;">
+                            <h3>✍️ Memory Rule:</h3>
+                            <p style="font-size: 1.15rem; color: #78350F; font-weight: 700;">
+                                TABLE ➔ ROW (tr) ➔ HEADING (th) ➔ DATA (td)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: Interactive Table Builder Sandbox -->
+            <section class="slide" data-slide="3">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 2 • Table Sandbox</span>
+                    <h1 class="slide-title">🧪 Live Data Table Builder</h1>
+                </div>
+
+                <div class="grid-3col">
+                    <!-- Column 1: Add Controls -->
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="badge badge-practical">Add Student Record</div>
+                        <div class="form-group">
+                            <label>Name:</label>
+                            <input type="text" id="tblNameInput" class="form-input" placeholder="e.g. David">
+                        </div>
+                        <div class="form-group">
+                            <label>Age:</label>
+                            <input type="number" id="tblAgeInput" class="form-input" placeholder="e.g. 16">
+                        </div>
+                        <div class="form-group">
+                            <label>Class:</label>
+                            <input type="text" id="tblClassInput" class="form-input" placeholder="e.g. SS3">
+                        </div>
+                        <button class="btn btn-primary" onclick="addTableStudent()">➕ Add Student</button>
+                        <button class="btn btn-secondary" onclick="resetTableDemo()" style="font-size: 0.95rem; padding: 6px;">Reset Table</button>
+                    </div>
+
+                    <!-- Column 2: Generated Code -->
+                    <div class="code-display-box" id="tableCodeDisplay"></div>
+
+                    <!-- Column 3: Rendered Preview -->
+                    <div class="preview-render-box">
+                        <h3 style="font-size: 1.3rem; color: var(--primary-dark); margin-bottom: 0.5rem;">Student Roster</h3>
+                        <table class="sample-table" id="liveTableRender">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Age</th>
+                                    <th>Class</th>
+                                </tr>
+                            </thead>
+                            <tbody id="liveTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: What is a Form? -->
+            <section class="slide" data-slide="4">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 3 • Forms Concept</span>
+                    <h1 class="slide-title">📝 What is a Form?</h1>
+                </div>
+
+                <div class="highlight-box" style="font-size: 1.45rem;">
+                    💡 <strong>Forms allow websites to collect information from users.</strong> They turn plain reading pages into interactive web applications!
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Click any real-world example below to see how forms are used:</div>
+
+                <div class="form-showcase-grid">
+                    <div class="form-showcase-card" onclick="showFormTypeModal('School Registration 🏫', 'Collects student names, emails, ages, and classes.')">
+                        <div class="icon-badge">🏫</div>
+                        <h3>School Registration</h3>
+                    </div>
+
+                    <div class="form-showcase-card" onclick="showFormTypeModal('Login Pages 🔐', 'Collects username/email and password to verify users.')">
+                        <div class="icon-badge">🔐</div>
+                        <h3>Login Pages</h3>
+                    </div>
+
+                    <div class="form-showcase-card" onclick="showFormTypeModal('Contact Pages 📧', 'Collects customer questions, emails, and feedback messages.')">
+                        <div class="icon-badge">📧</div>
+                        <h3>Contact Pages</h3>
+                    </div>
+
+                    <div class="form-showcase-card" onclick="showFormTypeModal('Online Shopping 🛒', 'Collects delivery address, phone number, and payment choices.')">
+                        <div class="icon-badge">🛒</div>
+                        <h3>Online Shopping</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: Anatomy of a Form Tag -->
+            <section class="slide" data-slide="5">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary);">Part 4 • Form Tags</span>
+                    <h1 class="slide-title">🏷️ Form Elements & Input Types</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-notebook">📝 Core Form Tags</div>
+                        <ul style="font-size: 1.25rem; line-height: 2; list-style: none;">
+                            <li>📦 <code>&lt;form&gt;</code> ➔ Outer container for the form.</li>
+                            <li>🏷️ <code>&lt;label&gt;</code> ➔ Text label telling the user what to type.</li>
+                            <li>⌨️ <code>&lt;input&gt;</code> ➔ The typing box where users enter data.</li>
+                            <li>🔘 <code>&lt;button&gt;</code> ➔ Clickable button to submit information.</li>
+                        </ul>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <div class="badge badge-teacher">💡 Key Input Types</div>
+                        <ul style="font-size: 1.25rem; line-height: 2; list-style: none;">
+                            <li>🔤 <code>type="text"</code> ➔ Normal text (e.g. Abdul, David).</li>
+                            <li>📧 <code>type="email"</code> ➔ Email address (student@gmail.com).</li>
+                            <li>🔢 <code>type="number"</code> ➔ Numeric values (e.g. 15).</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Interactive Input Types Playground -->
+            <section class="slide" data-slide="6">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 5 • Input Playground</span>
+                    <h1 class="slide-title">⌨️ Interactive Input Types Playground</h1>
+                </div>
+
+                <div class="badge badge-teacher">👨‍🏫 Try typing inside each input box to observe how browsers handle them:</div>
+
+                <div class="card-grid" style="margin-top: 0.8rem;">
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 15px;">
+                        <div class="form-group">
+                            <label>Text Input (type="text"):</label>
+                            <input type="text" class="form-input" placeholder="Type your full name..." oninput="updateInputFeedback('text', this.value)">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Email Input (type="email"):</label>
+                            <input type="email" class="form-input" placeholder="student@gmail.com" oninput="updateInputFeedback('email', this.value)">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Number Input (type="number"):</label>
+                            <input type="number" class="form-input" placeholder="Enter age (e.g. 15)..." oninput="updateInputFeedback('number', this.value)">
+                        </div>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--accent-yellow); display: flex; flex-direction: column; justify-content: center;">
+                        <h3 id="inputFeedbackTitle" style="color: var(--primary-dark); font-size: 1.5rem; margin-bottom: 0.5rem;">Input Inspector</h3>
+                        <p id="inputFeedbackDesc" class="proj-text-lg" style="color: var(--text-main);">
+                            Type into any box on the left to see live input values and attribute validation rules!
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: Project Overview - Student Registration -->
+            <section class="slide" data-slide="7">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--success);">Part 6 • Registration Project</span>
+                    <h1 class="slide-title">🎓 Student Registration Project Overview</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-activity">📋 Required Form Fields</div>
+                        <ul style="font-size: 1.25rem; line-height: 1.9; margin-left: 1.5rem;">
+                            <li>👤 Full Name (<code>type="text"</code>)</li>
+                            <li>📧 Email (<code>type="email"</code>)</li>
+                            <li>🔢 Age (<code>type="number"</code>)</li>
+                            <li>🏫 Class (<code>type="text"</code>)</li>
+                            <li>📞 Phone Number (<code>type="text"</code>)</li>
+                            <li>📚 Favourite Subject (<code>type="text"</code>)</li>
+                            <li>🏠 Home Address (<code>type="text"</code>)</li>
+                            <li>🔘 Register Button (<code>&lt;button&gt;</code>)</li>
+                        </ul>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--accent-yellow);">
+                        <div class="badge badge-homework">⭐ Bonus Challenge Fields</div>
+                        <p class="proj-text">Finished early? Add these extra fields:</p>
+                        <ul style="font-size: 1.25rem; line-height: 2; margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>📅 Date of Birth</li>
+                            <li>🏫 School Name</li>
+                            <li>👤 Username</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: Live Registration Studio & Mobile Simulator -->
+            <section class="slide" data-slide="8">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 7 • Registration Studio</span>
+                    <h1 class="slide-title">📱 Live Registration Form Studio</h1>
+                </div>
+
+                <div class="grid-3col">
+                    <!-- Column 1: Controls -->
+                    <div class="spark-card" style="display: flex; flex-direction: column; gap: 10px; overflow-y: auto;">
+                        <h4 style="font-size: 1.1rem; color: var(--primary);">✏️ Field Customizer</h4>
+                        <div class="form-group">
+                            <label>Form Title:</label>
+                            <input type="text" id="regTitle" class="form-input" value="Student Registration" oninput="updateRegStudio()">
+                        </div>
+                        
+                        <div style="border-top: 2px dashed #CBD5E1; padding-top: 8px; margin-top: 4px;">
+                            <label style="font-weight: 700; color: var(--accent-orange);">Include Bonus Fields:</label>
+                            <label style="display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 1rem;">
+                                <input type="checkbox" id="chkBonusDOB" onchange="updateRegStudio()"> Include Date of Birth
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 1rem;">
+                                <input type="checkbox" id="chkBonusSchool" onchange="updateRegStudio()"> Include School Name
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 1rem;">
+                                <input type="checkbox" id="chkBonusUser" onchange="updateRegStudio()"> Include Username
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Column 2: Code View -->
+                    <div class="code-display-box" id="regCodeDisplay" style="height: 520px;"></div>
+
+                    <!-- Column 3: Mobile Simulator -->
+                    <div class="preview-phone">
+                        <div class="phone-camera"></div>
+                        <div class="phone-screen">
+                            <h1 style="font-size: 1.4rem; color: var(--primary-dark);" id="prevRegTitle">Student Registration</h1>
+                            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 12px;">Welcome! Please fill in your information.</p>
+                            
+                            <form onsubmit="handleFormSubmit(event)">
+                                <div id="prevRegFields"></div>
+                                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 15px; justify-content: center;">Register Now 🚀</button>
+                            </form>
+                        </div>
+
+                        <!-- Submission Success Modal -->
+                        <div class="modal-overlay" id="submitSuccessModal">
+                            <span style="font-size: 3rem;">🎉</span>
+                            <h3 style="font-size: 1.6rem; font-family: Fredoka;">Registration Successful!</h3>
+                            <p style="font-size: 1.1rem;">Student information has been collected successfully.</p>
+                            <button class="btn btn-secondary" onclick="closeSubmitModal()" style="font-size: 0.95rem; padding: 6px 12px;">Back to Form</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 9: Homework Assignment -->
+            <section class="slide" data-slide="9">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-orange);">Part 8 • Homework</span>
+                    <h1 class="slide-title">📝 Homework: "my-school.html" Page</h1>
+                </div>
+
+                <div class="card-grid">
+                    <div class="spark-card" style="border-color: var(--primary);">
+                        <div class="badge badge-homework">📚 Assignment Details</div>
+                        <p class="proj-text" style="font-size: 1.2rem;">Create a webpage named <strong>my-school.html</strong> containing:</p>
+                        <ul style="font-size: 1.15rem; line-height: 1.8; margin-left: 1.5rem;">
+                            <li>📊 <strong>A Data Table (<code>&lt;table&gt;</code>):</strong> Display at least 5 students (Name | Age | Class).</li>
+                            <li>📝 <strong>A Registration Form (<code>&lt;form&gt;</code>):</strong> Ask for Name, Email, Age, Class, Phone Number, and Register Button.</li>
+                        </ul>
+                    </div>
+
+                    <div class="spark-card" style="border-color: var(--secondary);">
+                        <div class="badge badge-activity">⭐ Bonus Challenges</div>
+                        <ul style="font-size: 1.25rem; line-height: 2; margin-left: 1.5rem;">
+                            <li>1️⃣ Add <code>&lt;h1&gt;My School&lt;/h1&gt;</code> heading.</li>
+                            <li>2️⃣ Add a short paragraph <code>&lt;p&gt;</code> describing your school.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 10: Classroom Brain Test -->
+            <section class="slide" data-slide="10">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--accent-pink);">Part 9 • Brain Test</span>
+                    <h1 class="slide-title">🧠 Classroom Quiz: Test Your Knowledge!</h1>
+                </div>
+
+                <p class="proj-text">Click any card to reveal the secret answer:</p>
+
+                <div class="quiz-grid">
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">1. Which tag creates a table?</div>
+                        <div class="quiz-answer">B. &lt;table&gt;</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">2. Which tag creates a table row?</div>
+                        <div class="quiz-answer">A. &lt;tr&gt;</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">3. Which tag creates a table heading?</div>
+                        <div class="quiz-answer">C. &lt;th&gt;</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">4. Which tag creates an input box?</div>
+                        <div class="quiz-answer">A. &lt;input&gt;</div>
+                    </div>
+
+                    <div class="quiz-card" onclick="toggleQuizReveal(this)">
+                        <div class="q-title">5. What is a form used for?</div>
+                        <div class="quiz-answer">A. Collecting information from users!</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 11: Real-World Discussion -->
+            <section class="slide" data-slide="11">
+                <div class="slide-header">
+                    <span class="slide-category" style="background: var(--primary-dark);">Part 10 • Discussion</span>
+                    <h1 class="slide-title">🗣️ Where Have You Seen Forms Before?</h1>
+                </div>
+
+                <p class="proj-text">Think about your daily online life! Click any platform to see where forms power the experience:</p>
+
+                <div class="form-showcase-grid" style="margin-top: 1rem;">
+                    <div class="form-showcase-card" onclick="showFormTypeModal('WhatsApp 💬', 'Phone number verification form & text message input boxes.')">
+                        <div class="icon-badge">💬</div>
+                        <h3>WhatsApp</h3>
+                    </div>
+
+                    <div class="form-showcase-card" onclick="showFormTypeModal('Google Search 🔍', 'Search input box and search button!')">
+                        <div class="icon-badge">🔍</div>
+                        <h3>Google Search</h3>
+                    </div>
+
+                    <div class="form-showcase-card" onclick="showFormTypeModal('YouTube 📺', 'Video search box, login forms, and comment inputs.')">
+                        <div class="icon-badge">📺</div>
+                        <h3>YouTube</h3>
+                    </div>
+
+                    <div class="form-showcase-card" onclick="showFormTypeModal('Online Games 🎮', 'Username, password, and avatar selection forms.')">
+                        <div class="icon-badge">🎮</div>
+                        <h3>Online Games</h3>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 12: Lesson Conclusion & 5-Min Timer -->
+            <section class="slide" data-slide="12">
+                <div class="slide-header" style="text-align: center;">
+                    <span class="slide-category" style="background: var(--success);">Lesson Complete</span>
+                    <h1 class="slide-title">🏆 5-Minute Student Registration Challenge!</h1>
+                </div>
+
+                <div class="spark-card" style="max-width: 800px; margin: 0 auto; text-align: center; border-color: var(--success);">
+                    <h2 style="font-size: 1.8rem; color: var(--success); margin-bottom: 0.8rem;">Today's Core Message:</h2>
+                    <div class="highlight-box" style="font-size: 1.5rem; font-style: italic; background: #FFF9DB; border-color: #F59E0B; color: #78350F;">
+                        "Forms turn static pages into interactive web applications."
+                    </div>
+                    <p class="proj-text-lg" style="margin-top: 1rem;">
+                        Without looking at the board, try writing out a <code>&lt;table&gt;</code> and a <code>&lt;form&gt;</code> in your notebook in 5 minutes!
+                    </p>
+
+                    <div style="margin-top: 1.5rem; text-align: center;">
+                        <div class="timer-display" id="timerDisplay" style="font-family: Fredoka; font-size: 2.2rem; color: var(--accent-orange);">05:00</div>
+                        <button class="btn btn-primary" onclick="startTimer(300)">Start 5 Min Timer</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- BOTTOM BAR CONTROLS -->
+    <footer class="bottom-bar">
+        <button class="btn btn-secondary" id="btnPrev">⬅️ Previous</button>
+        <div class="slide-dots" id="slideDots"></div>
+        <button class="btn btn-primary" id="btnNext">Next Slide ➡️</button>
+    </footer>
+
+    <!-- SCRIPT -->
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const slideDotsContainer = document.getElementById('slideDots');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+
+        // Create navigation dots
+        for (let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot-nav');
+            if (i === 1) dot.classList.add('active');
+            dot.addEventListener('click', () => goToSlide(i));
+            slideDotsContainer.appendChild(dot);
+        }
+
+        const dots = document.querySelectorAll('.dot-nav');
+
+        function updateSlide() {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+            if (activeSlide) activeSlide.classList.add('active');
+            if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
+
+            const percentage = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `Slide ${currentSlide} of ${totalSlides}`;
+
+            btnPrev.style.opacity = currentSlide === 1 ? '0.5' : '1';
+            btnPrev.style.pointerEvents = currentSlide === 1 ? 'none' : 'auto';
+
+            btnNext.textContent = currentSlide === totalSlides ? '🎉 Finish Lesson' : 'Next Slide ➡️';
+            playClickSound();
+        }
+
+        function goToSlide(n) {
+            if (n >= 1 && n <= totalSlides) {
+                currentSlide = n;
+                updateSlide();
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+        });
+
+        btnPrev.addEventListener('click', () => {
+            if (currentSlide > 1) { currentSlide--; updateSlide(); }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 1) { currentSlide--; updateSlide(); }
+            }
+        });
+
+        // 1. Table Inspector Logic
+        const tableTagDetails = {
+            'table': { title: '&lt;table border="1"&gt;', desc: 'The main container wrapper for data tables.' },
+            'tr-head': { title: '&lt;tr&gt; (Header Row)', desc: 'Creates a Table Row for headers.' },
+            'th': { title: '&lt;th&gt; (Table Heading)', desc: 'Creates a bold header cell (Name, Age, Class).' },
+            'tr-head-close': { title: '&lt;/tr&gt;', desc: 'Closes the header row.' },
+            'tr-data': { title: '&lt;tr&gt; (Data Row)', desc: 'Creates a Table Row for student data.' },
+            'td': { title: '&lt;td&gt; (Table Data)', desc: 'Creates a normal data cell (John, 15, SS2).' },
+            'tr-data-close': { title: '&lt;/tr&gt;', desc: 'Closes the data row.' },
+            'table-close': { title: '&lt;/table&gt;', desc: 'Ends the table completely.' }
+        };
+
+        function inspectTableTag(key, element) {
+            document.querySelectorAll('.inspect-part').forEach(el => el.classList.remove('active'));
+            element.classList.add('active');
+            const data = tableTagDetails[key];
+            document.getElementById('tableTagTitle').innerHTML = data.title;
+            document.getElementById('tableTagDesc').textContent = data.desc;
+            playClickSound();
+        }
+
+        // 2. Interactive Table Builder Sandbox
+        let tableStudents = [
+            { name: 'John', age: 15, class: 'SS2' },
+            { name: 'Mary', age: 14, class: 'SS1' },
+            { name: 'David', age: 16, class: 'SS3' }
+        ];
+
+        function renderTableSandbox() {
+            const tbody = document.getElementById('liveTableBody');
+            const codeBox = document.getElementById('tableCodeDisplay');
+            tbody.innerHTML = '';
+
+            let code = `&lt;table border="1"&gt;\n  &lt;tr&gt;\n    &lt;th&gt;Name&lt;/th&gt;\n    &lt;th&gt;Age&lt;/th&gt;\n    &lt;th&gt;Class&lt;/th&gt;\n  &lt;/tr&gt;\n`;
+
+            tableStudents.forEach(st => {
+                code += `  &lt;tr&gt;\n    &lt;td&gt;${st.name}&lt;/td&gt;\n    &lt;td&gt;${st.age}&lt;/td&gt;\n    &lt;td&gt;${st.class}&lt;/td&gt;\n  &lt;/tr&gt;\n`;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${st.name}</td><td>${st.age}</td><td>${st.class}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            code += `&lt;/table&gt;`;
+            codeBox.innerHTML = code;
+        }
+
+        function addTableStudent() {
+            const name = document.getElementById('tblNameInput').value.trim();
+            const age = document.getElementById('tblAgeInput').value.trim();
+            const cls = document.getElementById('tblClassInput').value.trim();
+
+            if (name && age && cls) {
+                tableStudents.push({ name, age, class: cls });
+                document.getElementById('tblNameInput').value = '';
+                document.getElementById('tblAgeInput').value = '';
+                document.getElementById('tblClassInput').value = '';
+                renderTableSandbox();
+                playClickSound();
+            }
+        }
+
+        function resetTableDemo() {
+            tableStudents = [
+                { name: 'John', age: 15, class: 'SS2' },
+                { name: 'Mary', age: 14, class: 'SS1' },
+                { name: 'David', age: 16, class: 'SS3' }
+            ];
+            renderTableSandbox();
+            playClickSound();
+        }
+        renderTableSandbox();
+
+        // 3. Real-World Form Showcase Modal
+        function showFormTypeModal(title, desc) {
+            alert(`${title}\n\n${desc}`);
+            playClickSound();
+        }
+
+        // 4. Input Playground Feedback
+        function updateInputFeedback(type, val) {
+            const title = document.getElementById('inputFeedbackTitle');
+            const desc = document.getElementById('inputFeedbackDesc');
+
+            if (type === 'text') {
+                title.textContent = 'type="text" (Text Input)';
+                desc.textContent = `Current Value: "${val}". Used for normal text entries like names or classes.`;
+            } else if (type === 'email') {
+                title.textContent = 'type="email" (Email Input)';
+                desc.textContent = `Current Value: "${val}". Mobile browsers display @ and .com shortcuts on the keyboard!`;
+            } else if (type === 'number') {
+                title.textContent = 'type="number" (Numeric Input)';
+                desc.textContent = `Current Value: "${val}". Restricts inputs to numeric values and adds up/down stepper arrows.`;
+            }
+        }
+
+        // 5. Registration Studio & Simulator
+        function updateRegStudio() {
+            const title = document.getElementById('regTitle').value || 'Student Registration';
+            const hasDOB = document.getElementById('chkBonusDOB').checked;
+            const hasSchool = document.getElementById('chkBonusSchool').checked;
+            const hasUser = document.getElementById('chkBonusUser').checked;
+
+            document.getElementById('prevRegTitle').textContent = title;
+
+            // Render Form Fields
+            let fieldsHTML = `
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label>Full Name:</label>
+                    <input type="text" class="form-input" placeholder="Abdul David">
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label>Email:</label>
+                    <input type="email" class="form-input" placeholder="student@gmail.com">
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label>Age:</label>
+                    <input type="number" class="form-input" placeholder="15">
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label>Class:</label>
+                    <input type="text" class="form-input" placeholder="SS2">
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label>Phone Number:</label>
+                    <input type="text" class="form-input" placeholder="08012345678">
+                </div>
+            `;
+
+            let bonusCode = '';
+
+            if (hasDOB) {
+                fieldsHTML += `
+                    <div class="form-group" style="margin-bottom:8px;">
+                        <label>Date of Birth:</label>
+                        <input type="date" class="form-input">
+                    </div>
+                `;
+                bonusCode += `\n    &lt;label&gt;Date of Birth:&lt;/label&gt;\n    &lt;input type="date"&gt;\n    &lt;br&gt;&lt;br&gt;\n`;
+            }
+
+            if (hasSchool) {
+                fieldsHTML += `
+                    <div class="form-group" style="margin-bottom:8px;">
+                        <label>School Name:</label>
+                        <input type="text" class="form-input" placeholder="Tech Academy">
+                    </div>
+                `;
+                bonusCode += `\n    &lt;label&gt;School Name:&lt;/label&gt;\n    &lt;input type="text"&gt;\n    &lt;br&gt;&lt;br&gt;\n`;
+            }
+
+            if (hasUser) {
+                fieldsHTML += `
+                    <div class="form-group" style="margin-bottom:8px;">
+                        <label>Username:</label>
+                        <input type="text" class="form-input" placeholder="@coder">
+                    </div>
+                `;
+                bonusCode += `\n    &lt;label&gt;Username:&lt;/label&gt;\n    &lt;input type="text"&gt;\n    &lt;br&gt;&lt;br&gt;\n`;
+            }
+
+            document.getElementById('prevRegFields').innerHTML = fieldsHTML;
+
+            // Generate Code View
+            let code = `&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;head&gt;\n    &lt;title&gt;${title}&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n\n`;
+            code += `    &lt;h1&gt;🎓 ${title}&lt;/h1&gt;\n    &lt;p&gt;Welcome! Please fill in your information.&lt;/p&gt;\n\n`;
+            code += `    &lt;form&gt;\n`;
+            code += `        &lt;label&gt;Full Name:&lt;/label&gt;\n        &lt;input type="text"&gt;\n        &lt;br&gt;&lt;br&gt;\n`;
+            code += `        &lt;label&gt;Email:&lt;/label&gt;\n        &lt;input type="email"&gt;\n        &lt;br&gt;&lt;br&gt;\n`;
+            code += `        &lt;label&gt;Age:&lt;/label&gt;\n        &lt;input type="number"&gt;\n        &lt;br&gt;&lt;br&gt;\n`;
+            code += `        &lt;label&gt;Class:&lt;/label&gt;\n        &lt;input type="text"&gt;\n        &lt;br&gt;&lt;br&gt;\n`;
+            code += `        &lt;label&gt;Phone Number:&lt;/label&gt;\n        &lt;input type="text"&gt;\n        &lt;br&gt;&lt;br&gt;${bonusCode}`;
+            code += `        &lt;button&gt;Register&lt;/button&gt;\n`;
+            code += `    &lt;/form&gt;\n\n&lt;/body&gt;\n&lt;/html&gt;`;
+
+            document.getElementById('regCodeDisplay').innerHTML = code;
+        }
+        updateRegStudio();
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            document.getElementById('submitSuccessModal').classList.add('active');
+            playClickSound();
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submitSuccessModal').classList.remove('active');
+            playClickSound();
+        }
+
+        // 6. Quiz Reveal Logic
+        function toggleQuizReveal(card) {
+            card.classList.toggle('revealed');
+            playClickSound();
+        }
+
+        // Audio System
+        let audioEnabled = true;
+        const btnAudioToggle = document.getElementById('btnAudioToggle');
+        btnAudioToggle.addEventListener('click', () => {
+            audioEnabled = !audioEnabled;
+            btnAudioToggle.textContent = audioEnabled ? '🔊 Sound On' : '🔇 Sound Off';
+        });
+
+        function playClickSound() {
+            if (!audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(440, ctx.currentTime);
+                gain.gain.setValueAtTime(0.04, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(); osc.stop(ctx.currentTime + 0.08);
+            } catch (e) { }
+        }
+
+        // Fullscreen Toggle
+        document.getElementById('btnToggleFull').addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => { });
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        });
+
+        // 5-Min Timer
+        let timerInterval;
+        function startTimer(seconds) {
+            clearInterval(timerInterval);
+            let time = seconds;
+            const display = document.getElementById('timerDisplay');
+            timerInterval = setInterval(() => {
+                const mins = Math.floor(time / 60);
+                const secs = time % 60;
+                display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                if (time <= 0) {
+                    clearInterval(timerInterval);
+                    display.textContent = "⏱️ Time's Up!";
+                }
+                time--;
+            }, 1000);
+            playClickSound();
+        }
+
+        updateSlide();
+    </script>
+</body>
+
+</html>
