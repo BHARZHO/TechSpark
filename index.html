@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tech Spark 3.0 | Week 1 Day 2 - Getting Comfortable with VS Code</title>
-  
-  <!-- Google Fonts: Fredoka & Outfit for engaging, ultra-readable typography -->
+  <title>Tech Spark 3.0 | Web Development Learning Portal</title>
+
+  <!-- Google Fonts: Fredoka & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,8 +20,8 @@
       --bg-card: #FFFFFF;
       --text-main: #1E293B;
       --text-muted: #64748B;
-      
-      /* Vibrant Brand Palette */
+
+      /* Brand Palette */
       --primary: #6C5CE7;
       --primary-dark: #4834D4;
       --primary-light: #A29BFE;
@@ -31,29 +32,15 @@
       --accent-pink: #FD79A8;
       --accent-blue: #74B9FF;
       --success: #10B981;
-      
-      /* Notebook & Callout Colors */
-      --notebook-bg: #FFF9DB;
-      --notebook-border: #F59E0B;
-      --teacher-bg: #F3E8FF;
-      --teacher-border: #9333EA;
-      --student-bg: #ECFDF5;
-      --student-border: #10B981;
-      
-      /* Duolingo style pressable 3D shadows */
+
+      /* Duolingo style 3D shadows */
       --shadow-sm: 0 4px 0 rgba(0, 0, 0, 0.06);
       --shadow-card: 0 8px 0 #E2E8F0, 0 12px 24px rgba(0, 0, 0, 0.05);
       --shadow-btn: 0 5px 0 var(--primary-dark);
-      --shadow-active: 0 0 0 transparent;
 
       --radius-sm: 12px;
       --radius-md: 20px;
       --radius-lg: 28px;
-
-      /* Projection Font Sizes */
-      --font-body: 1.35rem;
-      --font-heading: 2.2rem;
-      --font-title: 3.2rem;
     }
 
     * {
@@ -68,8 +55,8 @@
       background-color: var(--bg-primary);
       color: var(--text-main);
       min-height: 100vh;
-      overflow-x: hidden;
       line-height: 1.5;
+      overflow-x: hidden;
     }
 
     h1, h2, h3, h4, .brand-title, .badge {
@@ -77,9 +64,7 @@
       letter-spacing: 0.5px;
     }
 
-    /* ==========================================
-       HEADER & NAVIGATION CONTROL BAR
-       ========================================== */
+    /* TOP NAVBAR */
     .top-navbar {
       position: fixed;
       top: 0;
@@ -103,15 +88,6 @@
       font-size: 1.6rem;
       font-weight: 700;
       color: var(--primary);
-    }
-
-    .brand-logo span.spark-badge {
-      background: linear-gradient(135deg, var(--primary), var(--accent-pink));
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 1rem;
-      text-transform: uppercase;
     }
 
     .spark-dropdown-wrapper {
@@ -146,7 +122,7 @@
       position: absolute;
       top: 110%;
       left: 0;
-      min-width: 290px;
+      min-width: 300px;
       background: #0F172A;
       border: 2px solid var(--primary-light);
       border-radius: 16px;
@@ -193,47 +169,11 @@
       font-weight: 700;
     }
 
-    .progress-container {
-      flex: 1;
-      max-width: 450px;
-      margin: 0 2rem;
-    }
-
-    .progress-bar-bg {
-      height: 16px;
-      background: #E2E8F0;
-      border-radius: 10px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--secondary), var(--primary));
-      border-radius: 10px;
-      transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .progress-text {
-      text-align: center;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .nav-controls {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
     .btn {
       font-family: 'Fredoka', sans-serif;
       font-size: 1.1rem;
       font-weight: 600;
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
       border-radius: var(--radius-sm);
       cursor: pointer;
@@ -242,7 +182,6 @@
       gap: 8px;
       transition: all 0.15s ease;
       text-decoration: none;
-      position: relative;
     }
 
     .btn-primary {
@@ -262,270 +201,202 @@
       box-shadow: 0 2px 0 var(--primary-dark);
     }
 
-    .btn-secondary {
-      background: #E2E8F0;
-      color: var(--text-main);
-      box-shadow: 0 5px 0 #CBD5E1;
+    .btn-accent {
+      background: var(--secondary);
+      color: #0F172A;
+      box-shadow: 0 5px 0 var(--secondary-dark);
     }
 
-    .btn-secondary:hover {
-      background: #CBD5E1;
+    .btn-accent:hover {
+      background: #00B894;
+      color: white;
       transform: translateY(-2px);
     }
 
-    .btn-secondary:active {
-      transform: translateY(3px);
-      box-shadow: 0 2px 0 #CBD5E1;
-    }
-
-    .btn-icon {
-      padding: 10px;
-      border-radius: 50%;
-    }
-
-    /* ==========================================
-       MAIN CONTAINER & SLIDE SYSTEM
-       ========================================== */
-    .main-viewport {
+    /* HERO SECTION */
+    .hero-container {
       margin-top: 75px;
-      height: calc(100vh - 75px);
-      position: relative;
-      overflow: hidden;
+      padding: 4rem 2rem 3rem 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
     }
 
-    .slide-deck {
-      height: 100%;
-      width: 100%;
-      position: relative;
-    }
-
-    .slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      padding: 2.5rem 4rem 6rem 4rem;
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(0.96) translateY(20px);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .slide.active {
-      opacity: 1;
-      visibility: visible;
-      transform: scale(1) translateY(0);
-    }
-
-    /* ==========================================
-       REUSABLE CLASSROOM CARD COMPONENTS
-       ========================================== */
-    .slide-header {
-      margin-bottom: 2rem;
-    }
-
-    .slide-category {
+    .hero-badge {
       display: inline-block;
-      padding: 6px 16px;
-      border-radius: 20px;
+      background: linear-gradient(135deg, #FEF08A, #FDE047);
+      color: #854D0E;
+      font-family: 'Fredoka', sans-serif;
       font-size: 1.1rem;
       font-weight: 700;
-      color: white;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 8px 20px;
+      border-radius: 30px;
+      border: 2px solid #FACC15;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
     }
 
-    .slide-title {
-      font-size: var(--font-title);
+    .hero-title {
+      font-size: 3.8rem;
+      font-weight: 800;
       color: var(--text-main);
-      line-height: 1.2;
-    }
-
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.8rem;
-      margin: 1.5rem 0;
-    }
-
-    .spark-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-md);
-      padding: 2rem;
-      border: 3px solid #E2E8F0;
-      box-shadow: var(--shadow-card);
-      position: relative;
-      transition: transform 0.2s ease;
-    }
-
-    .spark-card:hover {
-      transform: translateY(-4px);
-    }
-
-    /* Role Badges requested by teacher */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 18px;
-      border-radius: 50px;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .badge-teacher {
-      background: var(--teacher-bg);
-      color: var(--teacher-border);
-      border: 2px solid var(--teacher-border);
-    }
-
-    .badge-write {
-      background: #FFE4E6;
-      color: #E11D48;
-      border: 2px solid #F43F5E;
-      animation: pulse-border 2s infinite;
-    }
-
-    .badge-practical {
-      background: #E0F2FE;
-      color: #0284C7;
-      border: 2px solid #38BDF8;
-    }
-
-    .badge-notebook {
-      background: var(--notebook-bg);
-      color: #B45309;
-      border: 2px solid var(--notebook-border);
-    }
-
-    .badge-activity {
-      background: #F3E8FF;
-      color: #7E22CE;
-      border: 2px solid #A855F7;
-    }
-
-    .badge-homework {
-      background: #FEF3C7;
-      color: #D97706;
-      border: 2px solid #F59E0B;
-    }
-
-    @keyframes pulse-border {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.03); }
-    }
-
-    /* Giant Text for Projection */
-    .proj-text {
-      font-size: var(--font-body);
-      color: var(--text-main);
+      line-height: 1.15;
       margin-bottom: 1.2rem;
     }
 
-    .proj-text-lg {
-      font-size: 1.75rem;
-      font-weight: 500;
+    .hero-title span.highlight {
+      background: linear-gradient(135deg, var(--primary), var(--accent-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.6rem;
+      color: var(--text-muted);
+      max-width: 800px;
+      margin: 0 auto 2.5rem auto;
       line-height: 1.6;
     }
 
-    .highlight-box {
-      background: #EEF2FF;
-      border-left: 8px solid var(--primary);
-      padding: 1.5rem 2rem;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      margin: 1.5rem 0;
-      font-size: 1.5rem;
-      font-weight: 600;
-    }
-
-    /* Notebook Box (Students copy this!) */
-    .notebook-box {
-      background: var(--notebook-bg);
-      border: 3px dashed var(--notebook-border);
-      border-radius: var(--radius-md);
-      padding: 1.8rem 2.2rem;
-      margin: 1.5rem 0;
-      position: relative;
-    }
-
-    .notebook-box h3 {
-      color: #92400E;
-      font-size: 1.6rem;
-      margin-bottom: 0.8rem;
+    .hero-cta-group {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
     }
 
-    .notebook-box ul {
-      margin-left: 1.8rem;
-      font-size: 1.4rem;
-    }
-
-    .notebook-box li {
-      margin-bottom: 0.6rem;
-      color: #78350F;
-    }
-
-    /* ==========================================
-       INTERACTIVE COMPONENTS
-       ========================================== */
-    
-    /* Quiz & Recap Reveal Cards */
-    .recap-grid {
+    /* STATS & HIGHLIGHTS */
+    .highlights-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.5rem;
-      margin-top: 1rem;
+      max-width: 1200px;
+      margin: 0 auto 4rem auto;
+      padding: 0 2rem;
     }
 
-    .recap-card {
+    .highlight-card {
       background: white;
-      border: 3px solid #CBD5E1;
+      border: 3px solid #E2E8F0;
       border-radius: var(--radius-md);
-      padding: 1.5rem;
+      padding: 1.8rem;
       box-shadow: var(--shadow-card);
-      cursor: pointer;
-      transition: all 0.3s ease;
+      text-align: left;
+      transition: all 0.25s ease;
     }
 
-    .recap-card:hover {
+    .highlight-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 2.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    /* ROADMAP SECTION */
+    .roadmap-section {
+      max-width: 1200px;
+      margin: 0 auto 5rem auto;
+      padding: 0 2rem;
+    }
+
+    .section-title-box {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+      font-size: 2.8rem;
+      color: var(--text-main);
+    }
+
+    .lesson-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .lesson-card {
+      background: white;
+      border: 3px solid #E2E8F0;
+      border-radius: var(--radius-md);
+      padding: 1.8rem;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .lesson-card:hover {
+      transform: translateY(-6px);
       border-color: var(--primary);
     }
 
-    .recap-card .question-text {
-      font-size: 1.4rem;
-      font-weight: 600;
-      color: var(--primary-dark);
-      margin-bottom: 1rem;
+    .lesson-card.start-card {
+      border-color: var(--primary);
+      background: linear-gradient(180deg, #FFFFFF, #F5F3FF);
     }
 
-    .recap-answer {
-      background: #F1F5F9;
-      border-radius: var(--radius-sm);
-      padding: 1rem;
-      font-size: 1.25rem;
-      color: var(--text-main);
-      display: none;
-      border-left: 5px solid var(--secondary-dark);
-    }
-
-    .recap-card.revealed .recap-answer {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .recap-card .tap-hint {
+    .day-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'Fredoka', sans-serif;
       font-size: 0.95rem;
       font-weight: 700;
-      color: var(--primary);
       text-transform: uppercase;
+      color: white;
+      margin-bottom: 1rem;
+      align-self: flex-start;
+    }
+
+    .lesson-card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 0.6rem;
+    }
+
+    .lesson-card-desc {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .launch-btn {
+      margin-top: auto;
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 10px 18px;
+      border-radius: var(--radius-sm);
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      box-shadow: 0 4px 0 var(--primary-dark);
+      transition: all 0.15s ease;
+    }
+
+    .lesson-card:hover .launch-btn {
+      background: #5B4BC4;
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: #0F172A;
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 4px solid var(--primary);
     }
 
     @keyframes fadeIn {
@@ -533,355 +404,27 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Interactive VS Code UI Simulator */
-    .vscode-container {
-      background: #1E1E2E;
-      border-radius: var(--radius-md);
-      border: 4px solid #313244;
-      display: grid;
-      grid-template-columns: 80px 240px 1fr;
-      grid-template-rows: 40px 1fr 35px;
-      height: 480px;
-      color: #CDD6F4;
-      box-shadow: 0 16px 32px rgba(0,0,0,0.3);
-      overflow: hidden;
-      margin-top: 1.5rem;
-    }
-
-    .vscode-bar {
-      grid-column: 1 / -1;
-      background: #181825;
-      display: flex;
-      align-items: center;
-      padding: 0 16px;
-      gap: 8px;
-      border-bottom: 1px solid #313244;
-    }
-
-    .dot { width: 12px; height: 12px; border-radius: 50%; }
-    .dot-red { background: #F38BA8; }
-    .dot-yellow { background: #F9E2AF; }
-    .dot-green { background: #A6E3A1; }
-
-    .vscode-activity {
-      background: #181825;
-      border-right: 1px solid #313244;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 1rem;
-      gap: 1.5rem;
-    }
-
-    .activity-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .activity-icon:hover, .activity-icon.active {
-      background: #313244;
-    }
-
-    .vscode-sidebar {
-      background: #1E1E2E;
-      border-right: 1px solid #313244;
-      padding: 1rem;
-    }
-
-    .vscode-sidebar h4 {
-      text-transform: uppercase;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      color: #BAC2DE;
-      margin-bottom: 1rem;
-    }
-
-    .file-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      cursor: pointer;
-    }
-
-    .file-item:hover, .file-item.active {
-      background: #313244;
-    }
-
-    .vscode-editor {
-      background: #11111B;
-      padding: 1.5rem;
-      font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 1.3rem;
-      line-height: 1.6;
-    }
-
-    .vscode-status {
-      grid-column: 1 / -1;
-      background: #007ACC;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .interactive-hotspot {
-      position: relative;
-      border: 2px dashed #F59E0B;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .interactive-hotspot:hover {
-      background: rgba(245, 158, 11, 0.15);
-      border-color: #FBBF24;
-    }
-
-    /* Keyboard Shortcuts Table */
-    .shortcut-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 10px;
-      margin-top: 1rem;
-    }
-
-    .shortcut-table th {
-      background: var(--primary);
-      color: white;
-      padding: 14px 20px;
-      font-size: 1.3rem;
-      text-align: left;
-    }
-
-    .shortcut-table th:first-child { border-radius: 12px 0 0 12px; }
-    .shortcut-table th:last-child { border-radius: 0 12px 12px 0; }
-
-    .shortcut-table td {
-      background: white;
-      padding: 14px 20px;
-      font-size: 1.35rem;
-      font-weight: 600;
-      border-top: 2px solid #E2E8F0;
-      border-bottom: 2px solid #E2E8F0;
-    }
-
-    .shortcut-table tr td:first-child {
-      border-left: 2px solid #E2E8F0;
-      border-radius: 12px 0 0 12px;
-    }
-
-    .shortcut-table tr td:last-child {
-      border-right: 2px solid #E2E8F0;
-      border-radius: 0 12px 12px 0;
-    }
-
-    .kbd {
-      background: #F8FAFC;
-      border: 2px solid #CBD5E1;
-      border-bottom: 4px solid #94A3B8;
-      border-radius: 8px;
-      padding: 4px 12px;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
-      color: var(--primary-dark);
-      display: inline-block;
-    }
-
-    /* Floating Timer Widget for Practice */
-    .teacher-timer {
-      background: white;
-      border: 3px solid var(--accent-orange);
-      border-radius: var(--radius-md);
-      padding: 1rem 1.5rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      box-shadow: var(--shadow-card);
-      margin-top: 1rem;
-    }
-
-    .timer-display {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: var(--accent-orange);
-      min-width: 100px;
-    }
-
-    /* Bottom Control Bar */
-    .bottom-bar {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 70px;
-      background: white;
-      border-top: 3px solid #E2E8F0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      z-index: 1000;
-    }
-
-    .slide-dots {
-      display: flex;
-      gap: 8px;
-    }
-
-    .dot-nav {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #CBD5E1;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .dot-nav.active {
-      background: var(--primary);
-      width: 32px;
-      border-radius: 10px;
-    }
-
-    /* ==========================================
-    MOBILE & TABLET RESPONSIVE STYLING
-    ========================================== */
     @media (max-width: 768px) {
-        .top-navbar {
-            height: 65px;
-            padding: 0 0.8rem;
-        }
-
-        .brand-logo {
-            font-size: 1.15rem;
-            gap: 6px;
-        }
-
-        .spark-badge-btn {
-            padding: 4px 10px;
-            font-size: 0.75rem;
-        }
-
-        .progress-container {
-            margin: 0 0.5rem;
-        }
-
-        .progress-text {
-            font-size: 0.75rem;
-        }
-
-        .nav-controls .btn {
-            padding: 6px 10px;
-            font-size: 0.85rem;
-        }
-
-        .main-viewport {
-            margin-top: 65px;
-            height: calc(100vh - 130px);
-        }
-
-        .slide {
-            padding: 1.2rem 1rem 5.5rem 1rem;
-        }
-
-        .slide-title {
-            font-size: 1.8rem;
-        }
-
-        .slide-category {
-            font-size: 0.85rem;
-            padding: 4px 12px;
-        }
-
-        .card-grid {
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .spark-card {
-            padding: 1.2rem;
-        }
-
-        .proj-text-lg {
-            font-size: 1.25rem;
-        }
-
-        .highlight-box {
-            font-size: 1.15rem;
-            padding: 1rem 1.2rem;
-        }
-
-        .bottom-bar {
-            height: 65px;
-            padding: 0 0.8rem;
-        }
-
-        .btn {
-            padding: 8px 14px;
-            font-size: 0.95rem;
-        }
-
-        .slide-dots {
-            display: none;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .brand-logo {
-            font-size: 1rem;
-        }
-
-        .nav-controls #btnToggleFull {
-            display: none;
-        }
-
-        .slide-title {
-            font-size: 1.5rem;
-        }
-
-        .proj-text {
-            font-size: 1.1rem;
-        }
-    }
-
-    /* Responsive scaling for laptops */
-    @media (max-width: 1024px) {
-      :root {
-        --font-body: 1.15rem;
-        --font-heading: 1.8rem;
-        --font-title: 2.4rem;
-      }
-      .slide { padding: 1.5rem 2rem 5rem 2rem; }
+      .hero-title { font-size: 2.6rem; }
+      .hero-subtitle { font-size: 1.25rem; }
+      .lesson-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- ==========================================
-       TOP NAVBAR / BRAND & PROGRESS
-       ========================================== -->
+  <!-- TOP NAVBAR -->
   <header class="top-navbar">
     <div class="brand-logo">
       ⚡ Tech Spark 3.0
       <div class="spark-dropdown-wrapper">
-        <button class="spark-badge-btn" onclick="toggleCourseMenu(event)">Week 1 • Day 2 ▾</button>
+        <button class="spark-badge-btn" onclick="toggleCourseMenu(event)">Course Portal ▾</button>
         <div class="spark-dropdown-menu" id="courseMenuDropdown">
           <div class="menu-group-title">🌱 BASIC CLASS</div>
-          <a href="index.html" class="menu-item active">Week 1 • Day 2: VS Code Basics</a>
+          <a href="index.html" class="menu-item active">🏠 Course Welcome Page</a>
+          <a href="Day1.html" class="menu-item">Week 1 • Day 1: Intro to Web Development</a>
+          <a href="Day2.html" class="menu-item">Week 1 • Day 2: VS Code Basics</a>
           <a href="Day3.html" class="menu-item">Week 1 • Day 3: First HTML Code</a>
           <a href="Day4.html" class="menu-item">Week 1 • Day 4: Text, Links & Images</a>
           <a href="Day5.html" class="menu-item">Week 1 • Day 5: HTML Lists</a>
@@ -895,566 +438,166 @@
       </div>
     </div>
 
-    <div class="progress-container">
-      <div class="progress-bar-bg">
-        <div class="progress-bar-fill" id="progressBar"></div>
-      </div>
-      <div class="progress-text" id="progressText">Slide 1 of 11</div>
-    </div>
-
-    <div class="nav-controls">
-      <button class="btn btn-secondary" id="btnAudioToggle" title="Toggle Sound">
-        🔊 Sound On
-      </button>
-      <button class="btn btn-secondary" id="btnToggleFull" title="Full Screen">
-        ⛶ Fullscreen
-      </button>
-    </div>
+    <a href="Day1.html" class="btn btn-primary" style="font-size: 1rem; padding: 8px 16px;">
+      🚀 Start Lesson 1
+    </a>
   </header>
 
-  <!-- ==========================================
-       MAIN VIEWPORT & SLIDES
-       ========================================== -->
-  <main class="main-viewport">
-    <div class="slide-deck" id="slideDeck">
+  <!-- HERO SECTION -->
+  <section class="hero-container">
+    <div class="hero-badge">🚀 Official Web Development Curriculum</div>
+    <h1 class="hero-title">
+      Welcome to <span class="highlight">Tech Spark 3.0</span>
+    </h1>
+    <p class="hero-subtitle">
+      Turn your creative ideas into real websites & web applications! Master HTML, CSS, JavaScript, and developer tools with hands-on interactive slide lessons.
+    </p>
 
-      <!-- SLIDE 1: Title & Goals -->
-      <section class="slide active" data-slide="1">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--primary);">Lesson Introduction</span>
-          <h1 class="slide-title">🚀 Getting Comfortable with VS Code & Your Coding Environment</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card" style="border-color: var(--primary-light);">
-            <div class="badge badge-teacher">👨‍🏫 Teacher Introduction</div>
-            <p class="proj-text-lg">
-              Welcome back young developers! Today we are taking your very first step into real coding by setting up your own workspace.
-            </p>
-          </div>
-
-          <div class="spark-card" style="border-color: var(--secondary);">
-            <h2 style="font-size: 1.8rem; color: var(--secondary-dark); margin-bottom: 1rem;">🎯 Today's Goals</h2>
-            <ul style="font-size: 1.35rem; line-height: 1.8; list-style: none;">
-              <li>✅ <strong>Explain</strong> what programming is.</li>
-              <li>✅ <strong>Explain</strong> what an IDE is.</li>
-              <li>✅ <strong>Open</strong> Visual Studio Code (VS Code).</li>
-              <li>✅ <strong>Create</strong> a project folder.</li>
-              <li>✅ <strong>Create</strong> an HTML file.</li>
-              <li>✅ <strong>Save</strong> your work correctly.</li>
-              <li>✅ <strong>Open</strong> your file in a web browser.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 2: Part 1 - Recap Questions -->
-      <section class="slide" data-slide="2">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--accent-orange);">Part 1 • Warm-Up</span>
-          <h1 class="slide-title">🙋 Let's Recap Last Class!</h1>
-        </div>
-
-        <p class="proj-text-lg">Raise your hand if you know the answer! Tap any card to reveal the answer.</p>
-
-        <div class="recap-grid">
-          <div class="recap-card" onclick="toggleAnswer(this)">
-            <div class="question-text">1. What is a website?</div>
-            <div class="tap-hint">👉 Click to reveal answer</div>
-            <div class="recap-answer">
-              A collection of web pages on the internet that contains text, images, and videos!
-            </div>
-          </div>
-
-          <div class="recap-card" onclick="toggleAnswer(this)">
-            <div class="question-text">2. What is web development?</div>
-            <div class="tap-hint">👉 Click to reveal answer</div>
-            <div class="recap-answer">
-              The process of building and creating websites on the internet.
-            </div>
-          </div>
-
-          <div class="recap-card" onclick="toggleAnswer(this)">
-            <div class="question-text">3. What does HTML stand for?</div>
-            <div class="tap-hint">👉 Click to reveal answer</div>
-            <div class="recap-answer">
-              <strong>HyperText Markup Language</strong> – the skeleton code of web pages!
-            </div>
-          </div>
-
-          <div class="recap-card" onclick="toggleAnswer(this)">
-            <div class="question-text">4. What is VS Code?</div>
-            <div class="tap-hint">👉 Click to reveal answer</div>
-            <div class="recap-answer">
-              A free, powerful code editor created by Microsoft that programmers use to write code.
-            </div>
-          </div>
-
-          <div class="recap-card" onclick="toggleAnswer(this)">
-            <div class="question-text">5. Why do we use HTML?</div>
-            <div class="tap-hint">👉 Click to reveal answer</div>
-            <div class="recap-answer">
-              To structure content like text, headings, buttons, and images on a web page!
-            </div>
-          </div>
-        </div>
-
-        <div class="notebook-box" style="margin-top: 2rem;">
-          <h3>💡 Remember:</h3>
-          <p style="font-size: 1.3rem; color: #78350F;">
-            It is completely okay if you don't remember everything! Learning happens by asking questions and making mistakes.
-          </p>
-        </div>
-      </section>
-
-      <!-- SLIDE 3: Part 2 - What is Programming? -->
-      <section class="slide" data-slide="3">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--accent-pink);">Part 2 • Core Concept</span>
-          <h1 class="slide-title">🤖 What is Programming?</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card">
-            <h3 style="font-size: 1.6rem; color: var(--accent-orange); margin-bottom: 1rem;">🍎 Real-Life Analogy</h3>
-            <p class="proj-text">Imagine your mum says:</p>
-            <div class="highlight-box" style="font-size: 1.3rem;">
-              1. Stand up.<br>
-              2. Walk to the kitchen.<br>
-              3. Bring me a cup.
-            </div>
-            <p class="proj-text-lg">What did she give you? 👉 <strong>INSTRUCTIONS!</strong></p>
-          </div>
-
-          <div class="spark-card" style="border-color: var(--primary);">
-            <div class="badge badge-notebook">📝 Notebook Note</div>
-            <div class="notebook-box">
-              <h3>✍️ Write this down:</h3>
-              <p style="font-size: 1.5rem; font-weight: 600; color: #78350F;">
-                Programming is the process of giving step-by-step instructions to a computer so it can perform a task.
-              </p>
-            </div>
-            <p class="proj-text" style="margin-top: 1rem;">
-              Without instructions, a computer cannot think or decide what to do. Every game, app, and website exists because someone programmed it!
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 4: Part 3 - What is an IDE? -->
-      <section class="slide" data-slide="4">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--secondary-dark);">Part 3 • Coding Tools</span>
-          <h1 class="slide-title">🛠️ What is an IDE?</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card">
-            <h3 style="font-size: 1.6rem; color: var(--primary-dark); margin-bottom: 0.8rem;">📖 Think About This...</h3>
-            <p class="proj-text">Where do authors write books?</p>
-            <p style="font-size: 1.3rem; margin-bottom: 1rem;">➡️ Notebooks, Microsoft Word, Google Docs.</p>
-            <hr style="margin: 1rem 0; border: 1px solid #E2E8F0;">
-            <p class="proj-text">Where do programmers write code?</p>
-            <p style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">➡️ An IDE!</p>
-          </div>
-
-          <div class="spark-card">
-            <div class="badge badge-notebook">📝 Notebook Note</div>
-            <div class="notebook-box">
-              <h3>✍️ Copy this definition:</h3>
-              <p style="font-size: 1.4rem; font-weight: 700; color: #92400E; margin-bottom: 0.5rem;">
-                IDE = Integrated Development Environment
-              </p>
-              <p style="font-size: 1.25rem; color: #78350F;">
-                Think of an IDE as a special digital workspace for programmers that helps them write code, organize files, find mistakes, and build apps!
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 5: Part 4 - Exploring VS Code Interactive Diagram -->
-      <section class="slide" data-slide="5">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--primary-dark);">Part 4 • Classroom Exploration</span>
-          <h1 class="slide-title">🔍 Let's Explore Visual Studio Code!</h1>
-        </div>
-
-        <div class="badge badge-teacher">👨‍🏫 Teacher Demonstration</div>
-        <p class="proj-text">Click on any section of the VS Code screen below to highlight and learn what it does!</p>
-
-        <!-- Interactive Simulator -->
-        <div class="vscode-container">
-          <div class="vscode-bar">
-            <div class="dot dot-red"></div>
-            <div class="dot dot-yellow"></div>
-            <div class="dot dot-green"></div>
-            <span style="font-size: 0.85rem; color: #6C7086; margin-left: 10px;">VS Code - HTML-Class/index.html</span>
-          </div>
-
-          <!-- Activity Bar -->
-          <div class="vscode-activity interactive-hotspot" onclick="showVSInfo('Activity Bar', 'The left bar used to switch between Explorer, Search, Source Control, and Extensions.')">
-            <div class="activity-icon active" title="Explorer">📁</div>
-            <div class="activity-icon" title="Search">🔍</div>
-            <div class="activity-icon" title="Extensions">🧩</div>
-          </div>
-
-          <!-- Sidebar / Explorer -->
-          <div class="vscode-sidebar interactive-hotspot" onclick="showVSInfo('Explorer', 'Shows all your folders and files. Think of it as your digital bookshelf!')">
-            <h4>EXPLORER</h4>
-            <div class="file-item active">📄 index.html</div>
-          </div>
-
-          <!-- Editor Area -->
-          <div class="vscode-editor interactive-hotspot" onclick="showVSInfo('Editor Area', 'The large middle area where you write your HTML code. Most of your work happens here!')">
-            <span style="color: #6C7086;">1</span> &lt;<span style="color: #F38BA8;">h1</span>&gt;Hello Tech Spark!&lt;/<span style="color: #F38BA8;">h1</span>&gt;<br>
-            <span style="color: #6C7086;">2</span> &lt;<span style="color: #89B4FA;">p</span>&gt;Welcome to coding!&lt;/<span style="color: #89B4FA;">p</span>&gt;
-          </div>
-
-          <!-- Status Bar -->
-          <div class="vscode-status interactive-hotspot" onclick="showVSInfo('Status Bar', 'Located at the very bottom. Shows language mode (HTML), encoding, and line numbers.')">
-            <span>Ready</span>
-            <span>HTML • UTF-8</span>
-          </div>
-        </div>
-
-        <div id="vsInfoBox" class="highlight-box" style="margin-top: 1rem; background: #FFF9DB; border-color: #F59E0B; display: none;">
-          <h4 id="vsInfoTitle" style="color: #B45309; font-size: 1.4rem;">Click a section above</h4>
-          <p id="vsInfoDesc" style="font-size: 1.25rem; color: #78350F;"></p>
-        </div>
-      </section>
-
-      <!-- SLIDE 6: Part 5 - Creating Your Project Folder -->
-      <section class="slide" data-slide="6">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--accent-yellow); color: #78350F;">Part 5 • Hands-On Step 1</span>
-          <h1 class="slide-title">📁 Creating Your First Project Folder</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card" style="border-color: var(--primary);">
-            <div class="badge badge-practical">💻 Practical Exercise</div>
-            <h3 style="font-size: 1.6rem; margin-bottom: 1rem;">Follow these 4 steps:</h3>
-            <ol style="font-size: 1.4rem; line-height: 2; margin-left: 1.5rem; color: var(--text-main);">
-              <li>1️⃣ Go to your computer <strong>Desktop</strong>.</li>
-              <li>2️⃣ <strong>Right-click</strong> on an empty spot.</li>
-              <li>3️⃣ Select <strong>New ➔ Folder</strong>.</li>
-              <li>4️⃣ Type the name: <strong style="color: var(--primary-dark); background: #EEF2FF; padding: 2px 8px; border-radius: 6px;">HTML-Class</strong></li>
-            </ol>
-          </div>
-
-          <div class="spark-card">
-            <div class="badge badge-notebook">📝 Notebook Note</div>
-            <div class="notebook-box">
-              <h3>✍️ Why do we create project folders?</h3>
-              <ul>
-                <li>Keeps our work organized.</li>
-                <li>Helps us find files quickly.</li>
-                <li>Prevents losing our coding projects.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 7: Part 6 - Creating Your First HTML File -->
-      <section class="slide" data-slide="7">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--success);">Part 6 • Hands-On Step 2</span>
-          <h1 class="slide-title">📄 Creating Your First HTML File</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card">
-            <div class="badge badge-practical">💻 Practical Exercise</div>
-            <p class="proj-text-lg">Inside your <strong>HTML-Class</strong> folder in VS Code, click <strong>New File</strong> and name it:</p>
-            <div style="font-size: 2.2rem; font-weight: 700; color: var(--primary-dark); text-align: center; background: #F1F5F9; padding: 1rem; border-radius: 12px; margin: 1rem 0; border: 2px dashed var(--primary);">
-              index.html
-            </div>
-
-            <div class="badge badge-write" style="margin-top: 1rem;">✍️ Students, write this down!</div>
-            <div class="highlight-box" style="font-size: 1.3rem;">
-              ⚠️ Press <span class="kbd">Ctrl</span> + <span class="kbd">S</span> to SAVE your file! Always save your work frequently!
-            </div>
-          </div>
-
-          <div class="spark-card">
-            <h3 style="font-size: 1.5rem; color: var(--primary-dark); margin-bottom: 1rem;">🤔 Quick Questions:</h3>
-            <div style="margin-bottom: 1rem;">
-              <strong>Why "index"?</strong>
-              <p style="font-size: 1.2rem; color: var(--text-muted);">
-                <code>index.html</code> is the standard main starting page of any website.
-              </p>
-            </div>
-            <div>
-              <strong>Why ".html"?</strong>
-              <p style="font-size: 1.2rem; color: var(--text-muted);">
-                The extension <code>.html</code> tells the browser that this file is a web page!
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 8: Part 7 - Opening Your HTML File -->
-      <section class="slide" data-slide="8">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--accent-blue); color: #1E3A8A;">Part 7 • Hands-On Step 3</span>
-          <h1 class="slide-title">🌐 Opening Your Web Page</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card">
-            <div class="badge badge-practical">💻 Method 1</div>
-            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Double Click</h3>
-            <p class="proj-text">
-              Go to your <strong>HTML-Class</strong> folder on Desktop and double-click <code>index.html</code>. It opens right in Google Chrome or Edge!
-            </p>
-          </div>
-
-          <div class="spark-card">
-            <div class="badge badge-practical">💻 Method 2</div>
-            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Open With Browser</h3>
-            <p class="proj-text">
-              Right-click <code>index.html</code> ➔ select <strong>Open With</strong> ➔ pick your web browser!
-            </p>
-          </div>
-        </div>
-
-        <div class="spark-card" style="margin-top: 1rem; border-color: var(--secondary-dark);">
-          <h3 style="color: var(--secondary-dark); font-size: 1.5rem; margin-bottom: 0.5rem;">⚡ Pro Tip: Live Server</h3>
-          <p class="proj-text">
-            We can install an extension called <strong>Live Server</strong> in VS Code to auto-refresh our webpage every time we save!
-          </p>
-        </div>
-      </section>
-
-      <!-- SLIDE 9: Part 8 & 9 - Good Habits & Keyboard Shortcuts -->
-      <section class="slide" data-slide="9">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--primary);">Part 8 & 9 • Programmer Power-Ups</span>
-          <h1 class="slide-title">⌨️ Keyboard Shortcuts & Good Habits</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card">
-            <div class="badge badge-notebook">📝 Good Coding Habits</div>
-            <ul style="font-size: 1.25rem; line-height: 1.8; list-style: none;">
-              <li>✅ Save your work often (<span class="kbd">Ctrl+S</span>).</li>
-              <li>✅ Give files clear names (like <code>index.html</code>).</li>
-              <li>✅ Keep all project files inside one folder.</li>
-              <li>✅ Read error messages carefully.</li>
-              <li>✅ Practice coding every single day!</li>
-            </ul>
-          </div>
-
-          <div class="spark-card">
-            <div class="badge badge-write">✍️ Useful Shortcuts</div>
-            <table class="shortcut-table">
-              <thead>
-                <tr>
-                  <th>Shortcut</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">S</span></td><td>Save File</td></tr>
-                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">C</span></td><td>Copy Text</td></tr>
-                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">V</span></td><td>Paste Text</td></tr>
-                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">Z</span></td><td>Undo Mistake</td></tr>
-                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">N</span></td><td>New File</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 10: Mini Challenge & Practice Timer -->
-      <section class="slide" data-slide="10">
-        <div class="slide-header">
-          <span class="slide-category" style="background: var(--accent-orange);">Part 10 • Class Activity</span>
-          <h1 class="slide-title">🎯 Classroom Mini Challenge!</h1>
-        </div>
-
-        <div class="card-grid">
-          <div class="spark-card" style="border-color: var(--accent-orange);">
-            <div class="badge badge-activity">🎯 Mini Challenge Tasks</div>
-            <p class="proj-text-lg">Without looking at your neighbor's screen, complete these 5 steps:</p>
-
-            <ul style="font-size: 1.35rem; line-height: 2; margin-left: 1.5rem; margin-top: 1rem;">
-              <li>1️⃣ Open VS Code.</li>
-              <li>2️⃣ Create a folder on Desktop named <strong>Practice</strong>.</li>
-              <li>3️⃣ Create a file named <strong>index.html</strong> inside it.</li>
-              <li>4️⃣ Save the file (<span class="kbd">Ctrl+S</span>).</li>
-              <li>5️⃣ Open it in your web browser!</li>
-            </ul>
-
-            <div class="highlight-box" style="margin-top: 1.5rem; font-size: 1.25rem;">
-              🙋 <strong>Stuck?</strong> Raise your hand! Your teacher will come over to guide you.
-            </div>
-          </div>
-
-          <div class="spark-card" style="text-align: center;">
-            <h3 style="font-size: 1.6rem; color: var(--accent-orange); margin-bottom: 1rem;">⏱️ Classroom Timer</h3>
-            <div class="teacher-timer" style="justify-content: center; width: 100%;">
-              <div class="timer-display" id="timerDisplay">03:00</div>
-            </div>
-            <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 10px;">
-              <button class="btn btn-primary" onclick="startTimer(180)">Start 3 Min</button>
-              <button class="btn btn-secondary" onclick="resetTimer()">Reset</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SLIDE 11: Congratulations & Summary -->
-      <section class="slide" data-slide="11">
-        <div class="slide-header" style="text-align: center;">
-          <span class="slide-category" style="background: var(--success);">Lesson Complete</span>
-          <h1 class="slide-title">🎉 Huge Congratulations!</h1>
-        </div>
-
-        <div class="spark-card" style="max-width: 800px; margin: 0 auto; text-align: center; border-color: var(--success);">
-          <h2 style="font-size: 2.2rem; color: var(--success); margin-bottom: 1rem;">You completed Week 1 Day 2! 🚀</h2>
-          <p class="proj-text-lg" style="margin-bottom: 1.5rem;">
-            Today you learned programming concepts, explored VS Code, created your first HTML file, and opened it in a browser!
-          </p>
-
-          <div class="badge badge-homework" style="font-size: 1.4rem;">📚 Homework / Notebook Assignment</div>
-          <div class="notebook-box" style="text-align: left; margin-top: 1rem;">
-            <h3>✍️ Write these down in your notebook:</h3>
-            <ol style="font-size: 1.3rem; color: #78350F; line-height: 1.8; margin-left: 1.5rem; margin-top: 0.5rem;">
-              <li style="margin-bottom: 0.8rem;">
-                <strong>1. Shortcut Practice:</strong> Practice pressing <span class="kbd">Ctrl+S</span> (Save), <span class="kbd">Ctrl+C</span> (Copy), <span class="kbd">Ctrl+V</span> (Paste), and <span class="kbd">Ctrl+Z</span> (Undo) 5 times each.
-              </li>
-              <li style="margin-bottom: 0.8rem;">
-                <strong>2. Extension Detective Challenge:</strong> Why does a webpage file need to end with <code>.html</code>? What happens if you save it as <code>mywebsite.txt</code> or without any extension? <em>(Write 2 sentences explaining why!)</em>
-              </li>
-              <li style="margin-bottom: 0.8rem;">
-                <strong>3. VS Code Navigator Challenge:</strong> List the <strong>4 main parts</strong> of VS Code we explored today (<em>Explorer, Editor, Activity Bar, Status Bar</em>) and write 1 line explaining what each part does!
-              </li>
-              <li style="margin-bottom: 0.8rem;">
-                <strong>4. Troubleshooting Puzzle:</strong> Your classmate created a file but forgot to save it before closing VS Code. Which keyboard shortcut should they press next time to make sure their code is never lost? What does IDE stand for?
-              </li>
-            </ol>
-          </div>
-        </div>
-      </section>
-
+    <div class="hero-cta-group">
+      <a href="Day1.html" class="btn btn-primary" style="font-size: 1.4rem; padding: 14px 32px;">
+        🚀 Start Lesson 1: Intro to Web Development
+      </a>
+      <a href="#curriculum" class="btn btn-accent" style="font-size: 1.4rem; padding: 14px 28px;">
+        📚 View All Lessons
+      </a>
     </div>
-  </main>
+  </section>
 
-  <!-- ==========================================
-       BOTTOM PRESENTATION CONTROLS
-       ========================================== -->
-  <footer class="bottom-bar">
-    <button class="btn btn-secondary" id="btnPrev">
-      ⬅️ Previous
-    </button>
+  <!-- HIGHLIGHT CARDS -->
+  <section class="highlights-grid">
+    <div class="highlight-card">
+      <div class="card-icon">👨‍🏫</div>
+      <h3 style="font-size: 1.4rem; color: var(--primary-dark); margin-bottom: 0.5rem;">Instructor: Abdul-salam Abdul-basit</h3>
+      <p style="color: var(--text-muted); font-size: 1.1rem;">"Programming allows us to turn ideas into things that people can actually use."</p>
+    </div>
 
-    <div class="slide-dots" id="slideDots"></div>
+    <div class="highlight-card">
+      <div class="card-icon">🌐</div>
+      <h3 style="font-size: 1.4rem; color: var(--secondary-dark); margin-bottom: 0.5rem;">Real Web Apps</h3>
+      <p style="color: var(--text-muted); font-size: 1.1rem;">Learn how sites like YouTube, Google, and WhatsApp are constructed step-by-step.</p>
+    </div>
 
-    <button class="btn btn-primary" id="btnNext">
-      Next Slide ➡️
-    </button>
+    <div class="highlight-card">
+      <div class="card-icon">⚡</div>
+      <h3 style="font-size: 1.4rem; color: var(--accent-orange); margin-bottom: 0.5rem;">Interactive Slides</h3>
+      <p style="color: var(--text-muted); font-size: 1.1rem;">Packed with live code simulators, rapid-fire games, audio sound, and pitch timers.</p>
+    </div>
+  </section>
+
+  <!-- ROADMAP & LESSON GRID -->
+  <section class="roadmap-section" id="curriculum">
+    <div class="section-title-box">
+      <span style="font-family: 'Fredoka', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--primary); text-transform: uppercase;">Curriculum Overview</span>
+      <h2 class="section-title">🌱 Select a Lesson to Begin</h2>
+    </div>
+
+    <div class="lesson-grid">
+      <!-- DAY 1 -->
+      <a href="Day1.html" class="lesson-card start-card">
+        <div>
+          <span class="day-tag" style="background: var(--primary);">Week 1 • Day 1 (START HERE)</span>
+          <h3 class="lesson-card-title">🚀 Intro to Web Development</h3>
+          <p class="lesson-card-desc">Understand Websites vs Web Apps, Frontend vs Backend, and meet the Big Three (HTML, CSS & JS).</p>
+        </div>
+        <div class="launch-btn">Start Day 1 Lesson ➡️</div>
+      </a>
+
+      <!-- DAY 2 -->
+      <a href="Day2.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: var(--secondary-dark);">Week 1 • Day 2</span>
+          <h3 class="lesson-card-title">🧑‍💻 VS Code & Environment</h3>
+          <p class="lesson-card-desc">Set up your code editor, create project folders, save work with shortcuts, and view pages in a browser.</p>
+        </div>
+        <div class="launch-btn">Start Day 2 Lesson ➡️</div>
+      </a>
+
+      <!-- DAY 3 -->
+      <a href="Day3.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: var(--accent-orange);">Week 1 • Day 3</span>
+          <h3 class="lesson-card-title">✍️ Writing Your First HTML Code</h3>
+          <p class="lesson-card-desc">Learn HTML tags, document structure, elements, and write your very first live HTML webpage code.</p>
+        </div>
+        <div class="launch-btn">Start Day 3 Lesson ➡️</div>
+      </a>
+
+      <!-- DAY 4 -->
+      <a href="Day4.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: var(--accent-pink);">Week 1 • Day 4</span>
+          <h3 class="lesson-card-title">🖼️ Text, Links & Images</h3>
+          <p class="lesson-card-desc">Master headings, text formatting, clickable hyperlinks, and image embedding into your profile page.</p>
+        </div>
+        <div class="launch-btn">Start Day 4 Lesson ➡️</div>
+      </a>
+
+      <!-- DAY 5 -->
+      <a href="Day5.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: #8B5CF6;">Week 1 • Day 5</span>
+          <h3 class="lesson-card-title">📋 HTML Lists</h3>
+          <p class="lesson-card-desc">Organize content neatly using ordered (&lt;ol&gt;), unordered (&lt;ul&gt;), and nested HTML list structures.</p>
+        </div>
+        <div class="launch-btn">Start Day 5 Lesson ➡️</div>
+      </a>
+
+      <!-- DAY 6 -->
+      <a href="Day6.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: var(--success);">Week 1 • Day 6</span>
+          <h3 class="lesson-card-title">📊 Tables & Forms</h3>
+          <p class="lesson-card-desc">Build structured data tables and interactive student registration forms with input fields.</p>
+        </div>
+        <div class="launch-btn">Start Day 6 Lesson ➡️</div>
+      </a>
+
+      <!-- DAY 7 -->
+      <a href="Day7.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: #0284C7;">Week 1 • Day 7</span>
+          <h3 class="lesson-card-title">🎨 Intro to CSS</h3>
+          <p class="lesson-card-desc">Style your HTML with colors, fonts, borders, background effects, and CSS selectors.</p>
+        </div>
+        <div class="launch-btn">Start Day 7 Lesson ➡️</div>
+      </a>
+
+      <!-- ADVANCED 1 -->
+      <a href="HDay.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: #D97706;">Advanced • Day 1</span>
+          <h3 class="lesson-card-title">📦 Box Inside Box Layouts</h3>
+          <p class="lesson-card-desc">Learn container division tags (&lt;div&gt;), layout nesting, and structured component positioning.</p>
+        </div>
+        <div class="launch-btn">Start Advanced Day 1 ➡️</div>
+      </a>
+
+      <!-- ADVANCED 2 -->
+      <a href="HDay2.html" class="lesson-card">
+        <div>
+          <span class="day-tag" style="background: #DC2626;">Advanced • Day 2</span>
+          <h3 class="lesson-card-title">📐 CSS Box Model</h3>
+          <p class="lesson-card-desc">Master margin, border, padding, and content dimensions for precision web layouts.</p>
+        </div>
+        <div class="launch-btn">Start Advanced Day 2 ➡️</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <h3 style="font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--accent-yellow);">⚡ Tech Spark 3.0 Class Curriculum</h3>
+    <p style="opacity: 0.8; font-size: 1.1rem; margin-bottom: 1.5rem;">Empowering Future Web Developers through interactive hands-on learning.</p>
+    <a href="Day1.html" class="btn btn-primary" style="font-size: 1.2rem; padding: 12px 28px;">
+      🚀 Launch Lesson 1 (Day 1)
+    </a>
   </footer>
 
-  <!-- ==========================================
-       JAVASCRIPT FOR INTERACTIVITY & SOUNDS
-       ========================================== -->
   <script>
-    // Slide Navigation System
-    let currentSlide = 1;
-    const totalSlides = 11;
-
-    const slides = document.querySelectorAll('.slide');
-    const progressBar = document.getElementById('progressBar');
-    const progressText = document.getElementById('progressText');
-    const slideDotsContainer = document.getElementById('slideDots');
-    const btnPrev = document.getElementById('btnPrev');
-    const btnNext = document.getElementById('btnNext');
-
-    // Generate Dots
-    for (let i = 1; i <= totalSlides; i++) {
-      const dot = document.createElement('div');
-      dot.classList.add('dot-nav');
-      if (i === 1) dot.classList.add('active');
-      dot.addEventListener('click', () => goToSlide(i));
-      slideDotsContainer.appendChild(dot);
-    }
-
-    const dots = document.querySelectorAll('.dot-nav');
-
-    function updateSlide() {
-      slides.forEach(slide => slide.classList.remove('active'));
-      dots.forEach(dot => dot.classList.remove('active'));
-
-      const activeSlide = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
-      if (activeSlide) activeSlide.classList.add('active');
-      
-      if (dots[currentSlide - 1]) dots[currentSlide - 1].classList.add('active');
-
-      // Update Progress
-      const percentage = ((currentSlide - 1) / (totalSlides - 1)) * 100;
-      progressBar.style.width = `${percentage}%`;
-      progressText.textContent = `Slide ${currentSlide} of ${totalSlides}`;
-
-      btnPrev.style.opacity = currentSlide === 1 ? '0.5' : '1';
-      btnPrev.style.pointerEvents = currentSlide === 1 ? 'none' : 'auto';
-
-      if (currentSlide === totalSlides) {
-        btnNext.textContent = '🎉 Finish Lesson';
-      } else {
-        btnNext.textContent = 'Next Slide ➡️';
-      }
-
-      playClickSound();
-    }
-
-    function goToSlide(n) {
-      if (n >= 1 && n <= totalSlides) {
-        currentSlide = n;
-        updateSlide();
-      }
-    }
-
-    btnNext.addEventListener('click', () => {
-      if (currentSlide < totalSlides) {
-        currentSlide++;
-        updateSlide();
-      }
-    });
-
-    btnPrev.addEventListener('click', () => {
-      if (currentSlide > 1) {
-        currentSlide--;
-        updateSlide();
-      }
-    });
-
-    // Keyboard Shortcuts for Teacher Navigation
-    document.addEventListener('keydown', (e) => {
-      const activeTag = document.activeElement ? document.activeElement.tagName : '';
-      if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
-
-      if (e.key === 'ArrowRight' || e.key === 'Space') {
-        if (currentSlide < totalSlides) {
-          currentSlide++;
-          updateSlide();
-        }
-      } else if (e.key === 'ArrowLeft') {
-        if (currentSlide > 1) {
-          currentSlide--;
-          updateSlide();
-        }
-      }
-    });
-
     function toggleCourseMenu(e) {
       e.stopPropagation();
       const menu = document.getElementById('courseMenuDropdown');
       if (menu) menu.classList.toggle('show');
-      playClickSound();
     }
 
     document.addEventListener('click', () => {
@@ -1463,106 +606,7 @@
         menu.classList.remove('show');
       }
     });
-
-    // Interactive Recap Answer Reveal
-    function toggleAnswer(card) {
-      card.classList.toggle('revealed');
-      playChimeSound();
-    }
-
-    // VS Code Info Display
-    function showVSInfo(title, desc) {
-      const box = document.getElementById('vsInfoBox');
-      const titleElem = document.getElementById('vsInfoTitle');
-      const descElem = document.getElementById('vsInfoDesc');
-
-      box.style.display = 'block';
-      titleElem.textContent = `📍 ${title}`;
-      descElem.textContent = desc;
-      playClickSound();
-    }
-
-    // Web Audio Synthesizer Sound Effects
-    let audioEnabled = true;
-    const btnAudioToggle = document.getElementById('btnAudioToggle');
-    
-    btnAudioToggle.addEventListener('click', () => {
-      audioEnabled = !audioEnabled;
-      btnAudioToggle.textContent = audioEnabled ? '🔊 Sound On' : '🔇 Sound Off';
-    });
-
-    function playClickSound() {
-      if (!audioEnabled) return;
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(440, ctx.currentTime);
-        gain.gain.setValueAtTime(0.05, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.1);
-      } catch (e) {}
-    }
-
-    function playChimeSound() {
-      if (!audioEnabled) return;
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-        osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
-        gain.gain.setValueAtTime(0.08, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.3);
-      } catch (e) {}
-    }
-
-    // Fullscreen Toggle
-    document.getElementById('btnToggleFull').addEventListener('click', () => {
-      if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(err => {});
-      } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-      }
-    });
-
-    // Practice Timer Logic
-    let timerInterval;
-    function startTimer(seconds) {
-      clearInterval(timerInterval);
-      let time = seconds;
-      const display = document.getElementById('timerDisplay');
-
-      timerInterval = setInterval(() => {
-        const mins = Math.floor(time / 60);
-        const secs = time % 60;
-        display.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-        
-        if (time <= 0) {
-          clearInterval(timerInterval);
-          display.textContent = "⏱️ Time's Up!";
-          playChimeSound();
-        }
-        time--;
-      }, 1000);
-    }
-
-    function resetTimer() {
-      clearInterval(timerInterval);
-      document.getElementById('timerDisplay').textContent = "03:00";
-    }
-
-    // Initialize Page
-    updateSlide();
   </script>
 </body>
+
 </html>
