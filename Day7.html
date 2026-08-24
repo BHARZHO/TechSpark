@@ -1322,7 +1322,7 @@ body {
             btnPrev.style.opacity = currentSlide === 1 ? '0.5' : '1';
             btnPrev.style.pointerEvents = currentSlide === 1 ? 'none' : 'auto';
 
-            btnNext.textContent = currentSlide === totalSlides ? '🎉 Finish Lesson' : 'Next Slide ➡️';
+            btnNext.textContent = currentSlide === totalSlides ? '🎉 Proceed to Revision ➡️' : 'Next Slide ➡️';
             playClickSound();
         }
 
@@ -1334,7 +1334,12 @@ body {
         }
 
         btnNext.addEventListener('click', () => {
-            if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+            if (currentSlide < totalSlides) { 
+                currentSlide++; 
+                updateSlide(); 
+            } else {
+                window.location.href = 'Revision.html';
+            }
         });
 
         btnPrev.addEventListener('click', () => {
@@ -1346,7 +1351,12 @@ body {
             if (['INPUT', 'TEXTAREA', 'SELECT'].includes(activeTag)) return;
 
             if (e.key === 'ArrowRight' || e.key === 'Space') {
-                if (currentSlide < totalSlides) { currentSlide++; updateSlide(); }
+                if (currentSlide < totalSlides) { 
+                    currentSlide++; 
+                    updateSlide(); 
+                } else {
+                    window.location.href = 'Revision.html';
+                }
             } else if (e.key === 'ArrowLeft') {
                 if (currentSlide > 1) { currentSlide--; updateSlide(); }
             }
